@@ -96,7 +96,14 @@ const droidsData: Droid[] = [
   { name: "A-LT", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
   { name: "BU-4D", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" },
   { name: "ARG", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" },
-  { name: "HOV-R", maxReq: 1, type: "PELEA", rarity: "RARO" }
+  { name: "HOV-R", maxReq: 1, type: "PELEA", rarity: "RARO" },
+  { name: "BB-8", maxReq: 1, type: "ASTRO", rarity: "LEGENDARIO" },
+  { name: "Mister Bones", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
+  { name: "IG-11", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
+  { name: "CB-23", maxReq: 1, type: "ASTRO", rarity: "LEGENDARIO" },
+  { name: "Chopper", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
+  { name: "K-2SO", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
+  { name: "LEP Droid", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" }
 ];
 
 const rebirthRequirementsCycle1: RebirthRequirement[] = [
@@ -304,6 +311,10 @@ export default function App() {
     saveProgress({});
     saveRebirth(0);
     setShowSuperRebirthModal(false);
+  };
+
+  const handleClearDroid = (droidName: string) => {
+    saveProgress({ ...progress, [droidName]: 0 });
   };
 
   const rebirthRequirements = currentCycle === 1
@@ -627,6 +638,36 @@ export default function App() {
 
               const reqList = getDroidRequirements(droid.name);
               const rec = getDroidRecommendation(droid.name, droid.achieved, droid.required);
+
+              if (isDiscarded) {
+                return (
+                  <div 
+                    key={droid.name} 
+                    className={`p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 ${
+                      droid.achieved > 0
+                        ? 'bg-[#1c1214]/60 border-red-900/30'
+                        : 'bg-[#120e10]/40 border-red-950/10'
+                    }`}
+                  >
+                    <h4 className="text-xs sm:text-sm line-through text-red-500/40 font-bold truncate flex-1 pr-2" title={droid.name}>
+                      {droid.name}
+                    </h4>
+                    {droid.achieved > 0 ? (
+                      <button
+                        onClick={() => handleClearDroid(droid.name)}
+                        className="px-2 py-0.5 bg-red-950/30 hover:bg-red-900/20 border border-red-500/20 text-red-400 text-[8px] font-bold rounded cursor-pointer transition-colors flex-shrink-0"
+                        title="Haz clic para marcar como vendido (borrar de tu fábrica)"
+                      >
+                        Vender ({tiersConfig[droid.achieved - 1]?.short})
+                      </button>
+                    ) : (
+                      <span className="text-[8px] font-bold text-red-500/20 uppercase flex-shrink-0 select-none">
+                        Vendido
+                      </span>
+                    )}
+                  </div>
+                );
+              }
 
               return (
                 <div 
