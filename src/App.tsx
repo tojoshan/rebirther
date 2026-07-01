@@ -408,6 +408,12 @@ export default function App() {
     return list.sort((a, b) => a.level - b.level);
   };
 
+  const isDroidInCycle = (droidName: string): boolean => {
+    return rebirthRequirements.some(req =>
+      req.droids.some(dr => dr.name.toLowerCase() === droidName.toLowerCase())
+    );
+  };
+
   const isImmediateTarget = (droidName: string): boolean => {
     const nextLevel = currentRebirth + 1;
     const nextReq = rebirthRequirements.find(req => req.level === nextLevel);
@@ -817,21 +823,33 @@ export default function App() {
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
                 {discardedDroids.map(droid => {
                   const hasProgress = droid.achieved > 0;
+                  const inCycle = isDroidInCycle(droid.name);
+
+                  // Definir estilos dinámicos de contenedor e h4
+                  let cardClass = "p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 select-none ";
+                  let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 ";
+
+                  if (hasProgress) {
+                    cardClass += "bg-[#1c1214]/60 border-red-900/30 hover:bg-[#25181a]/70 hover:border-red-500/30 cursor-pointer shadow-[inset_0_0_8px_rgba(239,68,68,0.05)]";
+                    titleClass += "text-red-400";
+                  } else {
+                    if (inCycle) {
+                      cardClass += "bg-[#120e10]/35 border-red-950/15";
+                      titleClass += "text-red-500/35 line-through";
+                    } else {
+                      cardClass += "bg-[#120e10]/35 border-institutional-border/20";
+                      titleClass += "text-slate-500/50";
+                    }
+                  }
 
                   return (
                     <div 
                       key={droid.name} 
                       onClick={() => hasProgress && handleClearDroid(droid.name)}
-                      className={`p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 select-none ${
-                        hasProgress
-                          ? 'bg-[#1c1214]/60 border-red-900/30 hover:bg-[#25181a]/70 hover:border-red-500/30 cursor-pointer shadow-[inset_0_0_8px_rgba(239,68,68,0.05)]'
-                          : 'bg-[#120e10]/35 border-red-955/10'
-                      }`}
+                      className={cardClass}
                       title={hasProgress ? t('notRequiredTooltip') : undefined}
                     >
-                      <h4 className={`text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 ${
-                        hasProgress ? 'text-red-400' : 'text-red-500/35 line-through'
-                      }`}>
+                      <h4 className={titleClass}>
                         {droid.name}
                       </h4>
                       {hasProgress && (
