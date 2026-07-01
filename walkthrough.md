@@ -1,40 +1,22 @@
-# Walkthrough - Tracker de Super Rebirth (Ciclo 3) - Función de Super Rebirth y Cristales Nova
+# Walkthrough - Tracker de Super Rebirth (Ciclo 3 & 4) - Soporte Multi-Ciclo
 
-He implementado el botón y sistema de confirmación de **Super Rebirth (SRB)** en color violeta, calculando dinámicamente cuántos **Cristales Nova** otorga el juego según el nivel de Rebirth en el que decidas reiniciar.
+He implementado un sistema robusto que permite al usuario seleccionar dinámicamente en qué **Ciclo de Rebirth (Ciclo 2, Ciclo 3 o Ciclo 4)** se encuentra, adaptando todos los requisitos de la aplicación de inmediato.
 
-## Nueva Función: Super Rebirth (violeta)
+## Cambios Realizados
 
-1.  **Lógica de Recompensa de Cristales Nova:**
-    *   Para calcular con exactitud la recompensa, implementé una secuencia matemática cuadrática deducida de los reportes de la comunidad en Reddit y YouTube:
-        *   **R-12:** 11 cristales
-        *   **R-13:** 16 cristales
-        *   **R-14:** 22 cristales
-        *   **R-15:** 29 cristales
-        *   **R-16:** 37 cristales
-        *   **R-17:** 46 cristales
-        *   **R-18:** 56 cristales
-        *   **R-19:** 67 cristales
-        *   **R-20:** 79 cristales
-        *   **R-21:** 92 cristales
-        *   **R-22:** 106 cristales
-        *   **R-23:** 121 cristales
-    *   La app calcula esta recompensa mediante un bucle incremental en tiempo real en base a tu nivel de Rebirth actual.
-
-2.  **Botón de Acción en la Cabecera:**
-    *   **Menor a R-12:** El botón se muestra deshabilitado con un icono de candado (`🔒 Super Rebirth (R-12)`) ya que el juego requiere nivel 12 mínimo para desbloquear esta mecánica.
-    *   **Nivel 12 o superior:** El botón se activa en color violeta brillante, mostrando dinámicamente la ganancia estimada: `✨ Super Rebirth (+22)` (si estás en R-14, por ejemplo).
-
-3.  **Modal de Confirmación Violeta:**
-    *   Al hacer clic, se abre una ventana modal temática en color violeta que indica tu nivel actual y muestra de forma destacada los **Cristales Nova** que vas a recibir.
-    *   Advierte que se limpiarán tus droides y tu Rebirth volverá a 0.
-
-4.  **Marcador Acumulativo de Cristales:**
-    *   Implementamos persistencia local (`localStorage`) para tus cristales acumulados.
-    *   Si realizas un Super Rebirth, los cristales ganados se sumarán a tu total histórico y se mostrará un badge permanente con un diamante `💎 [Cantidad] Nova` en la cabecera del tracker. ¡Ideal para llevar un registro de tu progreso multisesión!
+1.  **Soporte Completo para Ciclos 2, 3 y 4:**
+    *   Cargamos las bases de datos completas de droides y niveles para los 3 ciclos principales según las guías de la comunidad oficiales de Reddit.
+    *   Agregamos soporte para nuevos droides que aparecen en otros ciclos (como *ID-10*, *DRK-1 Probe*, *ROLL-R*, *NAV-EX*, *VECT-ARM*, *Orb-Walker*, *Gunrunner*, *R2*).
+2.  **Selector de Ciclo Dinámico en la Cabecera:**
+    *   En lugar de un badge estático de "Ciclo 3", añadimos un control desplegable de selección nativo (dropdown) estilizado al lado del título.
+    *   El usuario puede seleccionar **Ciclo 2**, **Ciclo 3** o **Ciclo 4**. La aplicación guarda la selección en memoria local (`localStorage`) y actualiza dinámicamente las listas de droides prioritarios, futuros y descartados (Vender).
+3.  **Remoción del Conteo Acumulativo de Cristales Nova:**
+    *   Quitamos la visualización y persistencia de cristales nova históricos acumulados para evitar discrepancias si el usuario obtiene cristales nova por otras vías (como misiones diarias).
+    *   El botón de Super Rebirth (en violeta) y su ventana modal de confirmación siguen detallando con precisión cuántos cristales nova otorga la meta actual según el nivel de Rebirth del usuario.
 
 ---
 
 ## Verificación
 
-1.  **Compilación y Construcción:** exitosa y limpia (`862ms`).
-2.  **Persistencia y Publicación:** Todo actualizado y subido a GitHub en la rama `main`.
+1.  **Compilación y Construcción:** exitosa y limpia (`864ms`).
+2.  **Publicación:** Subido a la rama `main` del nuevo repositorio redireccionado **`rebirther`**.
