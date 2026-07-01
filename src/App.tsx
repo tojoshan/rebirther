@@ -15,6 +15,8 @@ import {
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
+import translationsData from './translations.json';
+const translations = translationsData as Record<string, Record<string, string>>;
 
 type DroidType = 'CONSTRUCTOR' | 'ASTRO' | 'PELEA';
 type DroidRarity = 'COMUN' | 'RARO' | 'EPICO' | 'LEGENDARIO';
@@ -73,6 +75,7 @@ const droidsData: Droid[] = [
   { name: "B2-RP", maxReq: 5, type: "PELEA", rarity: "LEGENDARIO" },
   { name: "R7", maxReq: 4, type: "ASTRO", rarity: "EPICO" },
   { name: "Strike-Orb", maxReq: 5, type: "PELEA", rarity: "LEGENDARIO" },
+  { name: "BB", maxReq: 2, type: "ASTRO", rarity: "EPICO" },
   { name: "BB9", maxReq: 5, type: "ASTRO", rarity: "LEGENDARIO" },
   { name: "AMP Walker", maxReq: 4, type: "PELEA", rarity: "EPICO" },
   { name: "Opti-Pod", maxReq: 4, type: "ASTRO", rarity: "EPICO" },
@@ -113,7 +116,7 @@ const rebirthRequirementsCycle1: RebirthRequirement[] = [
   { level: 4, credits: "2.95 Million Credits", droids: [{ name: "ARG", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "Groundmech", tier: 1 }] },
   { level: 5, credits: "5.35 Million Credits", droids: [{ name: "BU-4D", tier: 2 }, { name: "HOV-R", tier: 2 }, { name: "R9", tier: 3 }] },
   { level: 6, credits: "9.85 Million Credits", droids: [{ name: "Groundmech", tier: 2 }, { name: "ARG", tier: 3 }, { name: "A-LT", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "BB9", tier: 2 }, { name: "B1 Security", tier: 3 }, { name: "BU-4D", tier: 3 }] },
+  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "BB", tier: 2 }, { name: "B1 Security", tier: 3 }, { name: "BU-4D", tier: 3 }] },
   { level: 8, credits: "36 Million Credits", droids: [{ name: "UTIL-TEC", tier: 2 }, { name: "LO", tier: 2 }, { name: "HOV-R", tier: 3 }] },
   { level: 9, credits: "89 Million Credits", droids: [{ name: "Groundmech", tier: 4 }, { name: "R6", tier: 2 }, { name: "TRAK-R", tier: 2 }] },
   { level: 10, credits: "220 Million Credits", droids: [{ name: "LO", tier: 4 }, { name: "HAUL-R", tier: 4 }, { name: "Strike-Orb", tier: 2 }] },
@@ -259,8 +262,48 @@ export default function App() {
   const [showSuperRebirthModal, setShowSuperRebirthModal] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showFullGuide, setShowFullGuide] = useState<boolean>(false);
+  const [language, setLanguage] = useState<string>('es');
 
-  // Load progress, current rebirth and cycle from localStorage
+  // Translation helpers
+  const t = (key: string, variables?: Record<string, string>) => {
+    const translation = translations[language]?.[key] || translations['es']?.[key] || key;
+    if (!variables) return translation;
+    let result = translation;
+    Object.entries(variables).forEach(([k, v]) => {
+      result = result.replace(new RegExp(`{${k}}`, 'g'), v);
+    });
+    return result;
+  };
+
+  const getLocalizedTierName = (tier: number) => {
+    switch (tier) {
+      case 1: return t('tierName_1');
+      case 2: return t('tierName_2');
+      case 3: return t('tierName_3');
+      case 4: return t('tierName_4');
+      case 5: return t('tierName_5');
+      default: return t('tierName_Ninguno');
+    }
+  };
+
+  const localizedTiersConfig = [
+    { level: 1, label: t('tierName_1'), short: t('tierShort_1') },
+    { level: 2, label: t('tierName_2'), short: t('tierShort_2') },
+    { level: 3, label: t('tierName_3'), short: t('tierShort_3') },
+    { level: 4, label: t('tierName_4'), short: t('tierShort_4') },
+    { level: 5, label: t('tierName_5'), short: t('tierShort_5') }
+  ];
+
+  const formatCredits = (creditsStr: string) => {
+    if (language === 'en') return creditsStr;
+    return creditsStr
+      .replace('Credits', 'Créditos')
+      .replace('Million', 'Millones de')
+      .replace('Billion', 'Billones de')
+      .replace('Trillion', 'Trillones de');
+  };
+
+  // Load progress, current rebirth, cycle and language from localStorage
   useEffect(() => {
     const savedProgress = localStorage.getItem('droid_tycoon_tracker_v1');
     if (savedProgress) {
@@ -277,8 +320,24 @@ export default function App() {
     if (savedCycle) {
       setCurrentCycle(parseInt(savedCycle, 10) || 3);
     }
+    const savedLanguage = localStorage.getItem('droid_tycoon_language');
+    if (savedLanguage === 'es' || savedLanguage === 'en') {
+      setLanguage(savedLanguage);
+    } else {
+      const browserLang = navigator.language.split('-')[0];
+      if (browserLang === 'es' || browserLang === 'en') {
+        setLanguage(browserLang);
+      } else {
+        setLanguage('es');
+      }
+    }
     setIsLoaded(true);
   }, []);
+
+  const saveLanguage = (lang: string) => {
+    setLanguage(lang);
+    localStorage.setItem('droid_tycoon_language', lang);
+  };
 
   const saveProgress = (newProgress: Record<string, number>) => {
     setProgress(newProgress);
@@ -393,12 +452,12 @@ export default function App() {
       if (isNeededForNext) {
         return {
           type: 'upgrade',
-          text: `⚡ META R-${nextUnmet.level}: ${getTierName(nextUnmet.tier)}`
+          text: t('recUpgrade', { level: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) })
         };
       } else {
         return {
           type: 'keep_upgrade',
-          text: `🔒 R-${nextLevel} OK (Futuro R-${nextUnmet.level} ${getTierName(nextUnmet.tier)})`
+          text: t('recKeepUpgrade', { level: nextLevel.toString(), futureLevel: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) })
         };
       }
     } else {
@@ -406,18 +465,18 @@ export default function App() {
         if (achieved > 0) {
           return {
             type: 'sell',
-            text: `✅ VENDER (Meta max: ${getTierName(guideMax)})`
+            text: t('recSell', { tier: getLocalizedTierName(guideMax) })
           };
         } else {
           return {
             type: 'none',
-            text: `No requerido`
+            text: t('recNone')
           };
         }
       } else {
         return {
           type: 'keep',
-          text: `🔒 GUARDAR (Meta max: ${getTierName(guideMax)})`
+          text: t('recKeep', { tier: getLocalizedTierName(guideMax) })
         };
       }
     }
@@ -487,36 +546,48 @@ export default function App() {
           {/* Fila 1: Título y Controles */}
           <div className="flex justify-between items-center gap-2">
             <h1 className="text-base font-bold text-white font-narrow flex items-center gap-1.5 flex-wrap">
-              <span>Droid Tracker</span>
+              <span>{t('title')}</span>
               <div className="relative inline-flex items-center">
                 <select
                   value={currentCycle}
                   onChange={(e) => saveCycle(parseInt(e.target.value, 10))}
                   className="bg-institutional-primary/30 text-institutional-secondary border border-institutional-primary/50 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider cursor-pointer outline-none hover:bg-institutional-primary/45 transition-colors"
                 >
-                  <option value={1} className="bg-[#0c1628] text-white">Ciclo 1</option>
-                  <option value={2} className="bg-[#0c1628] text-white">Ciclo 2</option>
-                  <option value={3} className="bg-[#0c1628] text-white">Ciclo 3</option>
-                  <option value={4} className="bg-[#0c1628] text-white">Ciclo 4</option>
+                  <option value={1} className="bg-[#0c1628] text-white">{t('cycle')} 1</option>
+                  <option value={2} className="bg-[#0c1628] text-white">{t('cycle')} 2</option>
+                  <option value={3} className="bg-[#0c1628] text-white">{t('cycle')} 3</option>
+                  <option value={4} className="bg-[#0c1628] text-white">{t('cycle')} 4</option>
                 </select>
               </div>
             </h1>
             <div className="flex items-center gap-1.5">
+              {/* Selector de Idioma */}
+              <div className="relative inline-flex items-center">
+                <select
+                  value={language}
+                  onChange={(e) => saveLanguage(e.target.value)}
+                  className="bg-institutional-primary/30 text-institutional-secondary border border-institutional-primary/50 px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer outline-none hover:bg-institutional-primary/45 transition-colors uppercase"
+                >
+                  <option value="es" className="bg-[#0c1628] text-white">ES</option>
+                  <option value="en" className="bg-[#0c1628] text-white">EN</option>
+                </select>
+              </div>
+
               {/* Botón Super Rebirth */}
               {currentRebirth >= 12 ? (
                 <button
                   onClick={() => setShowSuperRebirthModal(true)}
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-700 hover:bg-purple-600 text-white rounded-lg border border-purple-500/30 shadow-[0_0_8px_rgba(147,51,234,0.3)] transition-all cursor-pointer font-bold"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-700 hover:bg-purple-650 text-white rounded-lg border border-purple-500/30 shadow-[0_0_8px_rgba(147,51,234,0.3)] transition-all cursor-pointer font-bold"
                 >
-                  <Sparkles size={12} /> <span>Super Rebirth (+{getNovaCrystals(currentRebirth)})</span>
+                  <Sparkles size={12} /> <span>{t('superRebirth')} (+{getNovaCrystals(currentRebirth)})</span>
                 </button>
               ) : (
                 <button
                   disabled
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-950/20 border border-purple-900/40 text-purple-400/40 rounded-lg cursor-not-allowed font-bold"
-                  title="Requiere al menos Rebirth 12"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-955/20 border border-purple-900/40 text-purple-400/40 rounded-lg cursor-not-allowed font-bold"
+                  title={t('superRebirthTooltip')}
                 >
-                  <Lock size={12} /> <span>Super Rebirth (R-12)</span>
+                  <Lock size={12} /> <span>{t('superRebirth')} (R-12)</span>
                 </button>
               )}
 
@@ -525,7 +596,7 @@ export default function App() {
                 onClick={() => setShowResetModal(true)}
                 className="flex items-center gap-1 px-2.5 py-1 text-xs text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg border border-red-500/25 transition-colors cursor-pointer font-bold"
               >
-                <RotateCcw size={12} /> <span>Reiniciar</span>
+                <RotateCcw size={12} /> <span>{t('reiniciar')}</span>
               </button>
             </div>
           </div>
@@ -535,9 +606,9 @@ export default function App() {
             <div className="flex justify-between items-center text-[11px] text-[#94a3b8]">
               <span className="font-bold flex items-center gap-1">
                 <Target size={12} className="text-institutional-secondary" />
-                Desliza para elegir tu Rebirth actual:
+                {t('slideRebirth')}
               </span>
-              <span>Rebirth: <strong className="text-white">R-{currentRebirth}</strong></span>
+              <span>{t('rebirthLabel')} <strong className="text-white">R-{currentRebirth}</strong></span>
             </div>
             <div className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
               {Array.from({ length: 24 }, (_, i) => {
@@ -571,14 +642,14 @@ export default function App() {
                 <div className="space-y-2 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="bg-institutional-secondary/20 text-institutional-secondary border border-institutional-secondary/35 px-2 py-0.5 rounded text-[10px] font-bold">
-                      SIGUIENTE META
+                      {t('nextMeta')}
                     </span>
                     <span className="text-sm font-extrabold text-white font-narrow">
-                      REQUISITOS PARA REBIRTH {nextLevel}
+                      {t('requirementsForRebirth', { level: nextLevel.toString() })}
                     </span>
                     <span className="text-yellow-400 font-bold bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded flex items-center gap-1 font-mono">
                       <Coins size={12} />
-                      {nextReq.credits}
+                      {formatCredits(nextReq.credits)}
                     </span>
                   </div>
                   
@@ -599,9 +670,9 @@ export default function App() {
                         >
                           <span>{reqDroid.name}:</span>
                           <strong className={`${getTierColor(reqDroid.tier)}`}>
-                            {getTierName(reqDroid.tier)}
+                            {getLocalizedTierName(reqDroid.tier)}
                           </strong>
-                          {isMet ? ' ✓' : ` (${getTierName(achieved)})`}
+                          {isMet ? ' ✓' : ` (${getLocalizedTierName(achieved)})`}
                         </span>
                       );
                     })}
@@ -613,14 +684,14 @@ export default function App() {
                     onClick={() => saveRebirth(nextLevel)}
                     className="bg-green-600 hover:bg-green-500 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
                   >
-                    <span>¡Rebirth Listo!</span>
+                    <span>{t('rebirthReady')}</span>
                     <ArrowRight size={12} />
                   </button>
                 )}
               </>
             ) : (
               <span className="text-green-400 font-bold flex items-center gap-2 py-1 text-sm">
-                <Sparkles size={16} /> ¡Felicidades! Has completado todos los Rebirths (R-23).
+                <Sparkles size={16} /> {t('congratulationsFinished')}
               </span>
             )}
           </div>
@@ -633,7 +704,7 @@ export default function App() {
           {/* Sección 1: Requisitos de Rebirth */}
           <div className="space-y-2">
             <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-[#64748b] tracking-wider px-1">
-              Requisitos de Rebirth
+              {t('rebirthRequirementsSection')}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
               {requiredDroids.map(droid => {
@@ -669,14 +740,14 @@ export default function App() {
                       </h4>
                       <div className="flex gap-1 flex-shrink-0 items-center">
                         {isImmediate && (
-                          <span className="px-1.5 py-0.5 bg-institutional-secondary text-[#050810] text-[8px] font-extrabold rounded leading-none" title={`Requerido para R-${nextLevel}`}>
+                          <span className="px-1.5 py-0.5 bg-institutional-secondary text-[#050810] text-[8px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: nextLevel.toString() })}>
                             R-{nextLevel}
                           </span>
                         )}
-                        <span className={`text-[8px] font-extrabold uppercase px-1 py-0.2 rounded border border-current leading-none ${rarityInfo.color}`} title={rarityInfo.label}>
-                          {rarityInfo.label[0]}
+                        <span className={`text-[8px] font-extrabold uppercase px-1 py-0.2 rounded border border-current leading-none ${rarityInfo.color}`} title={t('rarityTooltip') + ': ' + t(`rarity_${droid.rarity}`)}>
+                          {t(`rarity_${droid.rarity}`)[0]}
                         </span>
-                        <span className={`text-[8px] font-semibold flex items-center px-1 py-0.2 rounded leading-none ${typeInfo.color} ${typeInfo.bg}`} title={typeInfo.label}>
+                        <span className={`text-[8px] font-semibold flex items-center px-1 py-0.2 rounded leading-none ${typeInfo.color} ${typeInfo.bg}`} title={t('typeTooltip') + ': ' + t(`type_${droid.type}`)}>
                           <TypeIcon size={8} />
                         </span>
                       </div>
@@ -688,28 +759,28 @@ export default function App() {
                         rec.type === 'upgrade' ? 'text-yellow-400' :
                         rec.type === 'keep_upgrade' ? 'text-cyan-400' :
                         rec.type === 'keep' ? 'text-green-400 font-bold' :
-                        'text-slate-450 font-medium'
+                        'text-slate-400 font-medium'
                       }`}>
                         {rec.text}
                       </span>
-                      <span className="text-slate-500 text-[8px] font-mono truncate ml-1 flex-shrink-0" title="Rebirths que lo necesitan">
+                      <span className="text-slate-500 text-[8px] font-mono truncate ml-1 flex-shrink-0" title={t('futureRebirthsTooltip')}>
                         {reqList.filter(r => r.level > currentRebirth).map(r => `R${r.level}`).join(', ')}
                       </span>
                     </div>
 
                     {/* Fila 3: Selector de los 5 Niveles (Cómodo para dedos) */}
                     <div className="flex w-full h-8 shadow-sm">
-                      {tiersConfig.map(tier => {
+                      {localizedTiersConfig.map(tier => {
                         const isActive = tier.level <= droid.achieved;
                         let baseClasses = "flex-1 flex items-center justify-center text-[10px] font-bold border-y border-r last:border-r-0 first:border-l first:rounded-l-lg last:rounded-r-lg transition-all duration-100 select-none ";
 
                         if (!isActive) {
-                          baseClasses += "bg-slate-950 border-slate-900/60 text-slate-655 hover:bg-slate-900 cursor-pointer";
+                          baseClasses += "bg-slate-950 border-slate-900/60 text-slate-600 hover:bg-slate-900 cursor-pointer";
                         } else {
                           baseClasses += "cursor-pointer border-transparent z-10 ";
                           switch(tier.level) {
                             case 1: baseClasses += "bg-slate-400 text-slate-950"; break;
-                            case 2: baseClasses += "bg-yellow-505 bg-yellow-500 text-slate-950"; break;
+                            case 2: baseClasses += "bg-yellow-500 text-slate-950"; break;
                             case 3: baseClasses += "bg-cyan-500 text-slate-950 font-extrabold"; break;
                             case 4: baseClasses += "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold"; break;
                             case 5: baseClasses += "bg-purple-900 border-t-purple-400 text-purple-100 shadow-inner"; break;
@@ -721,7 +792,7 @@ export default function App() {
                             key={tier.level}
                             onClick={() => handleTierClick(droid.name, tier.level)}
                             className={baseClasses}
-                            title={`Marcar ${tier.label}`}
+                            title={t('markTierTooltip', { tier: tier.label })}
                           >
                             <span>{tier.short}</span>
                           </button>
@@ -738,7 +809,7 @@ export default function App() {
           {discardedDroids.length > 0 && (
             <div className="space-y-2 pt-2 border-t border-institutional-border/40">
               <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-red-500/80 tracking-wider px-1 flex items-center gap-1.5">
-                <span>No requeridos</span>
+                <span>{t('notRequiredSection')}</span>
                 <span className="text-[9px] font-mono bg-red-950/30 border border-red-500/20 px-1.5 py-0.2 rounded text-red-400">
                   {discardedDroids.length}
                 </span>
@@ -754,9 +825,9 @@ export default function App() {
                       className={`p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 select-none ${
                         hasProgress
                           ? 'bg-[#1c1214]/60 border-red-900/30 hover:bg-[#25181a]/70 hover:border-red-500/30 cursor-pointer shadow-[inset_0_0_8px_rgba(239,68,68,0.05)]'
-                          : 'bg-[#120e10]/35 border-red-950/10'
+                          : 'bg-[#120e10]/35 border-red-955/10'
                       }`}
-                      title={hasProgress ? "Haz clic para borrar progreso (marcar como vendido)" : undefined}
+                      title={hasProgress ? t('notRequiredTooltip') : undefined}
                     >
                       <h4 className={`text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 ${
                         hasProgress ? 'text-red-400' : 'text-red-500/35 line-through'
@@ -765,7 +836,7 @@ export default function App() {
                       </h4>
                       {hasProgress && (
                         <span className="text-[8px] font-bold text-red-400/85 bg-red-950/40 border border-red-900/30 px-1 py-0.2 rounded flex-shrink-0 font-mono">
-                          {tiersConfig[droid.achieved - 1]?.short}
+                          {localizedTiersConfig[droid.achieved - 1]?.short}
                         </span>
                       )}
                     </div>
@@ -779,7 +850,7 @@ export default function App() {
 
         {/* Footer simple de la aplicación */}
         <footer className="text-center py-2 text-[10px] text-slate-600 shrink-0">
-          Los droides se ordenan de acuerdo a su prioridad en la meta actual.
+          {t('droidsOrderFooter')}
         </footer>
 
       </div>
