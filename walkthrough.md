@@ -1,25 +1,20 @@
-# Walkthrough - Tracker de Super Rebirth (Ciclos 1, 2, 3 & 4) - Soporte Completo de Todos los Ciclos
+# Walkthrough - Tracker de Super Rebirth - Tarjetas de Droides Simplificadas & Progresión Completa
 
-He añadido soporte completo para el **Ciclo 1 (Ciclo Original / Estándar)** de Rebirths en Droid Tycoon, cubriendo ahora todas las variantes posibles del juego.
+He implementado un diseño de tarjetas sumamente minimalista y claro para los droides marcados para vender (obsoletos), además de incorporar la lista completa de droides del juego que nunca son requeridos para la progresión de Rebirth.
 
 ## Cambios Realizados
 
-1.  **Soporte de Requisitos para el Ciclo 1:**
-    *   Cargamos las bases de datos de droides de la progresión original del juego.
-    *   Añadimos nuevos droides de este ciclo a `droidsData` (como *CB*, *A-LT*, *BU-4D*, *ARG*, *HOV-R*).
-    *   Completamos los requisitos de los 23 niveles del Ciclo 1:
-        *   **Rebirth 2 (150k):** BDX Explorer (Base), 2BB (Base), Bal-Core (Base) — *coincidiendo exactamente con lo que te está pidiendo el juego en este momento*.
-        *   **Rebirth 3 (975k):** A-LT (Base), BU-4D (Base), R9 (Oro).
-        *   **Rebirth 4 (2.95M):** ARG (Oro), B1 Security (Oro), Groundmech (Base).
-        *   **Rebirth 5 (5.35M):** BU-4D (Oro), HOV-R (Oro), R9 (Diamante).
-        *   ... y así sucesivamente, reutilizando la lógica de los niveles superiores del Ciclo 3 que coinciden en droids.
-2.  **Actualización del Selector de Ciclo en la Cabecera:**
-    *   El menú desplegable (dropdown) ahora incluye el **Ciclo 1**.
-    *   Al cambiar a "Ciclo 1", el tracker actualiza de inmediato todas las dependencias e indicaciones de droides.
+1.  **Diseño Ultra Minimalista para Droides Vendibles (No Requeridos):**
+    *   Cuando un droide no es requerido para ningún Rebirth futuro en el ciclo actual, ocultamos todos sus datos (niveles, botones, detalles y etiquetas).
+    *   La tarjeta ahora solo muestra el **nombre tachado** con un tono de contraste bajo y un botón de acción rápida **"Vender (Nivel)"** si el usuario tiene progreso registrado en su fábrica.
+    *   Al hacer clic en el botón de vender, el progreso de ese droide se limpia instantáneamente a `Ninguno` para mantener la base de datos limpia de forma rápida.
+2.  **Integración de Droides Icónicos / Míticos:**
+    *   Añadimos a la base de datos todos los droides icónicos y míticos del juego (como *BB-8*, *Mister Bones*, *IG-11*, *CB-23*, *Chopper*, *K-2SO*, *LEP Droid*).
+    *   Como nunca son requeridos para avanzar de nivel (son decorativos o de utilidad de la tienda Nova), aparecerán automáticamente tachados en la categoría de "Vender", confirmándole al usuario que los puede ignorar o vender sin temor a arruinar su progreso.
 
 ---
 
 ## Verificación
 
-1.  **Compilación y Construcción:** exitosa y limpia (`881ms`).
+1.  **Compilación y Construcción:** exitosa y limpia (`931ms`).
 2.  **Publicación:** Subido a la rama `main` del repositorio `rebirther`.
