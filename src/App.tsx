@@ -207,9 +207,9 @@ const rebirthRequirements: RebirthRequirement[] = [
     level: 14,
     credits: "8.45 Billion Credits",
     droids: [
-      { name: "B2 Heavy", tier: 4 },
-      { name: "B2-RP", tier: 1 },
-      { name: "R7", tier: 2 }
+      { name: "Bal-Core", tier: 3 },
+      { name: "Groundmech", tier: 3 },
+      { name: "TRAK-R", tier: 4 }
     ]
   },
   {
