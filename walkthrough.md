@@ -1,20 +1,21 @@
-# Walkthrough - Tracker de Super Rebirth - Tarjetas de Droides Simplificadas & Progresión Completa
+# Walkthrough - Tracker de Super Rebirth - Seccionamiento de Droides & Progresión Completa
 
-He implementado un diseño de tarjetas sumamente minimalista y claro para los droides marcados para vender (obsoletos), además de incorporar la lista completa de droides del juego que nunca son requeridos para la progresión de Rebirth.
+He implementado una separación formal por secciones de la lista de droides en la pantalla principal para lograr una organización visual impecable, aplicando el estilo rojo y la interacción de limpieza rápida para los droides no requeridos.
 
 ## Cambios Realizados
 
-1.  **Diseño Ultra Minimalista para Droides Vendibles (No Requeridos):**
-    *   Cuando un droide no es requerido para ningún Rebirth futuro en el ciclo actual, ocultamos todos sus datos (niveles, botones, detalles y etiquetas).
-    *   La tarjeta ahora solo muestra el **nombre tachado** con un tono de contraste bajo y un botón de acción rápida **"Vender (Nivel)"** si el usuario tiene progreso registrado en su fábrica.
-    *   Al hacer clic en el botón de vender, el progreso de ese droide se limpia instantáneamente a `Ninguno` para mantener la base de datos limpia de forma rápida.
-2.  **Integración de Droides Icónicos / Míticos:**
-    *   Añadimos a la base de datos todos los droides icónicos y míticos del juego (como *BB-8*, *Mister Bones*, *IG-11*, *CB-23*, *Chopper*, *K-2SO*, *LEP Droid*).
-    *   Como nunca son requeridos para avanzar de nivel (son decorativos o de utilidad de la tienda Nova), aparecerán automáticamente tachados en la categoría de "Vender", confirmándole al usuario que los puede ignorar o vender sin temor a arruinar su progreso.
+1.  **División en Dos Secciones Principales:**
+    *   **Requisitos de Rebirth:** Agrupa todos los droides requeridos en la meta actual o en metas futuras, conservando sus selectores de nivel e indicaciones de recomendación.
+    *   **No requeridos:** Nueva sección al final de la pantalla que agrupa todos los droides que no son necesarios para alcanzar el nivel 23 en tu ciclo activo.
+2.  **Rediseño de Droides No Requeridos:**
+    *   Eliminamos por completo las etiquetas y botones de "Vender/Vendido" para evitar sobrecarga.
+    *   Si el droide **no tiene progreso**, se muestra su nombre **tachado en color rojo tenue** (`text-red-500/35 line-through`).
+    *   Si el droide **tiene progreso** (por ejemplo, tienes un *2BB* guardado), su nombre se muestra en **rojo brillante** (`text-red-400`) y con una etiqueta del tier (como `BAS`, `ORO`, `ARC`).
+    *   **Limpieza interactiva sin botones:** Para restablecer un droide a `Ninguno` cuando lo vendes en el juego, simplemente haz clic o toca la tarjeta de ese droide en la sección de "No requeridos". Su progreso se limpiará de inmediato sin necesidad de botones adicionales.
 
 ---
 
 ## Verificación
 
-1.  **Compilación y Construcción:** exitosa y limpia (`931ms`).
+1.  **Compilación y Construcción:** exitosa y limpia (`934ms`).
 2.  **Publicación:** Subido a la rama `main` del repositorio `rebirther`.
