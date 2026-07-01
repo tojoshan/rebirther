@@ -5,7 +5,7 @@ Una aplicación web de acompañamiento diseñada para celular en paralelo para s
 ## 🔗 URL del Proyecto
 
 Puedes acceder a la aplicación desde tu dispositivo móvil o computadora en:
-👉 **[https://tojoshan.github.io/droid-tycoon-super-rebirth/](https://tojoshan.github.io/droid-tycoon-super-rebirth/)**
+👉 **[https://tojoshan.github.io/rebirther/](https://tojoshan.github.io/rebirther/)**
 
 ## 🚀 Características
 * **Desplazamiento corregido:** Al seleccionar tu nivel de Rebirth actual $N$, la aplicación muestra los requisitos exactos para avanzar al Rebirth $N+1$.
