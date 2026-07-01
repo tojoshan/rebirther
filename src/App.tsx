@@ -829,17 +829,16 @@ export default function App() {
                   let cardClass = "p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 select-none ";
                   let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 ";
 
-                  if (hasProgress) {
-                    cardClass += "bg-[#1c1214]/60 border-red-900/30 hover:bg-[#25181a]/70 hover:border-red-500/30 cursor-pointer shadow-[inset_0_0_8px_rgba(239,68,68,0.05)]";
-                    titleClass += "text-red-400";
-                  } else {
-                    if (inCycle) {
-                      cardClass += "bg-[#120e10]/35 border-red-950/15";
-                      titleClass += "text-red-500/35 line-through";
-                    } else {
-                      cardClass += "bg-[#120e10]/35 border-institutional-border/20";
-                      titleClass += "text-slate-500/50";
+                  if (inCycle) {
+                    cardClass += "bg-[#1c1214]/35 border-red-900/20";
+                    titleClass += "text-red-400/80";
+                    if (hasProgress) {
+                      cardClass += " cursor-pointer hover:bg-[#25181a]/55 hover:border-red-500/30 shadow-[inset_0_0_8px_rgba(239,68,68,0.05)]";
+                      titleClass += " text-red-400 font-extrabold";
                     }
+                  } else {
+                    cardClass += "bg-[#120e10]/35 border-institutional-border/15";
+                    titleClass += "text-slate-500/50";
                   }
 
                   return (
@@ -852,11 +851,6 @@ export default function App() {
                       <h4 className={titleClass}>
                         {droid.name}
                       </h4>
-                      {hasProgress && (
-                        <span className="text-[8px] font-bold text-red-400/85 bg-red-950/40 border border-red-900/30 px-1 py-0.2 rounded flex-shrink-0 font-mono">
-                          {localizedTiersConfig[droid.achieved - 1]?.short}
-                        </span>
-                      )}
                     </div>
                   );
                 })}
