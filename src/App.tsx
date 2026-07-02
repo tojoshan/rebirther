@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   CheckCircle2, 
   RotateCcw, 
@@ -63,6 +63,7 @@ const droidsData: Droid[] = [
   { name: "R9", maxReq: 3, type: "ASTRO", rarity: "EPICO" },
   { name: "B1 Battle", maxReq: 3, type: "PELEA", rarity: "COMUN" },
   { name: "B1 Security", maxReq: 4, type: "PELEA", rarity: "RARO" },
+  { name: "B1 Heavy", maxReq: 4, type: "PELEA", rarity: "EPICO" },
   { name: "BDX Explorer", maxReq: 4, type: "ASTRO", rarity: "EPICO" },
   { name: "TRAK-R", maxReq: 2, type: "CONSTRUCTOR", rarity: "RARO" },
   { name: "Groundmech", maxReq: 2, type: "PELEA", rarity: "RARO" },
@@ -263,6 +264,21 @@ export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showFullGuide, setShowFullGuide] = useState<boolean>(false);
   const [language, setLanguage] = useState<string>('es');
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  // Scroll slider to active rebirth level
+  useEffect(() => {
+    if (isLoaded && sliderRef.current) {
+      const activeBtn = sliderRef.current.children[currentRebirth] as HTMLButtonElement;
+      if (activeBtn) {
+        activeBtn.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    }
+  }, [currentRebirth, isLoaded]);
 
   // Translation helpers
   const t = (key: string, variables?: Record<string, string>) => {
@@ -616,7 +632,7 @@ export default function App() {
               </span>
               <span>{t('rebirthLabel')} <strong className="text-white">R-{currentRebirth}</strong></span>
             </div>
-            <div className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+            <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
               {Array.from({ length: 24 }, (_, i) => {
                 const lvl = i;
                 const isActive = lvl === currentRebirth;
