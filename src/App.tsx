@@ -123,17 +123,17 @@ const rebirthRequirementsCycle1: RebirthRequirement[] = [
   { level: 10, credits: "220 Million Credits", droids: [{ name: "LO", tier: 4 }, { name: "HAUL-R", tier: 4 }, { name: "Strike-Orb", tier: 2 }] },
   { level: 11, credits: "550 Million Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B1 Heavy", tier: 4 }, { name: "BB9", tier: 1 }] },
   { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Proto-Roller", tier: 2 }, { name: "Mecha-Droid", tier: 1 }, { name: "MONO-WLKR", tier: 1 }] },
-  { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
-  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "B2 Heavy", tier: 4 }, { name: "B2-RP", tier: 1 }, { name: "R7", tier: 2 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB9", tier: 2 }, { name: "Proto-Roller", tier: 2 }] },
-  { level: 16, credits: "52 Billion Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B2-RP", tier: 3 }, { name: "Mecha-Droid", tier: 2 }] },
-  { level: 17, credits: "130 Billion Credits", droids: [{ name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }, { name: "MONO-WLKR", tier: 2 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "UTIL-TEC", tier: 4 }, { name: "BB9", tier: 3 }, { name: "Proto-Roller", tier: 3 }] },
-  { level: 19, credits: "810 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }, { name: "B2-RP", tier: 4 }] },
-  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "LO", tier: 5 }, { name: "R6", tier: 5 }, { name: "HAUL-R", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "Strike-Orb", tier: 5 }, { name: "SEN-TRI", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "BB9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] }
+  { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2-RP", tier: 1 }, { name: "Cyclo-Grav", tier: 1 }, { name: "R7", tier: 1 }] },
+  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 2 }, { name: "MONO-WLKR", tier: 2 }, { name: "Opti-STRK", tier: 1 }] },
+  { level: 15, credits: "21 Billion Credits", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB9", tier: 2 }, { name: "R7", tier: 2 }] },
+  { level: 16, credits: "52 Billion Credits", droids: [{ name: "MONO-WLKR", tier: 3 }, { name: "Opti-STRK", tier: 2 }, { name: "Proto-Roller", tier: 3 }] },
+  { level: 17, credits: "130 Billion Credits", droids: [{ name: "B2-RP", tier: 3 }, { name: "Cyclo-Grav", tier: 3 }, { name: "Mecha-Droid", tier: 3 }] },
+  { level: 18, credits: "325 Billion Credits", droids: [{ name: "BB9", tier: 3 }, { name: "MONO-WLKR", tier: 4 }, { name: "R7", tier: 3 }] },
+  { level: 19, credits: "810 Billion Credits", droids: [{ name: "B2-RP", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "Proto-Roller", tier: 4 }] },
+  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "Mecha-Droid", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "R7", tier: 4 }] },
+  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "BB", tier: 5 }, { name: "Groundmech", tier: 5 }, { name: "Orb-Walker", tier: 5 }] },
+  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "AMP Walker", tier: 5 }, { name: "B1 Heavy", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "Opti-STRK", tier: 5 }, { name: "R7", tier: 5 }] }
 ];
 
 const rebirthRequirementsCycle2: RebirthRequirement[] = [
