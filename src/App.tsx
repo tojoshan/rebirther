@@ -19,7 +19,7 @@ import translationsData from './translations.json';
 const translations = translationsData as Record<string, Record<string, string>>;
 
 type DroidType = 'CONSTRUCTOR' | 'ASTRO' | 'PELEA';
-type DroidRarity = 'COMUN' | 'RARO' | 'EPICO' | 'LEGENDARIO';
+type DroidRarity = 'COMUN' | 'RARO' | 'EPICO' | 'LEGENDARIO' | 'ICONICO' | 'MITICO';
 
 interface Droid {
   name: string;
@@ -47,172 +47,211 @@ const droidRarities = {
   COMUN: { label: 'Común', color: 'text-slate-400' },
   RARO: { label: 'Raro', color: 'text-blue-400' },
   EPICO: { label: 'Épico', color: 'text-purple-400' },
-  LEGENDARIO: { label: 'Legendario', color: 'text-yellow-400' }
+  LEGENDARIO: { label: 'Legendario', color: 'text-yellow-400' },
+  ICONICO: { label: 'Icónico', color: 'text-fuchsia-400' },
+  MITICO: { label: 'Mítico', color: 'text-red-500' }
 };
 
 const droidsData: Droid[] = [
+  // Common
   { name: "Mouse", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
   { name: "Pit", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" },
-  { name: "GONK", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" },
-  { name: "2BB", maxReq: 4, type: "ASTRO", rarity: "RARO" },
-  { name: "R3", maxReq: 4, type: "ASTRO", rarity: "RARO" },
-  { name: "Senate Hovercam", maxReq: 4, type: "ASTRO", rarity: "RARO" },
-  { name: "R4", maxReq: 4, type: "ASTRO", rarity: "RARO" },
-  { name: "R5", maxReq: 4, type: "ASTRO", rarity: "RARO" },
-  { name: "R8", maxReq: 3, type: "ASTRO", rarity: "EPICO" },
-  { name: "R9", maxReq: 3, type: "ASTRO", rarity: "EPICO" },
-  { name: "B1 Battle", maxReq: 3, type: "PELEA", rarity: "COMUN" },
-  { name: "B1 Security", maxReq: 4, type: "PELEA", rarity: "RARO" },
-  { name: "B1 Heavy", maxReq: 4, type: "PELEA", rarity: "EPICO" },
-  { name: "BDX Explorer", maxReq: 4, type: "ASTRO", rarity: "EPICO" },
-  { name: "TRAK-R", maxReq: 2, type: "CONSTRUCTOR", rarity: "RARO" },
-  { name: "Groundmech", maxReq: 2, type: "PELEA", rarity: "RARO" },
-  { name: "B2 Heavy", maxReq: 4, type: "PELEA", rarity: "EPICO" },
-  { name: "B2 Super", maxReq: 4, type: "PELEA", rarity: "EPICO" },
-  { name: "UTIL-TEC", maxReq: 4, type: "CONSTRUCTOR", rarity: "EPICO" },
-  { name: "Bal-Core", maxReq: 4, type: "CONSTRUCTOR", rarity: "EPICO" },
-  { name: "Mecha-Droid", maxReq: 3, type: "PELEA", rarity: "EPICO" },
-  { name: "Proto-Roller", maxReq: 5, type: "CONSTRUCTOR", rarity: "LEGENDARIO" },
-  { name: "B2-RP", maxReq: 5, type: "PELEA", rarity: "LEGENDARIO" },
-  { name: "R7", maxReq: 4, type: "ASTRO", rarity: "EPICO" },
-  { name: "Strike-Orb", maxReq: 5, type: "PELEA", rarity: "LEGENDARIO" },
-  { name: "BB", maxReq: 2, type: "ASTRO", rarity: "EPICO" },
-  { name: "BB9", maxReq: 5, type: "ASTRO", rarity: "LEGENDARIO" },
-  { name: "AMP Walker", maxReq: 4, type: "PELEA", rarity: "EPICO" },
-  { name: "Opti-Pod", maxReq: 4, type: "ASTRO", rarity: "EPICO" },
-  { name: "MONO-WLKR", maxReq: 4, type: "CONSTRUCTOR", rarity: "LEGENDARIO" },
-  { name: "Opti-STRK", maxReq: 4, type: "PELEA", rarity: "LEGENDARIO" },
-  { name: "Cyclo-Grav", maxReq: 5, type: "PELEA", rarity: "LEGENDARIO" },
-  { name: "LO", maxReq: 5, type: "ASTRO", rarity: "LEGENDARIO" },
-  { name: "R6", maxReq: 5, type: "ASTRO", rarity: "LEGENDARIO" },
-  { name: "HAUL-R", maxReq: 5, type: "CONSTRUCTOR", rarity: "LEGENDARIO" },
-  { name: "SEN-TRI", maxReq: 5, type: "PELEA", rarity: "LEGENDARIO" },
-  // Nuevos droids de otros ciclos
-  { name: "ID-10", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
-  { name: "DRK-1 Probe", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
-  { name: "ROLL-R", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
-  { name: "NAV-EX", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
-  { name: "VECT-ARM", maxReq: 1, type: "CONSTRUCTOR", rarity: "RARO" },
-  { name: "Orb-Walker", maxReq: 1, type: "CONSTRUCTOR", rarity: "RARO" },
-  { name: "Gunrunner", maxReq: 1, type: "PELEA", rarity: "RARO" },
-  { name: "R2", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
+  { name: "Gonk", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" },
   { name: "CB", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
-  { name: "A-LT", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
-  { name: "BU-4D", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" },
-  { name: "ARG", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" },
+  { name: "R3", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
+  { name: "R5", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
+  { name: "R8", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
+  { name: "Imperial Probe", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
+  { name: "B1 Battle", maxReq: 1, type: "PELEA", rarity: "COMUN" },
+  { name: "DRK-1 Probe", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
+  { name: "ID-10", maxReq: 1, type: "ASTRO", rarity: "COMUN" },
+
+  // Rare
+  { name: "BDX Explorer", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "ARG", maxReq: 1, type: "CONSTRUCTOR", rarity: "RARO" },
+  { name: "Senate Hovercam", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "BU-4D", maxReq: 1, type: "CONSTRUCTOR", rarity: "RARO" },
+  { name: "Bal-Core", maxReq: 1, type: "CONSTRUCTOR", rarity: "RARO" },
+  { name: "Roll-R", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "2BB", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "A-LT", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "R4", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "R9", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "B1 Security", maxReq: 1, type: "PELEA", rarity: "RARO" },
+  { name: "NAV-EX", maxReq: 1, type: "ASTRO", rarity: "RARO" },
+  { name: "Vect-Arm", maxReq: 1, type: "CONSTRUCTOR", rarity: "RARO" },
   { name: "HOV-R", maxReq: 1, type: "PELEA", rarity: "RARO" },
-  { name: "BB-8", maxReq: 1, type: "ASTRO", rarity: "LEGENDARIO" },
-  { name: "Mister Bones", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
-  { name: "IG-11", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
-  { name: "CB-23", maxReq: 1, type: "ASTRO", rarity: "LEGENDARIO" },
-  { name: "Chopper", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
-  { name: "K-2SO", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
-  { name: "LEP Droid", maxReq: 1, type: "CONSTRUCTOR", rarity: "COMUN" }
+
+  // Epic
+  { name: "Groundmech", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "LO", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
+  { name: "AMP Walker", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "Sen-Tri", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "Opti-Pod", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
+  { name: "Gunrunner", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "BB", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
+  { name: "R2", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
+  { name: "R6", maxReq: 1, type: "ASTRO", rarity: "EPICO" },
+  { name: "Trak-R", maxReq: 1, type: "CONSTRUCTOR", rarity: "EPICO" },
+  { name: "Orb-Walker", maxReq: 1, type: "CONSTRUCTOR", rarity: "EPICO" },
+  { name: "Util-Tec", maxReq: 1, type: "CONSTRUCTOR", rarity: "EPICO" },
+  { name: "B1 Heavy", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "B2 Super", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "B2 Heavy", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "Strike-Orb", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+  { name: "Haul-R", maxReq: 1, type: "CONSTRUCTOR", rarity: "EPICO" },
+  { name: "LNG-Shot", maxReq: 1, type: "PELEA", rarity: "EPICO" },
+
+  // Legendary
+  { name: "Proto-Roller", maxReq: 1, type: "CONSTRUCTOR", rarity: "LEGENDARIO" },
+  { name: "Mecha-Droid", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
+  { name: "MONO-WLKR", maxReq: 1, type: "CONSTRUCTOR", rarity: "LEGENDARIO" },
+  { name: "BB-9", maxReq: 1, type: "ASTRO", rarity: "LEGENDARIO" },
+  { name: "R7", maxReq: 1, type: "ASTRO", rarity: "LEGENDARIO" },
+  { name: "B2-RP", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
+  { name: "Cyclo-Grav", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
+  { name: "Opti-STRK", maxReq: 1, type: "PELEA", rarity: "LEGENDARIO" },
+
+  // Iconic
+  { name: "DJ R-3X", maxReq: 1, type: "ASTRO", rarity: "ICONICO" },
+  { name: "CB-23", maxReq: 1, type: "ASTRO", rarity: "ICONICO" },
+  { name: "BB8", maxReq: 1, type: "ASTRO", rarity: "ICONICO" },
+  { name: "Mister Bones", maxReq: 1, type: "PELEA", rarity: "ICONICO" },
+  { name: "IG-11 Marshal", maxReq: 1, type: "PELEA", rarity: "ICONICO" },
+
+  // Mythic
+  { name: "SNOW MOUSE", maxReq: 1, type: "ASTRO", rarity: "MITICO" },
+  { name: "RIC", maxReq: 1, type: "ASTRO", rarity: "MITICO" },
+  { name: "LOADLIFTER", maxReq: 1, type: "CONSTRUCTOR", rarity: "MITICO" },
+  { name: "LEP", maxReq: 1, type: "CONSTRUCTOR", rarity: "MITICO" },
+  { name: "RIC-1200", maxReq: 1, type: "ASTRO", rarity: "MITICO" },
+  { name: "DRFT-R", maxReq: 1, type: "ASTRO", rarity: "MITICO" },
+  { name: "CYCLENS", maxReq: 1, type: "PELEA", rarity: "MITICO" },
+  { name: "MO-TRAK", maxReq: 1, type: "CONSTRUCTOR", rarity: "MITICO" },
+  { name: "TRI-TEK", maxReq: 1, type: "ASTRO", rarity: "MITICO" },
+  { name: "IG", maxReq: 1, type: "PELEA", rarity: "MITICO" },
+  { name: "KX", maxReq: 1, type: "PELEA", rarity: "MITICO" }
 ];
 
 const rebirthRequirementsCycle1: RebirthRequirement[] = [
-  { level: 1, credits: "10,000 Credits", droids: [{ name: "CB", tier: 1 }, { name: "Pit", tier: 1 }, { name: "DRK-1 Probe", tier: 1 }] },
-  { level: 2, credits: "150,000 Credits", droids: [{ name: "BDX Explorer", tier: 1 }, { name: "2BB", tier: 1 }, { name: "Bal-Core", tier: 1 }] },
+  { level: 1, credits: "10,000 Credits", droids: [{ name: "CB", tier: 1 }, { name: "DRK-1 Probe", tier: 1 }, { name: "Pit", tier: 1 }] },
+  { level: 2, credits: "150,000 Credits", droids: [{ name: "2BB", tier: 1 }, { name: "Bal-Core", tier: 1 }, { name: "BDX Explorer", tier: 1 }] },
   { level: 3, credits: "975,000 Credits", droids: [{ name: "A-LT", tier: 1 }, { name: "BU-4D", tier: 1 }, { name: "R9", tier: 2 }] },
   { level: 4, credits: "2.95 Million Credits", droids: [{ name: "ARG", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "Groundmech", tier: 1 }] },
   { level: 5, credits: "5.35 Million Credits", droids: [{ name: "BU-4D", tier: 2 }, { name: "HOV-R", tier: 2 }, { name: "R9", tier: 3 }] },
-  { level: 6, credits: "9.85 Million Credits", droids: [{ name: "Groundmech", tier: 2 }, { name: "ARG", tier: 3 }, { name: "A-LT", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "BB", tier: 2 }, { name: "B1 Security", tier: 3 }, { name: "BU-4D", tier: 3 }] },
-  { level: 8, credits: "36 Million Credits", droids: [{ name: "UTIL-TEC", tier: 2 }, { name: "LO", tier: 2 }, { name: "HOV-R", tier: 3 }] },
-  { level: 9, credits: "89 Million Credits", droids: [{ name: "Groundmech", tier: 4 }, { name: "R6", tier: 2 }, { name: "TRAK-R", tier: 2 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "LO", tier: 4 }, { name: "HAUL-R", tier: 4 }, { name: "Strike-Orb", tier: 2 }] },
-  { level: 11, credits: "550 Million Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B1 Heavy", tier: 4 }, { name: "BB9", tier: 1 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Proto-Roller", tier: 2 }, { name: "Mecha-Droid", tier: 1 }, { name: "MONO-WLKR", tier: 1 }] },
+  { level: 6, credits: "9.85 Million Credits", droids: [{ name: "A-LT", tier: 3 }, { name: "ARG", tier: 3 }, { name: "Groundmech", tier: 2 }] },
+  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "B1 Security", tier: 3 }, { name: "BB", tier: 2 }, { name: "BU-4D", tier: 3 }] },
+  { level: 8, credits: "36 Million Credits", droids: [{ name: "HOV-R", tier: 3 }, { name: "LO", tier: 2 }, { name: "Util-Tec", tier: 2 }] },
+  { level: 9, credits: "89 Million Credits", droids: [{ name: "Groundmech", tier: 4 }, { name: "R6", tier: 2 }, { name: "Trak-R", tier: 2 }] },
+  { level: 10, credits: "220 Million Credits", droids: [{ name: "Haul-R", tier: 4 }, { name: "LO", tier: 4 }, { name: "Strike-Orb", tier: 2 }] },
+  { level: 11, credits: "550 Million Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B1 Heavy", tier: 4 }, { name: "BB-9", tier: 1 }] },
+  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 1 }, { name: "MONO-WLKR", tier: 1 }, { name: "Proto-Roller", tier: 2 }] },
   { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2-RP", tier: 1 }, { name: "Cyclo-Grav", tier: 1 }, { name: "R7", tier: 1 }] },
   { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 2 }, { name: "MONO-WLKR", tier: 2 }, { name: "Opti-STRK", tier: 1 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB9", tier: 2 }, { name: "R7", tier: 2 }] },
+  { level: 15, credits: "21 Billion Credits", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB-9", tier: 2 }, { name: "R7", tier: 2 }] },
   { level: 16, credits: "52 Billion Credits", droids: [{ name: "MONO-WLKR", tier: 3 }, { name: "Opti-STRK", tier: 2 }, { name: "Proto-Roller", tier: 3 }] },
   { level: 17, credits: "130 Billion Credits", droids: [{ name: "B2-RP", tier: 3 }, { name: "Cyclo-Grav", tier: 3 }, { name: "Mecha-Droid", tier: 3 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "BB9", tier: 3 }, { name: "MONO-WLKR", tier: 4 }, { name: "R7", tier: 3 }] },
+  { level: 18, credits: "325 Billion Credits", droids: [{ name: "BB-9", tier: 3 }, { name: "MONO-WLKR", tier: 4 }, { name: "R7", tier: 3 }] },
   { level: 19, credits: "810 Billion Credits", droids: [{ name: "B2-RP", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "Proto-Roller", tier: 4 }] },
   { level: 20, credits: "2 Trillion Credits", droids: [{ name: "Mecha-Droid", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "R7", tier: 4 }] },
   { level: 21, credits: "3 Trillion Credits", droids: [{ name: "BB", tier: 5 }, { name: "Groundmech", tier: 5 }, { name: "Orb-Walker", tier: 5 }] },
   { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "AMP Walker", tier: 5 }, { name: "B1 Heavy", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "Opti-STRK", tier: 5 }, { name: "R7", tier: 5 }] }
+  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "Opti-STRK", tier: 5 }, { name: "R7", tier: 5 }] },
+  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "BB-9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "MO-TRAK", tier: 1 }] },
+  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "IG", tier: 1 }, { name: "DRFT-R", tier: 2 }] },
+  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "CYCLENS", tier: 2 }, { name: "LOADLIFTER", tier: 3 }, { name: "RIC-1200", tier: 4 }] },
+  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "KX", tier: 3 }, { name: "TRI-TEK", tier: 4 }, { name: "SNOW MOUSE", tier: 5 }] }
 ];
 
 const rebirthRequirementsCycle2: RebirthRequirement[] = [
-  { level: 1, credits: "10,000 Credits", droids: [{ name: "ID-10", tier: 1 }, { name: "Mouse", tier: 1 }, { name: "GONK", tier: 1 }] },
-  { level: 2, credits: "150,000 Credits", droids: [{ name: "ROLL-R", tier: 1 }, { name: "Senate Hovercam", tier: 1 }, { name: "NAV-EX", tier: 1 }] },
-  { level: 3, credits: "975,000 Credits", droids: [{ name: "R4", tier: 1 }, { name: "VECT-ARM", tier: 1 }, { name: "BDX Explorer", tier: 2 }] },
+  { level: 1, credits: "10,000 Credits", droids: [{ name: "ID-10", tier: 1 }, { name: "Mouse", tier: 1 }, { name: "Gonk", tier: 1 }] },
+  { level: 2, credits: "150,000 Credits", droids: [{ name: "Roll-R", tier: 1 }, { name: "Senate Hovercam", tier: 1 }, { name: "NAV-EX", tier: 1 }] },
+  { level: 3, credits: "975,000 Credits", droids: [{ name: "R4", tier: 1 }, { name: "Vect-Arm", tier: 1 }, { name: "BDX Explorer", tier: 2 }] },
   { level: 4, credits: "2.95 Million Credits", droids: [{ name: "2BB", tier: 2 }, { name: "Bal-Core", tier: 2 }, { name: "Orb-Walker", tier: 1 }] },
-  { level: 5, credits: "5.35 Million Credits", droids: [{ name: "R4", tier: 2 }, { name: "VECT-ARM", tier: 2 }, { name: "NAV-EX", tier: 2 }] },
+  { level: 5, credits: "5.35 Million Credits", droids: [{ name: "R4", tier: 2 }, { name: "Vect-Arm", tier: 2 }, { name: "NAV-EX", tier: 2 }] },
   { level: 6, credits: "9.85 Million Credits", droids: [{ name: "Gunrunner", tier: 1 }, { name: "2BB", tier: 3 }, { name: "Bal-Core", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "ROLL-R", tier: 3 }, { name: "BDX Explorer", tier: 3 }, { name: "R2", tier: 2 }] },
+  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "Roll-R", tier: 3 }, { name: "BDX Explorer", tier: 3 }, { name: "R2", tier: 2 }] },
   { level: 8, credits: "36 Million Credits", droids: [{ name: "R4", tier: 3 }, { name: "B2 Super", tier: 2 }, { name: "Gunrunner", tier: 2 }] },
   { level: 9, credits: "89 Million Credits", droids: [{ name: "NAV-EX", tier: 4 }, { name: "Strike-Orb", tier: 2 }, { name: "AMP Walker", tier: 2 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "VECT-ARM", tier: 4 }, { name: "B2 Super", tier: 3 }, { name: "R2", tier: 3 }] },
+  { level: 10, credits: "220 Million Credits", droids: [{ name: "Vect-Arm", tier: 4 }, { name: "B2 Super", tier: 3 }, { name: "R2", tier: 3 }] },
   { level: 11, credits: "550 Million Credits", droids: [{ name: "Strike-Orb", tier: 3 }, { name: "B2 Heavy", tier: 3 }, { name: "Bal-Core", tier: 4 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Orb-Walker", tier: 4 }, { name: "R2", tier: 4 }, { name: "BB9", tier: 1 }] },
+  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Orb-Walker", tier: 4 }, { name: "R2", tier: 4 }, { name: "BB-9", tier: 1 }] },
   { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
   { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "R7", tier: 2 }, { name: "B2-RP", tier: 1 }, { name: "B2 Heavy", tier: 4 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB9", tier: 2 }, { name: "Proto-Roller", tier: 2 }] },
+  { level: 15, credits: "21 Billion Credits", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB-9", tier: 2 }, { name: "Proto-Roller", tier: 2 }] },
   { level: 16, credits: "52 Billion Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B2-RP", tier: 3 }, { name: "Mecha-Droid", tier: 2 }] },
   { level: 17, credits: "130 Billion Credits", droids: [{ name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }, { name: "MONO-WLKR", tier: 2 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "UTIL-TEC", tier: 4 }, { name: "BB9", tier: 3 }, { name: "Proto-Roller", tier: 3 }] },
+  { level: 18, credits: "325 Billion Credits", droids: [{ name: "Util-Tec", tier: 4 }, { name: "BB-9", tier: 3 }, { name: "Proto-Roller", tier: 3 }] },
   { level: 19, credits: "810 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 3 }, { name: "B2-RP", tier: 4 }, { name: "R7", tier: 4 }] },
   { level: 20, credits: "2 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "R6", tier: 5 }, { name: "LO", tier: 5 }, { name: "HAUL-R", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "Strike-Orb", tier: 5 }, { name: "SEN-TRI", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "BB9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] }
+  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "R6", tier: 5 }, { name: "LO", tier: 5 }, { name: "Haul-R", tier: 5 }] },
+  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "Strike-Orb", tier: 5 }, { name: "Sen-Tri", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "BB-9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] },
+  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "Opti-STRK", tier: 5 }, { name: "B2-RP", tier: 5 }, { name: "SNOW MOUSE", tier: 1 }] },
+  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "TRI-TEK", tier: 2 }, { name: "RIC-1200", tier: 1 }] },
+  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "KX", tier: 2 }, { name: "DRFT-R", tier: 3 }, { name: "IG", tier: 4 }] },
+  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "LEP", tier: 3 }, { name: "LOADLIFTER", tier: 4 }, { name: "MO-TRAK", tier: 5 }] }
 ];
 
 const rebirthRequirementsCycle3: RebirthRequirement[] = [
-  { level: 1, credits: "10,000 Credits", droids: [{ name: "Mouse", tier: 1 }, { name: "Pit", tier: 1 }, { name: "GONK", tier: 1 }] },
+  { level: 1, credits: "10,000 Credits", droids: [{ name: "Gonk", tier: 1 }, { name: "Mouse", tier: 1 }, { name: "Pit", tier: 1 }] },
   { level: 2, credits: "150,000 Credits", droids: [{ name: "2BB", tier: 1 }, { name: "R3", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
   { level: 3, credits: "975,000 Credits", droids: [{ name: "R4", tier: 1 }, { name: "R5", tier: 1 }, { name: "R8", tier: 1 }] },
-  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "R9", tier: 2 }, { name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }] },
+  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "R9", tier: 2 }] },
   { level: 5, credits: "5.35 Million Credits", droids: [{ name: "2BB", tier: 2 }, { name: "R3", tier: 2 }, { name: "Senate Hovercam", tier: 2 }] },
   { level: 6, credits: "9.85 Million Credits", droids: [{ name: "BDX Explorer", tier: 3 }, { name: "R4", tier: 3 }, { name: "R5", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "R8", tier: 3 }, { name: "R9", tier: 3 }, { name: "B1 Battle", tier: 3 }] },
-  { level: 8, credits: "36 Million Credits", droids: [{ name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }, { name: "2BB", tier: 4 }] },
+  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "B1 Battle", tier: 3 }, { name: "R8", tier: 3 }, { name: "R9", tier: 3 }] },
+  { level: 8, credits: "36 Million Credits", droids: [{ name: "2BB", tier: 4 }, { name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }] },
   { level: 9, credits: "89 Million Credits", droids: [{ name: "BDX Explorer", tier: 4 }, { name: "R4", tier: 4 }, { name: "R5", tier: 4 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "TRAK-R", tier: 1 }, { name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }] },
-  { level: 11, credits: "550 Million Credits", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "UTIL-TEC", tier: 1 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "TRAK-R", tier: 2 }, { name: "Groundmech", tier: 2 }, { name: "Bal-Core", tier: 4 }] },
+  { level: 10, credits: "220 Million Credits", droids: [{ name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }, { name: "Trak-R", tier: 1 }] },
+  { level: 11, credits: "550 Million Credits", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "Util-Tec", tier: 1 }] },
+  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "Trak-R", tier: 2 }] },
   { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
   { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "B2 Heavy", tier: 4 }, { name: "B2-RP", tier: 1 }, { name: "R7", tier: 2 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB9", tier: 2 }, { name: "Proto-Roller", tier: 2 }] },
+  { level: 15, credits: "21 Billion Credits", droids: [{ name: "BB-9", tier: 2 }, { name: "Proto-Roller", tier: 2 }, { name: "Strike-Orb", tier: 4 }] },
   { level: 16, credits: "52 Billion Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B2-RP", tier: 3 }, { name: "Mecha-Droid", tier: 2 }] },
-  { level: 17, credits: "130 Billion Credits", droids: [{ name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }, { name: "MONO-WLKR", tier: 2 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "UTIL-TEC", tier: 4 }, { name: "BB9", tier: 3 }, { name: "Proto-Roller", tier: 3 }] },
-  { level: 19, credits: "810 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }, { name: "B2-RP", tier: 4 }] },
-  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "LO", tier: 5 }, { name: "R6", tier: 5 }, { name: "HAUL-R", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "Strike-Orb", tier: 5 }, { name: "SEN-TRI", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "BB9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] }
+  { level: 17, credits: "130 Billion Credits", droids: [{ name: "MONO-WLKR", tier: 2 }, { name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }] },
+  { level: 18, credits: "325 Billion Credits", droids: [{ name: "BB-9", tier: 3 }, { name: "Proto-Roller", tier: 3 }, { name: "Util-Tec", tier: 4 }] },
+  { level: 19, credits: "810 Billion Credits", droids: [{ name: "B2-RP", tier: 4 }, { name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }] },
+  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "Cyclo-Grav", tier: 4 }, { name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
+  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "B2 Super", tier: 5 }, { name: "Opti-Pod", tier: 5 }, { name: "R2", tier: 5 }] },
+  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "Gunrunner", tier: 5 }, { name: "LNG-Shot", tier: 5 }] },
+  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "Cyclo-Grav", tier: 5 }, { name: "Mecha-Droid", tier: 5 }, { name: "MONO-WLKR", tier: 5 }] },
+  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "BB-9", tier: 5 }, { name: "RIC", tier: 1 }] },
+  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "LOADLIFTER", tier: 1 }, { name: "MO-TRAK", tier: 2 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "LEP", tier: 2 }, { name: "SNOW MOUSE", tier: 4 }, { name: "TRI-TEK", tier: 3 }] },
+  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "DRFT-R", tier: 5 }, { name: "IG", tier: 4 }, { name: "RIC-1200", tier: 3 }] }
 ];
 
 const rebirthRequirementsCycle4: RebirthRequirement[] = [
   { level: 1, credits: "10,000 Credits", droids: [{ name: "ID-10", tier: 1 }, { name: "Pit", tier: 1 }, { name: "DRK-1 Probe", tier: 1 }] },
-  { level: 2, credits: "150,000 Credits", droids: [{ name: "R3", tier: 1 }, { name: "2BB", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
+  { level: 2, credits: "150,000 Credits", droids: [{ name: "2BB", tier: 1 }, { name: "R3", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
   { level: 3, credits: "975,000 Credits", droids: [{ name: "R4", tier: 1 }, { name: "R5", tier: 2 }, { name: "R8", tier: 2 }] },
-  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "R9", tier: 2 }, { name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }] },
+  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "R9", tier: 2 }] },
   { level: 5, credits: "5.35 Million Credits", droids: [{ name: "2BB", tier: 2 }, { name: "R3", tier: 2 }, { name: "Senate Hovercam", tier: 2 }] },
   { level: 6, credits: "9.85 Million Credits", droids: [{ name: "BDX Explorer", tier: 3 }, { name: "R4", tier: 3 }, { name: "R5", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "R8", tier: 3 }, { name: "R9", tier: 3 }, { name: "B1 Battle", tier: 3 }] },
-  { level: 8, credits: "36 Million Credits", droids: [{ name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }, { name: "2BB", tier: 4 }] },
+  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "B1 Battle", tier: 3 }, { name: "R8", tier: 3 }, { name: "R9", tier: 3 }] },
+  { level: 8, credits: "36 Million Credits", droids: [{ name: "2BB", tier: 4 }, { name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }] },
   { level: 9, credits: "89 Million Credits", droids: [{ name: "BDX Explorer", tier: 4 }, { name: "R4", tier: 4 }, { name: "R5", tier: 4 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "TRAK-R", tier: 1 }, { name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }] },
-  { level: 11, credits: "550 Million Credits", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "UTIL-TEC", tier: 1 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "TRAK-R", tier: 2 }] },
+  { level: 10, credits: "220 Million Credits", droids: [{ name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }, { name: "Trak-R", tier: 1 }] },
+  { level: 11, credits: "550 Million Credits", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "Util-Tec", tier: 1 }] },
+  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "Trak-R", tier: 2 }] },
   { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
-  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "Bal-Core", tier: 3 }, { name: "Groundmech", tier: 3 }, { name: "TRAK-R", tier: 4 }] },
+  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "Bal-Core", tier: 3 }, { name: "Groundmech", tier: 3 }, { name: "Trak-R", tier: 4 }] },
   { level: 15, credits: "21 Billion Credits", droids: [{ name: "B2 Heavy", tier: 3 }, { name: "B2 Super", tier: 4 }, { name: "B2-RP", tier: 1 }] },
-  { level: 16, credits: "52 Billion Credits", droids: [{ name: "UTIL-TEC", tier: 4 }, { name: "BB9", tier: 1 }, { name: "R7", tier: 2 }] },
-  { level: 17, credits: "130 Billion Credits", droids: [{ name: "Opti-STRK", tier: 1 }, { name: "Cyclo-Grav", tier: 2 }, { name: "Mecha-Droid", tier: 2 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB9", tier: 2 }, { name: "R7", tier: 3 }] },
-  { level: 19, credits: "810 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }, { name: "B2-RP", tier: 4 }] },
-  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "LO", tier: 5 }, { name: "R6", tier: 5 }, { name: "HAUL-R", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "Proto-Roller", tier: 5 }, { name: "SEN-TRI", tier: 5 }, { name: "Strike-Orb", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "BB9", tier: 5 }] }
-];
+  { level: 16, credits: "52 Billion Credits", droids: [{ name: "BB-9", tier: 1 }, { name: "R7", tier: 2 }, { name: "Util-Tec", tier: 4 }] },
+  { level: 17, credits: "130 Billion Credits", droids: [{ name: "Cyclo-Grav", tier: 2 }, { name: "Mecha-Droid", tier: 2 }, { name: "Opti-STRK", tier: 1 }] },
+  { level: 18, credits: "325 Billion Credits", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB-9", tier: 2 }, { name: "R7", tier: 3 }] },
+  { level: 19, credits: "810 Billion Credits", droids: [{ name: "B2-RP", tier: 4 }, { name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }] },
+  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "Cyclo-Grav", tier: 4 }, { name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
+  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "AMP Walker", tier: 5 }, { name: "Groundmech", tier: 5 }, { name: "Haul-R", tier: 5 }] },
+  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "B2 Super", tier: 5 }, { name: "Gunrunner", tier: 5 }, { name: "Strike-Orb", tier: 5 }] },
+  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "MONO-WLKR", tier: 5 }] },
+  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "Mecha-Droid", tier: 5 }, { name: "MO-TRAK", tier: 1 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "Opti-STRK", tier: 5 }, { name: "TRI-TEK", tier: 1 }, { name: "DRFT-R", tier: 2 }] },
+  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "CYCLENS", tier: 2 }, { name: "LEP", tier: 3 }, { name: "MO-TRAK", tier: 4 }] },
+  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "RIC-1200", tier: 3 }, { name: "SNOW MOUSE", tier: 4 }, { name: "LOADLIFTER", tier: 5 }] }
+];;
 
 const tiersConfig = [
   { level: 1, label: 'Base', short: 'BAS' },
@@ -257,7 +296,7 @@ const getNovaCrystals = (level: number): number => {
 
 export default function App() {
   const [progress, setProgress] = useState<Record<string, number>>({});
-  const [currentRebirth, setCurrentRebirth] = useState<number>(0); // 0 to 23
+  const [currentRebirth, setCurrentRebirth] = useState<number>(0); // 0 to 27
   const [currentCycle, setCurrentCycle] = useState<number>(3); // 2, 3, or 4
   const [showResetModal, setShowResetModal] = useState(false);
   const [showSuperRebirthModal, setShowSuperRebirthModal] = useState(false);
@@ -328,7 +367,7 @@ export default function App() {
     const savedRebirth = localStorage.getItem('droid_tycoon_current_rebirth');
     if (savedRebirth) {
       const parsedRebirth = parseInt(savedRebirth, 10);
-      if (parsedRebirth >= 0 && parsedRebirth <= 23) {
+      if (parsedRebirth >= 0 && parsedRebirth <= 27) {
         setCurrentRebirth(parsedRebirth);
       }
     }
@@ -633,7 +672,7 @@ export default function App() {
               <span>{t('rebirthLabel')} <strong className="text-white">R-{currentRebirth}</strong></span>
             </div>
             <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
-              {Array.from({ length: 24 }, (_, i) => {
+              {Array.from({ length: 28 }, (_, i) => {
                 const lvl = i;
                 const isActive = lvl === currentRebirth;
                 

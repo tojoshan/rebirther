@@ -1,0 +1,6 @@
+Rarity,Default,Gold,Diamond,Rainbow,Beskar
+Common,0,10,25,40,80
+Rare,0,30,60,100,250
+Epic,0,120,180,240,5000
+Legendary,0,400,1200,4000,12000
+Mythic,0,6000,13000,30000,75000
