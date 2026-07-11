@@ -54,13 +54,13 @@ interface RebirthRequirement {
   }[];
 }
 
-const droidTypes = {
+const droidTypes: Record<DroidType, { label: string; icon: React.ComponentType<any>; color: string; bg: string }> = {
   CONSTRUCTOR: { label: 'Constructor', icon: Wrench, color: 'text-orange-400', bg: 'bg-orange-400/10' },
   ASTRO: { label: 'Astromecánico', icon: Cpu, color: 'text-blue-400', bg: 'bg-blue-400/10' },
   PELEA: { label: 'Combate', icon: Swords, color: 'text-red-400', bg: 'bg-red-400/10' }
 };
 
-const droidRarities = {
+const droidRarities: Record<DroidRarity, { label: string; color: string }> = {
   COMUN: { label: 'Común', color: 'text-slate-400' },
   RARO: { label: 'Raro', color: 'text-blue-400' },
   EPICO: { label: 'Épico', color: 'text-purple-400' },
@@ -378,6 +378,10 @@ export default function App() {
   const [novaUpgrades, setNovaUpgrades] = useState<Record<string, number>>({});
   const [activeDroidexTier, setActiveDroidexTier] = useState<number>(3); // Default to Diamond (3)
   const [selectedDroidexName, setSelectedDroidexName] = useState<string>('Mouse');
+  const [activeShopCategory, setActiveShopCategory] = useState<'core' | 'workshop' | 'cosmetic' | 'iconic'>('core');
+  const [selectedShopUpgradeId, setSelectedShopUpgradeId] = useState<string>('max_health');
+  const [showCrystalsEdit, setShowCrystalsEdit] = useState<boolean>(false);
+  const [crystalsInputValue, setCrystalsInputValue] = useState<string>('0');
 
 
   // Scroll slider to active rebirth level
@@ -1013,6 +1017,39 @@ export default function App() {
 
   if (!isLoaded) return null;
 
+  const stats = getDroidexStats();
+  const milestone = getMilestoneInfo(stats.obtainedCount);
+  
+  const filteredDroidexList = droidsData.filter(droid => {
+    if (activeDroidexTier === 1) {
+      return true;
+    } else {
+      return droid.rarity !== 'ICONICO';
+    }
+  });
+
+  const selectedDroid = droidsData.find(d => d.name === selectedDroidexName) || droidsData[0];
+  const isSelectedObtained = isDroidexObtained(selectedDroid.name, activeDroidexTier);
+  const isSelectedFlawless = !isIconicDroid(selectedDroid) && !!droidexFlawless[selectedDroid.name];
+
+  const handlePrevDroid = () => {
+    const idx = filteredDroidexList.findIndex(d => d.name === selectedDroidexName);
+    if (idx > 0) {
+      setSelectedDroidexName(filteredDroidexList[idx - 1].name);
+    } else {
+      setSelectedDroidexName(filteredDroidexList[filteredDroidexList.length - 1].name);
+    }
+  };
+
+  const handleNextDroid = () => {
+    const idx = filteredDroidexList.findIndex(d => d.name === selectedDroidexName);
+    if (idx < filteredDroidexList.length - 1) {
+      setSelectedDroidexName(filteredDroidexList[idx + 1].name);
+    } else {
+      setSelectedDroidexName(filteredDroidexList[0].name);
+    }
+  };
+
   const nextLevel = currentRebirth + 1;
   const nextReq = rebirthRequirements.find(r => r.level === nextLevel);
   const isNextReqMet = nextReq ? getRebirthStatus(nextReq) === 'ready' : false;
@@ -1444,7 +1481,7 @@ export default function App() {
 
             {/* Grid de Droides */}
             <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
-              {filteredDroidexList.map(droid => {
+              {filteredDroidexList.map((droid: Droid) => {
                 const isObtained = isDroidexObtained(droid.name, activeDroidexTier);
                 const isSelected = selectedDroidexName === droid.name;
                 const isFlawless = !isIconicDroid(droid) && !!droidexFlawless[droid.name];
@@ -1707,7 +1744,7 @@ export default function App() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
               {novaUpgradesList
                 .filter(up => up.category === activeShopCategory)
-                .map(upgrade => {
+                .map((upgrade: NovaUpgrade) => {
                   const currentLevel = getUpgradeLevel(upgrade.id);
                   const isSelected = selectedShopUpgradeId === upgrade.id;
                   
