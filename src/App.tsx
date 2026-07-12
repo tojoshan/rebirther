@@ -30,7 +30,8 @@ import {
   Plus,
   Minus,
   X,
-  Sparkle
+  Sparkle,
+  Search
 } from 'lucide-react';
 import translationsData from './translations.json';
 const translations = translationsData as Record<string, Record<string, string>>;
@@ -382,6 +383,8 @@ export default function App() {
   const [selectedShopUpgradeId, setSelectedShopUpgradeId] = useState<string>('max_health');
   const [showCrystalsEdit, setShowCrystalsEdit] = useState<boolean>(false);
   const [crystalsInputValue, setCrystalsInputValue] = useState<string>('0');
+  const [trackerSearch, setTrackerSearch] = useState<string>('');
+  const [droidexSearch, setDroidexSearch] = useState<string>('');
 
 
   // Scroll slider to active rebirth level
@@ -821,16 +824,9 @@ export default function App() {
     };
   });
 
-  const sortedDroids = [...classifiedDroids].sort((a, b) => {
-    const order = { immediate: 0, needed: 1, completed: 2, discarded: 3 };
-    if (order[a.status] !== order[b.status]) {
-      return order[a.status] - order[b.status];
-    }
-    return a.name.localeCompare(b.name);
-  });
-
-  const requiredDroids = sortedDroids.filter(d => d.status !== 'discarded');
-  const discardedDroids = sortedDroids.filter(d => d.status === 'discarded');
+  const sortedDroids = [...classifiedDroids]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .filter(droid => droid.name.toLowerCase().includes(trackerSearch.toLowerCase()));
 
   // Counts for Droidex
   const getDroidexStats = () => {
@@ -1020,19 +1016,23 @@ export default function App() {
   const stats = getDroidexStats();
   const milestone = getMilestoneInfo(stats.obtainedCount);
   
-  const filteredDroidexList = droidsData.filter(droid => {
-    if (activeDroidexTier === 1) {
-      return true;
-    } else {
-      return droid.rarity !== 'ICONICO';
-    }
-  });
+  const filteredDroidexList = droidsData
+    .filter(droid => {
+      if (activeDroidexTier === 1) {
+        return true;
+      } else {
+        return droid.rarity !== 'ICONICO';
+      }
+    })
+    .filter(droid => droid.name.toLowerCase().includes(droidexSearch.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const selectedDroid = droidsData.find(d => d.name === selectedDroidexName) || droidsData[0];
   const isSelectedObtained = isDroidexObtained(selectedDroid.name, activeDroidexTier);
   const isSelectedFlawless = !isIconicDroid(selectedDroid) && !!droidexFlawless[selectedDroid.name];
 
   const handlePrevDroid = () => {
+    if (filteredDroidexList.length === 0) return;
     const idx = filteredDroidexList.findIndex(d => d.name === selectedDroidexName);
     if (idx > 0) {
       setSelectedDroidexName(filteredDroidexList[idx - 1].name);
@@ -1042,8 +1042,9 @@ export default function App() {
   };
 
   const handleNextDroid = () => {
+    if (filteredDroidexList.length === 0) return;
     const idx = filteredDroidexList.findIndex(d => d.name === selectedDroidexName);
-    if (idx < filteredDroidexList.length - 1) {
+    if (idx < filteredDroidexList.length - 1 && idx >= 0) {
       setSelectedDroidexName(filteredDroidexList[idx + 1].name);
     } else {
       setSelectedDroidexName(filteredDroidexList[0].name);
@@ -1258,15 +1259,46 @@ export default function App() {
         {/* Grilla Principal de Droides: 2 columnas en mobile, hasta 5 en pantallas grandes */}
         <main className="space-y-4">
           
-          {/* Sección 1: Requisitos de Rebirth */}
+          {/* Buscador */}
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+              <Search size={14} />
+            </span>
+            <input
+              type="text"
+              value={trackerSearch}
+              onChange={(e) => setTrackerSearch(e.target.value)}
+              placeholder={t('searchPlaceholder')}
+              className="w-full bg-[#0c1628]/80 border border-institutional-border focus:border-institutional-secondary/60 pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-500 outline-none transition-colors shadow-sm"
+            />
+            {trackerSearch && (
+              <button
+                onClick={() => setTrackerSearch('')}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          {/* Listado de Droides */}
           <div className="space-y-2">
-            <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-[#64748b] tracking-wider px-1">
-              {t('rebirthRequirementsSection')}
-            </h3>
+            <div className="flex justify-between items-center px-1">
+              <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-[#64748b] tracking-wider">
+                {t('title')}
+              </h3>
+              {sortedDroids.length !== droidsData.length && (
+                <span className="text-[9px] font-mono text-slate-500 font-bold">
+                  {sortedDroids.length} / {droidsData.length}
+                </span>
+              )}
+            </div>
+            
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
-              {requiredDroids.map(droid => {
+              {sortedDroids.map(droid => {
                 const isCompleted = droid.status === 'completed';
                 const isImmediate = droid.status === 'immediate';
+                const isDiscarded = droid.status === 'discarded';
 
                 const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
                 const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
@@ -1283,19 +1315,32 @@ export default function App() {
                         ? 'bg-gradient-to-b from-[#112544] to-[#0c1628] border-2 border-institutional-secondary ring-1 ring-institutional-secondary/20 shadow-[0_0_12px_rgba(0,173,238,0.25)]'
                         : isCompleted 
                         ? 'bg-[#0c1628]/35 border-green-950/20 opacity-80' 
+                        : isDiscarded
+                        ? 'bg-[#0c1628]/30 border-slate-900/60 opacity-65 hover:opacity-100'
                         : 'bg-[#0c1628]/80 border-institutional-border/80 hover:border-slate-700'
                     }`}
                   >
-                    {/* Fila 1: Nombre y Rarity */}
+                    {/* Fila 1: Nombre, Rarity y Trash/Clear */}
                     <div className="flex justify-between items-center gap-1.5 mb-2">
                       <h4 className={`text-sm sm:text-base truncate flex-1 leading-tight ${
                         isImmediate 
                           ? 'text-institutional-secondary font-extrabold' 
+                          : isDiscarded
+                          ? 'text-slate-400/80 font-semibold line-through'
                           : 'text-white font-bold'
                       }`} title={droid.name}>
                         {droid.name}
                       </h4>
-                      <div className="flex gap-1 flex-shrink-0 items-center">
+                      <div className="flex gap-1.5 flex-shrink-0 items-center">
+                        {droid.achieved > 0 && (
+                          <button
+                            onClick={() => handleClearDroid(droid.name)}
+                            className="p-0.5 text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded transition-colors cursor-pointer"
+                            title={t('notRequiredTooltip')}
+                          >
+                            <Trash2 size={11} />
+                          </button>
+                        )}
                         {isImmediate && (
                           <span className="px-1.5 py-0.5 bg-institutional-secondary text-[#050810] text-[8px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: nextLevel.toString() })}>
                             R-{nextLevel}
@@ -1362,53 +1407,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Sección 2: Droides No Requeridos */}
-          {discardedDroids.length > 0 && (
-            <div className="space-y-2 pt-2 border-t border-institutional-border/40">
-              <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-red-500/80 tracking-wider px-1 flex items-center gap-1.5">
-                <span>{t('notRequiredSection')}</span>
-                <span className="text-[9px] font-mono bg-red-950/30 border border-red-500/20 px-1.5 py-0.2 rounded text-red-400">
-                  {discardedDroids.length}
-                </span>
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
-                {discardedDroids.map(droid => {
-                  const hasProgress = droid.achieved > 0;
-                  const inCycle = isDroidInCycle(droid.name);
-
-                  // Definir estilos dinámicos de contenedor e h4
-                  let cardClass = "p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 select-none ";
-                  let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 ";
-
-                  if (inCycle) {
-                    cardClass += "bg-[#1c1214]/35 border-red-900/20";
-                    titleClass += "text-red-400/80";
-                    if (hasProgress) {
-                      cardClass += " cursor-pointer hover:bg-[#25181a]/55 hover:border-red-500/30 shadow-[inset_0_0_8px_rgba(239,68,68,0.05)]";
-                      titleClass += " text-red-400 font-extrabold";
-                    }
-                  } else {
-                    cardClass += "bg-[#120e10]/35 border-institutional-border/15";
-                    titleClass += "text-slate-500/50";
-                  }
-
-                  return (
-                    <div 
-                      key={droid.name} 
-                      onClick={() => hasProgress && handleClearDroid(droid.name)}
-                      className={cardClass}
-                      title={hasProgress ? t('notRequiredTooltip') : undefined}
-                    >
-                      <h4 className={titleClass}>
-                        {droid.name}
-                      </h4>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
         </main>
 
         {/* Footer simple de la aplicación */}
@@ -1458,6 +1456,28 @@ export default function App() {
                 {t('milestoneMax')}
               </div>
             )}
+
+            {/* Buscador de Droidex */}
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                <Search size={14} />
+              </span>
+              <input
+                type="text"
+                value={droidexSearch}
+                onChange={(e) => setDroidexSearch(e.target.value)}
+                placeholder={t('searchPlaceholder')}
+                className="w-full bg-[#050810]/75 border border-institutional-border focus:border-institutional-secondary/60 pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-500 outline-none transition-colors"
+              />
+              {droidexSearch && (
+                <button
+                  onClick={() => setDroidexSearch('')}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
 
             {/* Tabs de Selección de Tier */}
             <div className="flex bg-[#050810] p-1 rounded-lg border border-institutional-border gap-1 overflow-x-auto">
