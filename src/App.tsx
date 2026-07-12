@@ -828,6 +828,9 @@ export default function App() {
     .sort((a, b) => a.name.localeCompare(b.name))
     .filter(droid => droid.name.toLowerCase().includes(trackerSearch.toLowerCase()));
 
+  const requiredDroids = sortedDroids.filter(d => d.status !== 'discarded');
+  const discardedDroids = sortedDroids.filter(d => d.status === 'discarded');
+
   // Counts for Droidex
   const getDroidexStats = () => {
     let obtainedCount = 0;
@@ -1281,24 +1284,23 @@ export default function App() {
             )}
           </div>
 
-          {/* Listado de Droides */}
+          {/* Sección 1: Requisitos de Rebirth */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
               <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-[#64748b] tracking-wider">
-                {t('title')}
+                {t('rebirthRequirementsSection')}
               </h3>
-              {sortedDroids.length !== droidsData.length && (
+              {requiredDroids.length !== droidsData.filter(d => getRequiredTier(d.name) > 0).length && (
                 <span className="text-[9px] font-mono text-slate-500 font-bold">
-                  {sortedDroids.length} / {droidsData.length}
+                  {requiredDroids.length} / {droidsData.filter(d => getRequiredTier(d.name) > 0).length}
                 </span>
               )}
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
-              {sortedDroids.map(droid => {
+              {requiredDroids.map(droid => {
                 const isCompleted = droid.status === 'completed';
                 const isImmediate = droid.status === 'immediate';
-                const isDiscarded = droid.status === 'discarded';
 
                 const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
                 const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
@@ -1315,8 +1317,6 @@ export default function App() {
                         ? 'bg-gradient-to-b from-[#112544] to-[#0c1628] border-2 border-institutional-secondary ring-1 ring-institutional-secondary/20 shadow-[0_0_12px_rgba(0,173,238,0.25)]'
                         : isCompleted 
                         ? 'bg-[#0c1628]/35 border-green-950/20 opacity-80' 
-                        : isDiscarded
-                        ? 'bg-[#0c1628]/30 border-slate-900/60 opacity-65 hover:opacity-100'
                         : 'bg-[#0c1628]/80 border-institutional-border/80 hover:border-slate-700'
                     }`}
                   >
@@ -1325,8 +1325,6 @@ export default function App() {
                       <h4 className={`text-sm sm:text-base truncate flex-1 leading-tight ${
                         isImmediate 
                           ? 'text-institutional-secondary font-extrabold' 
-                          : isDiscarded
-                          ? 'text-slate-400/80 font-semibold line-through'
                           : 'text-white font-bold'
                       }`} title={droid.name}>
                         {droid.name}
@@ -1407,6 +1405,64 @@ export default function App() {
             </div>
           </div>
 
+          {/* Sección 2: Droides No Requeridos */}
+          {discardedDroids.length > 0 && (
+            <div className="space-y-2 pt-2 border-t border-institutional-border/40">
+              <div className="flex justify-between items-center px-1">
+                <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-[#64748b] tracking-wider">
+                  {t('notRequiredSection')}
+                </h3>
+                <span className="text-[9px] font-mono bg-red-950/20 border border-red-500/20 px-1.5 py-0.2 rounded text-red-400 font-bold">
+                  {discardedDroids.length}
+                </span>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
+                {discardedDroids.map(droid => {
+                  const hasProgress = droid.achieved > 0;
+                  const inCycle = isDroidInCycle(droid.name);
+
+                  // Definir estilos dinámicos de contenedor e h4
+                  let cardClass = "p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 select-none ";
+                  let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 flex items-center ";
+
+                  if (inCycle) {
+                    cardClass += "bg-[#1c1214]/35 border-red-900/20";
+                    titleClass += hasProgress ? "text-red-400 font-extrabold" : "text-red-500/35 line-through";
+                  } else {
+                    cardClass += "bg-[#120e10]/35 border-institutional-border/15";
+                    titleClass += hasProgress ? "text-slate-400 font-bold" : "text-slate-500/30 line-through";
+                  }
+
+                  return (
+                    <div 
+                      key={droid.name} 
+                      className={cardClass}
+                    >
+                      <h4 className={titleClass}>
+                        <span>{droid.name}</span>
+                        {hasProgress && (
+                          <span className={`ml-1.5 px-1.5 py-0.5 text-[8px] font-extrabold rounded leading-none ${getTierColor(droid.achieved)}`}>
+                            {localizedTiersConfig.find(tc => tc.level === droid.achieved)?.short || ''}
+                          </span>
+                        )}
+                      </h4>
+                      {hasProgress && (
+                        <button
+                          onClick={() => handleClearDroid(droid.name)}
+                          className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded transition-colors cursor-pointer"
+                          title={t('notRequiredTooltip')}
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
         </main>
 
         {/* Footer simple de la aplicación */}
@@ -1430,11 +1486,6 @@ export default function App() {
                   {stats.obtainedCount}/{stats.totalCount}
                 </span>
               </h2>
-              <div className="flex items-center gap-1.5 bg-[#050810]/75 px-2.5 py-1 rounded-lg border border-institutional-border text-[11px] font-bold text-orange-400">
-                <Sparkle size={12} className="animate-spin-slow" />
-                <span>+{stats.flawlessCount}/{stats.totalFlawless} {t('flawless')}</span>
-                <span className="text-white font-mono">(x{(1 + stats.creditMultiplier).toFixed(2)})</span>
-              </div>
             </div>
 
             {/* Barra de progreso de Hitos/Milestones */}
@@ -1501,64 +1552,130 @@ export default function App() {
 
             {/* Grid de Droides */}
             <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
-              {filteredDroidexList.map((droid: Droid) => {
-                const isObtained = isDroidexObtained(droid.name, activeDroidexTier);
-                const isSelected = selectedDroidexName === droid.name;
-                const isFlawless = !isIconicDroid(droid) && !!droidexFlawless[droid.name];
-                const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
-                const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
+              {(() => {
+                if (droidexSearch === '') {
+                  return filteredDroidexList.map((droid: Droid) => {
+                    const isObtained = isDroidexObtained(droid.name, activeDroidexTier);
+                    const isSelected = selectedDroidexName === droid.name;
+                    const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
+                    const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-                let borderClass = 'border-slate-800 bg-[#0c1628]/35';
-                if (isObtained) {
-                  switch (activeDroidexTier) {
-                    case 1: borderClass = 'border-slate-450 bg-slate-400/5 hover:bg-slate-400/10'; break;
-                    case 2: borderClass = 'border-yellow-500/40 bg-yellow-500/5 hover:bg-yellow-500/10'; break;
-                    case 3: borderClass = 'border-cyan-500/40 bg-cyan-500/5 hover:bg-cyan-500/10'; break;
-                    case 4: borderClass = 'border-pink-500/40 bg-pink-500/5 hover:bg-pink-500/10'; break;
-                    case 5: borderClass = 'border-purple-500/45 bg-purple-950/10 hover:bg-purple-950/20'; break;
-                  }
-                }
+                    let borderClass = 'border-slate-800 bg-[#0c1628]/35';
+                    if (isObtained) {
+                      switch (activeDroidexTier) {
+                        case 1: borderClass = 'border-slate-450 bg-slate-400/5 hover:bg-slate-400/10'; break;
+                        case 2: borderClass = 'border-yellow-500/40 bg-yellow-500/5 hover:bg-yellow-500/10'; break;
+                        case 3: borderClass = 'border-cyan-500/40 bg-cyan-500/5 hover:bg-cyan-500/10'; break;
+                        case 4: borderClass = 'border-pink-500/40 bg-pink-500/5 hover:bg-pink-500/10'; break;
+                        case 5: borderClass = 'border-purple-500/45 bg-purple-950/10 hover:bg-purple-950/20'; break;
+                      }
+                    }
 
-                if (isSelected) {
-                  borderClass = 'border-orange-500 bg-[#161a29] ring-2 ring-orange-500/60 ring-offset-2 ring-offset-[#050810]';
-                }
+                    if (isSelected) {
+                      borderClass = 'border-orange-500 bg-[#161a29] ring-2 ring-orange-500/60 ring-offset-2 ring-offset-[#050810]';
+                    }
 
-                return (
-                  <div
-                    key={droid.name}
-                    onClick={() => setSelectedDroidexName(droid.name)}
-                    className={`p-2 rounded-lg border flex flex-col items-center justify-center relative cursor-pointer select-none transition-all ${borderClass}`}
-                  >
-                    {/* Sparkle Icon */}
-                    {isFlawless && (
-                      <div className="absolute top-1 left-1 text-orange-400 drop-shadow-[0_0_4px_rgba(249,115,22,0.6)] z-20">
-                        <Sparkle size={10} fill="currentColor" />
+                    return (
+                      <div
+                        key={droid.name}
+                        onClick={() => setSelectedDroidexName(droid.name)}
+                        className={`p-2 rounded-lg border flex flex-col items-center justify-center relative cursor-pointer select-none transition-all ${borderClass}`}
+                      >
+                        {/* Image / Silhouette Container */}
+                        <div className="w-10 h-10 flex items-center justify-center mb-1">
+                          {isObtained ? (
+                            <div className="scale-50 opacity-90">
+                              {renderDroidModel(droid, activeDroidexTier)}
+                            </div>
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-slate-900/80 flex items-center justify-center text-slate-500 font-bold">
+                              ?
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Rarity Label */}
+                        <div className={`text-[9px] font-bold uppercase tracking-wider text-center truncate w-full ${isObtained ? rarityInfo.color : 'text-slate-600'}`}>
+                          {droid.name}
+                        </div>
+                        <div className="text-[7px] text-slate-500 mt-0.5 truncate w-full text-center">
+                          {t(`rarity_${droid.rarity}`)}
+                        </div>
                       </div>
-                    )}
+                    );
+                  });
+                } else {
+                  const items: { droid: Droid; tier: number; isObtained: boolean }[] = [];
+                  
+                  filteredDroidexList.forEach(droid => {
+                    const maxTiers = isIconicDroid(droid) ? 1 : 5;
+                    let hasAnyObtained = false;
+                    for (let t = 1; t <= maxTiers; t++) {
+                      if (isDroidexObtained(droid.name, t)) {
+                        items.push({ droid, tier: t, isObtained: true });
+                        hasAnyObtained = true;
+                      }
+                    }
+                    if (!hasAnyObtained) {
+                      items.push({ droid, tier: 1, isObtained: false });
+                    }
+                  });
 
-                    {/* Image / Silhouette Container */}
-                    <div className="w-10 h-10 flex items-center justify-center mb-1">
-                      {isObtained ? (
-                        <div className="scale-50 opacity-90">
-                          {renderDroidModel(droid, activeDroidexTier)}
-                        </div>
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-slate-900/80 flex items-center justify-center text-slate-500 font-bold">
-                          ?
-                        </div>
-                      )}
-                    </div>
+                  return items.map((item, idx) => {
+                    const { droid, tier, isObtained } = item;
+                    const isSelected = selectedDroidexName === droid.name && activeDroidexTier === tier;
+                    const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
+                    const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-                    {/* Rarity Label */}
-                    <div className={`text-[9px] font-bold uppercase tracking-wider text-center truncate w-full ${isObtained ? rarityInfo.color : 'text-slate-600'}`}>
-                      {droid.name}
-                    </div>
-                    <div className="text-[7px] text-slate-500 mt-0.5 truncate w-full text-center">
-                      {t(`rarity_${droid.rarity}`)}
-                    </div>
-                  </div>
-                );
-              })}
+                    let borderClass = 'border-slate-800 bg-[#0c1628]/35';
+                    if (isObtained) {
+                      switch (tier) {
+                        case 1: borderClass = 'border-slate-450 bg-slate-400/5 hover:bg-slate-400/10'; break;
+                        case 2: borderClass = 'border-yellow-500/40 bg-yellow-500/5 hover:bg-yellow-500/10'; break;
+                        case 3: borderClass = 'border-cyan-500/40 bg-cyan-500/5 hover:bg-cyan-500/10'; break;
+                        case 4: borderClass = 'border-pink-500/40 bg-pink-500/5 hover:bg-pink-500/10'; break;
+                        case 5: borderClass = 'border-purple-500/45 bg-purple-950/10 hover:bg-purple-950/20'; break;
+                      }
+                    }
+
+                    if (isSelected) {
+                      borderClass = 'border-orange-500 bg-[#161a29] ring-2 ring-orange-500/60 ring-offset-2 ring-offset-[#050810]';
+                    }
+
+                    return (
+                      <div
+                        key={`${droid.name}-${tier}-${idx}`}
+                        onClick={() => {
+                          setSelectedDroidexName(droid.name);
+                          setActiveDroidexTier(tier);
+                        }}
+                        className={`p-2 rounded-lg border flex flex-col items-center justify-center relative cursor-pointer select-none transition-all ${borderClass}`}
+                      >
+                        {/* Image / Silhouette Container */}
+                        <div className="w-10 h-10 flex items-center justify-center mb-1">
+                          {isObtained ? (
+                            <div className="scale-50 opacity-90">
+                              {renderDroidModel(droid, tier)}
+                            </div>
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-slate-900/80 flex items-center justify-center text-slate-500 font-bold">
+                              ?
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Rarity Label */}
+                        <div className={`text-[9px] font-bold uppercase tracking-wider text-center truncate w-full ${isObtained ? rarityInfo.color : 'text-slate-600'}`}>
+                          {droid.name}
+                        </div>
+                        <div className="text-[7px] text-slate-500 mt-0.5 truncate w-full text-center">
+                          {isIconicDroid(droid) ? t('type_Iconic') : getLocalizedTierName(tier)}
+                        </div>
+                      </div>
+                    );
+                  });
+                }
+              })()}
             </div>
           </div>
         </div>
@@ -1618,25 +1735,7 @@ export default function App() {
                 >
                   <CheckCircle2 size={14} />
                   <span>{isSelectedObtained ? t('statusFabricado') : t('markFabricado')}</span>
-                </button>
-
-                {!isIconicDroid(selectedDroid) && (
-                  <button
-                    onClick={() => {
-                      const newFlawless = { ...droidexFlawless };
-                      newFlawless[selectedDroid.name] = !isSelectedFlawless;
-                      saveDroidexFlawless(newFlawless);
-                    }}
-                    className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer border shadow-sm ${
-                      isSelectedFlawless
-                        ? 'bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 border-transparent text-slate-950 font-extrabold'
-                        : 'bg-[#050810]/40 border-slate-800 hover:border-slate-700 text-[#94a3b8] hover:text-white'
-                    }`}
-                  >
-                    <Sparkle size={14} fill={isSelectedFlawless ? 'currentColor' : 'none'} />
-                    <span>{isSelectedFlawless ? 'Flawless!' : 'Marcar como Flawless'}</span>
-                  </button>
-                )}
+                </button>                
               </div>
             </div>
 
