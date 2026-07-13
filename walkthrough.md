@@ -32,8 +32,27 @@ Ahora coinciden de forma exacta con la planilla oficial de referencia (`A43, A44
 
 ---
 
+## Nuevos Cambios: Desactivación Independiente y por Tiers en Droidex
+
+He implementado la posibilidad de desactivar (marcar como pendientes) los droides y sus niveles (tiers) directamente desde la sección Droidex de forma independiente al Rebirth tracker y sin cascada entre tiers.
+
+1. **Independencia de Estados (Tracker vs. Droidex):**
+   * El **Droidex** ahora funciona de manera totalmente independiente del Rebirth tracker. La lista de droids fabricados en Droidex se mantiene persistente en el dispositivo incluso tras reiniciar la progresión (`Reiniciar` o `Super Rebirth`).
+   * No se sincroniza el estado entre ambos componentes, evitando que un reset del ciclo borre tus droides de la enciclopedia.
+
+2. **Independencia de Tiers (Sin efectos en cascada):**
+   * Cada tier de un droide en Droidex se marca o desmarca de manera individual y 100% independiente. Por ejemplo, es posible marcar los tiers *Base* y *Diamante* de un droide como "Fabricados" sin que se marque automáticamente el tier *Oro*.
+   * La acción de desmarcar ("Marcar Pendiente") solo afectará al tier seleccionado, sin alterar los demás estados del droide.
+
+3. **Efecto Visual de Hover e Interacción:**
+   * Cuando un droide está marcado como "Fabricado", al pasar el cursor (hover) por encima del botón verde, el botón cambia de color a rojo (`hover:bg-red-600`) y su texto se actualiza de manera dinámica a **"Marcar Pendiente"** (o *"Mark Pending"* en inglés).
+   * Esto proporciona un feedback visual instantáneo e intuitivo para corregir cualquier activación accidental.
+
+---
+
 ## Verificación
 
-1.  **Compilación y Construcción:** Exitosa y limpia (`npm run build` completado en 939ms).
+1.  **Compilación y Construcción:** Exitosa y limpia.
 2.  **Validación de Datos:** Los droids y niveles corresponden exactamente a las filas de la hoja de cálculo de Google Sheets aportada por el usuario.
-3.  **Publicación:** Compilado exitosamente para la producción.
+3.  **Independencia de Estado:** Probada y validada; los droids y tiers en Droidex se guardan y desactivan independientemente, sin sincronización en cascada ni afectación por resets del tracker.
+

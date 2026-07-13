@@ -385,6 +385,7 @@ export default function App() {
   const [crystalsInputValue, setCrystalsInputValue] = useState<string>('0');
   const [trackerSearch, setTrackerSearch] = useState<string>('');
   const [droidexSearch, setDroidexSearch] = useState<string>('');
+  const [isToggleHovered, setIsToggleHovered] = useState<boolean>(false);
 
 
   // Scroll slider to active rebirth level
@@ -568,12 +569,6 @@ export default function App() {
 
   const handleClearDroid = (droidName: string) => {
     saveProgress({ ...progress, [droidName]: 0 });
-    // Also sync Droidex obtained state by clearing it
-    const newObtained = { ...droidexObtained };
-    if (newObtained[droidName]) {
-      newObtained[droidName] = { 1: false, 2: false, 3: false, 4: false, 5: false };
-      saveDroidexObtained(newObtained);
-    }
   };
 
   const isDroidexObtained = (droidName: string, tierLevel: number): boolean => {
@@ -581,8 +576,6 @@ export default function App() {
     if (droid?.rarity === 'ICONICO') {
       return !!droidexObtained[droidName]?.[1];
     }
-    const trackerLevel = progress[droidName] || 0;
-    if (trackerLevel >= tierLevel) return true;
     return !!droidexObtained[droidName]?.[tierLevel];
   };
 
@@ -600,19 +593,7 @@ export default function App() {
     };
     saveDroidexObtained(newDroidexObtained);
 
-    // Sync with tracker progress if standard droid
-    if (!isIconic) {
-      let maxObtainedTier = 0;
-      for (let t = 1; t <= 5; t++) {
-        if (currentObtained[t] || (t === actualTier ? isObtained : false)) {
-          maxObtainedTier = t;
-        }
-      }
-      
-      const newProgress = { ...progress };
-      newProgress[droidName] = maxObtainedTier;
-      saveProgress(newProgress);
-    } else {
+    if (isIconic) {
       // Sync with iconic upgrades in Nova Shop
       const shopUpgradeId = `iconic_${droidName.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
       const upgradeExists = novaUpgradesList.some(up => up.id === shopUpgradeId);
@@ -1609,15 +1590,12 @@ export default function App() {
                   
                   filteredDroidexList.forEach(droid => {
                     const maxTiers = isIconicDroid(droid) ? 1 : 5;
-                    let hasAnyObtained = false;
                     for (let t = 1; t <= maxTiers; t++) {
-                      if (isDroidexObtained(droid.name, t)) {
-                        items.push({ droid, tier: t, isObtained: true });
-                        hasAnyObtained = true;
-                      }
-                    }
-                    if (!hasAnyObtained) {
-                      items.push({ droid, tier: 1, isObtained: false });
+                      items.push({ 
+                        droid, 
+                        tier: t, 
+                        isObtained: isDroidexObtained(droid.name, t) 
+                      });
                     }
                   });
 
@@ -1726,15 +1704,24 @@ export default function App() {
               {/* Status Toggle Area */}
               <div className="space-y-2 pt-1">
                 <button
-                  onClick={() => setDroidexObtainedState(selectedDroid.name, activeDroidexTier, !isSelectedObtained)}
+                  onMouseEnter={() => setIsToggleHovered(true)}
+                  onMouseLeave={() => setIsToggleHovered(false)}
+                  onClick={() => {
+                    setDroidexObtainedState(selectedDroid.name, activeDroidexTier, !isSelectedObtained);
+                    setIsToggleHovered(false);
+                  }}
                   className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm ${
                     isSelectedObtained
-                      ? 'bg-green-600 hover:bg-green-500 text-white font-extrabold'
+                      ? 'bg-green-600 hover:bg-red-600 text-white font-extrabold'
                       : 'bg-slate-800 hover:bg-slate-700 text-[#94a3b8] hover:text-white'
                   }`}
                 >
                   <CheckCircle2 size={14} />
-                  <span>{isSelectedObtained ? t('statusFabricado') : t('markFabricado')}</span>
+                  <span>
+                    {isSelectedObtained
+                      ? (isToggleHovered ? t('markPendiente') : t('statusFabricado'))
+                      : t('markFabricado')}
+                  </span>
                 </button>                
               </div>
             </div>
