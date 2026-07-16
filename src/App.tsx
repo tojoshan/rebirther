@@ -1009,7 +1009,14 @@ export default function App() {
       }
     })
     .filter(droid => droid.name.toLowerCase().includes(droidexSearch.toLowerCase()))
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      const isObtainedA = isDroidexObtained(a.name, activeDroidexTier);
+      const isObtainedB = isDroidexObtained(b.name, activeDroidexTier);
+      if (isObtainedA !== isObtainedB) {
+        return isObtainedA ? 1 : -1;
+      }
+      return a.name.localeCompare(b.name);
+    });
 
   const selectedDroid = droidsData.find(d => d.name === selectedDroidexName) || droidsData[0];
   const isSelectedObtained = isDroidexObtained(selectedDroid.name, activeDroidexTier);
@@ -1597,6 +1604,15 @@ export default function App() {
                         isObtained: isDroidexObtained(droid.name, t) 
                       });
                     }
+                  });
+
+                  items.sort((a, b) => {
+                    if (a.isObtained !== b.isObtained) {
+                      return a.isObtained ? 1 : -1;
+                    }
+                    const nameComp = a.droid.name.localeCompare(b.droid.name);
+                    if (nameComp !== 0) return nameComp;
+                    return a.tier - b.tier;
                   });
 
                   return items.map((item, idx) => {
