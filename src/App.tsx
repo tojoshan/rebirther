@@ -444,6 +444,13 @@ export default function App() {
 
   const formatCredits = (creditsStr: string) => {
     if (language === 'en') return creditsStr;
+    if (language === 'pt') {
+      return creditsStr
+        .replace('Credits', 'Créditos')
+        .replace('Million', 'Milhões de')
+        .replace('Billion', 'Bilhões de')
+        .replace('Trillion', 'Trilhões de');
+    }
     return creditsStr
       .replace('Credits', 'Créditos')
       .replace('Million', 'Millones de')
@@ -469,11 +476,11 @@ export default function App() {
       setCurrentCycle(parseInt(savedCycle, 10) || 3);
     }
     const savedLanguage = localStorage.getItem('droid_tycoon_language');
-    if (savedLanguage === 'es' || savedLanguage === 'en') {
+    if (savedLanguage === 'es' || savedLanguage === 'en' || savedLanguage === 'pt') {
       setLanguage(savedLanguage);
     } else {
       const browserLang = navigator.language.split('-')[0];
-      if (browserLang === 'es' || browserLang === 'en') {
+      if (browserLang === 'es' || browserLang === 'en' || browserLang === 'pt') {
         setLanguage(browserLang);
       } else {
         setLanguage('es');
@@ -882,6 +889,17 @@ export default function App() {
           case 'C-3PO': return 'Habilidad: Multiplicador de XP aumentado en toda la fábrica y +15% de ingresos.';
           default: return 'Habilidad Icónica especial.';
         }
+      } else if (language === 'pt') {
+        switch (droid.name) {
+          case 'BB8': return 'Habilidade: Dobro de chips de melhoria e +15% de renda.';
+          case 'CB-23': return 'Habilidade: Desbloqueia missões astromecânicas secretas e +15% de renda.';
+          case 'DJ R-3X': return 'Habilidade: Conclui missões mundiais independentemente do tipo e +15% de renda.';
+          case 'IG-11 Marshal': return 'Habilidade: Escudo de invulnerabilidade ao comprar projetos e +15% de renda.';
+          case 'Mister Bones': return 'Habilidade: Dobro de dano para combatentes e +15% de renda.';
+          case 'R2-D2': return 'Habilidade: +15% de renda de Créditos por segundo.';
+          case 'C-3PO': return 'Habilidade: Multiplicador de XP aumentado em toda a fábrica e +15% de renda.';
+          default: return 'Habilidade Icônica especial.';
+        }
       } else {
         switch (droid.name) {
           case 'BB8': return 'Ability: Double amount of upgrade chips and +15% income.';
@@ -917,11 +935,17 @@ export default function App() {
     const value = Math.round(tierBase * rarityMult);
 
     if (droid.type === 'PELEA') {
-      return language === 'es' ? `+${value} de Vida máxima` : `+${value} Max Health`;
+      if (language === 'es') return `+${value} de Vida máxima`;
+      if (language === 'pt') return `+${value} de Vida máxima`;
+      return `+${value} Max Health`;
     } else if (droid.type === 'ASTRO') {
-      return language === 'es' ? `+${value}% de Créditos` : `+${value}% Credits`;
+      if (language === 'es') return `+${value}% de Créditos`;
+      if (language === 'pt') return `+${value}% de Créditos`;
+      return `+${value}% Credits`;
     } else {
-      return language === 'es' ? `+${value}% de Vel. de Trabajo` : `+${value}% Work Speed`;
+      if (language === 'es') return `+${value}% de Vel. de Trabajo`;
+      if (language === 'pt') return `+${value}% de Vel. de Trabalho`;
+      return `+${value}% Work Speed`;
     }
   };
 
@@ -936,6 +960,17 @@ export default function App() {
         case 'R2-D2': return 'Habilidad: +15% de ingresos de Créditos por segundo.';
         case 'C-3PO': return 'Habilidad: Multiplicador de XP aumentado en toda la fábrica y +15% de ingresos.';
         default: return 'Droide icónico especial.';
+      }
+    } else if (language === 'pt') {
+      switch (name) {
+        case 'BB8': return 'Habilidade: Dobro de chips de melhoria e +15% de renda.';
+        case 'CB-23': return 'Habilidade: Desbloqueia missões astromecânicas secretas e +15% de renda.';
+        case 'DJ R-3X': return 'Habilidade: Conclui missões mundiais independentemente do tipo e +15% de renda.';
+        case 'IG-11 Marshal': return 'Habilidade: Escudo de invulnerabilidade ao comprar projetos e +15% de renda.';
+        case 'Mister Bones': return 'Habilidade: Dobro de dano para combatentes e +15% de renda.';
+        case 'R2-D2': return 'Habilidade: +15% de renda de Créditos por segundo.';
+        case 'C-3PO': return 'Habilidade: Multiplicador de XP aumentado em toda a fábrica e +15% de renda.';
+        default: return 'Droide icônico especial.';
       }
     } else {
       switch (name) {
@@ -1119,6 +1154,7 @@ export default function App() {
                 >
                   <option value="es" className="bg-[#0c1628] text-white">ES</option>
                   <option value="en" className="bg-[#0c1628] text-white">EN</option>
+                  <option value="pt" className="bg-[#0c1628] text-white">PT</option>
                 </select>
               </div>
 
