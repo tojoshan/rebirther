@@ -51,7 +51,7 @@ interface RebirthRequirement {
   credits: string;
   droids: {
     name: string;
-    tier: number; // 1: Base, 2: Gold, 3: Diamond, 4: Rainbow, 5: Beskar
+    tier: number; // 1: Base, 2: Gold, 3: Diamond, 4: Rainbow, 5: Beskar, 6: Galactic
   }[];
 }
 
@@ -278,7 +278,8 @@ const tiersConfig = [
   { level: 2, label: 'Oro', short: 'ORO' },
   { level: 3, label: 'Diamante', short: 'DIA' },
   { level: 4, label: 'Arcoíris', short: 'ARC' },
-  { level: 5, label: 'Beskar', short: 'BES' }
+  { level: 5, label: 'Beskar', short: 'BES' },
+  { level: 6, label: 'Galáctico', short: 'GAL' }
 ];
 
 const getTierName = (tier: number) => {
@@ -288,6 +289,7 @@ const getTierName = (tier: number) => {
     case 3: return 'Diamante';
     case 4: return 'Arcoíris';
     case 5: return 'Beskar';
+    case 6: return 'Galáctico';
     default: return 'Ninguno';
   }
 };
@@ -299,6 +301,7 @@ const getTierColor = (tier: number) => {
     case 3: return 'text-cyan-400 border-cyan-500/30 bg-cyan-500/5';
     case 4: return 'text-pink-400 border-pink-500/30 bg-pink-500/5';
     case 5: return 'text-purple-300 border-purple-500/40 bg-purple-950/20';
+    case 6: return 'text-indigo-400 border-indigo-500/40 bg-indigo-950/20';
     default: return 'text-gray-500 border-transparent';
   }
 };
@@ -430,6 +433,7 @@ export default function App() {
       case 3: return t('tierName_3');
       case 4: return t('tierName_4');
       case 5: return t('tierName_5');
+      case 6: return t('tierName_6');
       default: return t('tierName_Ninguno');
     }
   };
@@ -439,7 +443,8 @@ export default function App() {
     { level: 2, label: t('tierName_2'), short: t('tierShort_2') },
     { level: 3, label: t('tierName_3'), short: t('tierShort_3') },
     { level: 4, label: t('tierName_4'), short: t('tierShort_4') },
-    { level: 5, label: t('tierName_5'), short: t('tierShort_5') }
+    { level: 5, label: t('tierName_5'), short: t('tierShort_5') },
+    { level: 6, label: t('tierName_6'), short: t('tierShort_6') }
   ];
 
   const formatCredits = (creditsStr: string) => {
@@ -812,8 +817,22 @@ export default function App() {
     };
   });
 
+  const statusPriority: Record<string, number> = {
+    immediate: 1,
+    needed: 2,
+    completed: 3,
+    discarded: 4
+  };
+
   const sortedDroids = [...classifiedDroids]
-    .sort((a, b) => a.name.localeCompare(b.name))
+    .sort((a, b) => {
+      const priorityA = statusPriority[a.status] || 99;
+      const priorityB = statusPriority[b.status] || 99;
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+      return a.name.localeCompare(b.name);
+    })
     .filter(droid => droid.name.toLowerCase().includes(trackerSearch.toLowerCase()));
 
   const requiredDroids = sortedDroids.filter(d => d.status !== 'discarded');
@@ -824,7 +843,7 @@ export default function App() {
     let obtainedCount = 0;
     droidsData.forEach(droid => {
       if (droid.rarity !== 'ICONICO') {
-        for (let t = 1; t <= 5; t++) {
+        for (let t = 1; t <= 6; t++) {
           if (isDroidexObtained(droid.name, t)) {
             obtainedCount++;
           }
@@ -841,7 +860,7 @@ export default function App() {
 
     return {
       obtainedCount,
-      totalCount: 317,
+      totalCount: 379,
       flawlessCount,
       totalFlawless: 62,
       creditMultiplier
@@ -859,7 +878,7 @@ export default function App() {
       { droids: 200, multiplier: 150 },
       { droids: 250, multiplier: 200 },
       { droids: 300, multiplier: 250 },
-      { droids: 317, multiplier: 300 }
+      { droids: 379, multiplier: 300 }
     ];
 
     const currentMilestone = milestones.find(m => obtainedCount < m.droids) || milestones[milestones.length - 1];
@@ -870,7 +889,7 @@ export default function App() {
       multiplier: currentMilestone.multiplier,
       progress: obtainedCount,
       percent: Math.min(100, (obtainedCount / currentMilestone.droids) * 100),
-      isMax: obtainedCount === 317
+      isMax: obtainedCount === 379
     };
   };
 
@@ -1392,7 +1411,7 @@ export default function App() {
                       </span>
                     </div>
 
-                    {/* Fila 3: Selector de los 5 Niveles (Cómodo para dedos) */}
+                    {/* Fila 3: Selector de los 6 Niveles (Cómodo para dedos) */}
                     <div className="flex w-full h-8 shadow-sm">
                       {localizedTiersConfig.map(tier => {
                         const isActive = tier.level <= droid.achieved;
@@ -1408,6 +1427,7 @@ export default function App() {
                             case 3: baseClasses += "bg-cyan-500 text-slate-950 font-extrabold"; break;
                             case 4: baseClasses += "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold"; break;
                             case 5: baseClasses += "bg-purple-900 border-t-purple-400 text-purple-100 shadow-inner"; break;
+                            case 6: baseClasses += "bg-gradient-to-r from-indigo-900 via-blue-900 to-indigo-950 border-t-indigo-400 text-indigo-100 shadow-inner"; break;
                           }
                         }
 
@@ -1632,7 +1652,7 @@ export default function App() {
                   const items: { droid: Droid; tier: number; isObtained: boolean }[] = [];
                   
                   filteredDroidexList.forEach(droid => {
-                    const maxTiers = isIconicDroid(droid) ? 1 : 5;
+                    const maxTiers = isIconicDroid(droid) ? 1 : 6;
                     for (let t = 1; t <= maxTiers; t++) {
                       items.push({ 
                         droid, 

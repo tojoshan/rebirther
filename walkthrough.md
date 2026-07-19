@@ -54,5 +54,42 @@ He implementado la posibilidad de desactivar (marcar como pendientes) los droide
 
 1.  **Compilación y Construcción:** Exitosa y limpia.
 2.  **Validación de Datos:** Los droids y niveles corresponden exactamente a las filas de la hoja de cálculo de Google Sheets aportada por el usuario.
-3.  **Independencia de Estado:** Probada y validada; los droids y tiers en Droidex se guardan y desactivan independientemente, sin sincronización en cascada ni afectación por resets del tracker.
+3. **Independencia de Estado:** Probada y validada; los droids y tiers en Droidex se guardan y desactivan independientemente, sin sincronización en cascada ni afectación por resets del tracker.
+
+---
+
+## Nuevos Cambios: Orden de Droides por Urgencia en el Rebirth Tracker
+
+He implementado una lógica de ordenamiento por urgencia para los droides del "Rebirth Tracker" para que los requeridos aparezcan al inicio de la lista, facilitando enormemente la jugabilidad.
+
+1. **Orden de Prioridad por Estado:**
+   * **Inmediatos Primero (`immediate`):** Los droides que se requieren para tu siguiente nivel de Rebirth inmediato (R-$N+1$) y que aún no alcanzan el nivel objetivo aparecen arriba de todo con prioridad absoluta.
+   * **Necesarios a Futuro (`needed`):** Los droides que son requeridos para niveles más adelante en la progresión.
+   * **Completados (`completed`):** Los droides que ya han alcanzado el nivel máximo requerido por la guía.
+   * **No Requeridos (`discarded`):** Quedan relegados a la sección inferior de "No requeridos".
+
+2. **Criterio Secundario (Alfabético):**
+   * Dentro de cada uno de los grupos anteriores, los droides se siguen ordenando de manera alfabética (`A-Z`) para mantener la coherencia y facilitar la búsqueda manual rápida.
+
+3. **Textos Informativos:**
+   * Se actualizaron las traducciones del footer (`droidsOrderFooter`) en español, inglés y portugués para reflejar con precisión este nuevo comportamiento de ordenamiento por urgencia.
+
+---
+
+## Nuevos Cambios: Integración de la Nueva Rareza/Tier "Galáctico" (GAL)
+
+He añadido soporte completo para el nuevo nivel de mejora de droides: **Galáctico** (abreviatura: **GAL**), el cual se posiciona justo después del tier *Beskar* (nivel 6).
+
+1. **Configuración y Traducción del Tier:**
+   * Se agregó `"tierShort_6": "GAL"` y `"tierName_6": "Galáctico"` / `"Galactic"` en [translations.json](file:///c:/laragon/www/droidex/src/translations.json) en español, inglés y portugués.
+   * Se registró el nivel 6 en la constante global de configuración `tiersConfig` y la versión localizada `localizedTiersConfig`.
+   * Se implementó el color del badge en `getTierColor` usando un color índigo/azul espacial (`text-indigo-400 border-indigo-500/40 bg-indigo-950/20`).
+
+2. **Soporte en Rebirth Tracker:**
+   * El selector rápido de niveles en las tarjetas de droides en el tracker ahora despliega **6 niveles**, con el sexto botón (`GAL`) estilizado con un degradado índigo-azul oscuro (`bg-gradient-to-r from-indigo-900 via-blue-900 to-indigo-950 border-t-indigo-400 text-indigo-100`).
+
+3. **Ampliación en Droidex:**
+   * El límite de droids de Droidex fue incrementado a 6 tiers para droides no icónicos.
+   * El total de fabricados posibles pasó de `317` a `379` (`62 droids * 6 tiers + 7 droids icónicos`).
+   * Se ajustó el loop de estadísticas, el listado general filtrado y los hitos del multiplicador de créditos para soportar la meta de `379`.
 
