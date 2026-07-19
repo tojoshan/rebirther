@@ -60,19 +60,15 @@ He implementado la posibilidad de desactivar (marcar como pendientes) los droide
 
 ## Nuevos Cambios: Orden de Droides por Urgencia en el Rebirth Tracker
 
-He implementado una lógica de ordenamiento por urgencia para los droides del "Rebirth Tracker" para que los requeridos aparezcan al inicio de la lista, facilitando enormemente la jugabilidad.
+He implementado una lógica de ordenamiento para los droides del "Rebirth Tracker" para que los 3 requeridos para el nivel de Rebirth actual aparezcan al inicio del listado y el resto mantenga su orden alfabético original.
 
 1. **Orden de Prioridad por Estado:**
-   * **Inmediatos Primero (`immediate`):** Los droides que se requieren para tu siguiente nivel de Rebirth inmediato (R-$N+1$) y que aún no alcanzan el nivel objetivo aparecen arriba de todo con prioridad absoluta.
-   * **Necesarios a Futuro (`needed`):** Los droides que son requeridos para niveles más adelante en la progresión.
-   * **Completados (`completed`):** Los droides que ya han alcanzado el nivel máximo requerido por la guía.
-   * **No Requeridos (`discarded`):** Quedan relegados a la sección inferior de "No requeridos".
+   * **Nivel Actual Primero:** Los 3 droides necesarios para alcanzar tu siguiente nivel de Rebirth inmediato ($currentRebirth + 1$) aparecen siempre arriba de todo, sin importar si ya están completados o pendientes.
+   * **Resto Alfabético:** Todos los demás droides requeridos se muestran a continuación ordenados alfabéticamente (independientemente de si son de niveles futuros o ya están completados).
+   * **No Requeridos:** Los droides no necesarios en absoluto se muestran en la sección inferior, ordenados alfabéticamente por nombre.
 
-2. **Criterio Secundario (Alfabético):**
-   * Dentro de cada uno de los grupos anteriores, los droides se siguen ordenando de manera alfabética (`A-Z`) para mantener la coherencia y facilitar la búsqueda manual rápida.
-
-3. **Textos Informativos:**
-   * Se actualizaron las traducciones del footer (`droidsOrderFooter`) en español, inglés y portugués para reflejar con precisión este nuevo comportamiento de ordenamiento por urgencia.
+2. **Textos Informativos:**
+   * Se actualizaron las traducciones del footer (`droidsOrderFooter`) en español, inglés y portugués para reflejar con precisión este comportamiento ("Los droides del nivel actual aparecen primero, el resto se ordena alfabéticamente.").
 
 ---
 

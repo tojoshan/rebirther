@@ -817,20 +817,29 @@ export default function App() {
     };
   });
 
-  const statusPriority: Record<string, number> = {
-    immediate: 1,
-    needed: 2,
-    completed: 3,
-    discarded: 4
+  const isNeededForCurrentRebirth = (droidName: string): boolean => {
+    const nextLevel = currentRebirth + 1;
+    const nextReq = rebirthRequirements.find(req => req.level === nextLevel);
+    if (!nextReq) return false;
+    return nextReq.droids.some(dr => dr.name.toLowerCase() === droidName.toLowerCase());
   };
 
   const sortedDroids = [...classifiedDroids]
     .sort((a, b) => {
-      const priorityA = statusPriority[a.status] || 99;
-      const priorityB = statusPriority[b.status] || 99;
-      if (priorityA !== priorityB) {
-        return priorityA - priorityB;
+      const isDiscardedA = a.status === 'discarded';
+      const isDiscardedB = b.status === 'discarded';
+      if (isDiscardedA !== isDiscardedB) {
+        return isDiscardedA ? 1 : -1;
       }
+
+      if (!isDiscardedA) {
+        const isCurrentA = isNeededForCurrentRebirth(a.name);
+        const isCurrentB = isNeededForCurrentRebirth(b.name);
+        if (isCurrentA !== isCurrentB) {
+          return isCurrentA ? -1 : 1;
+        }
+      }
+
       return a.name.localeCompare(b.name);
     })
     .filter(droid => droid.name.toLowerCase().includes(trackerSearch.toLowerCase()));
