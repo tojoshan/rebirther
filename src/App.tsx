@@ -1278,7 +1278,7 @@ export default function App() {
                           className={`px-2 py-1 rounded text-xs border flex items-center gap-1.5 ${
                             isMet 
                               ? 'bg-green-950/20 border-green-900/35 text-green-400 font-bold' 
-                              : 'bg-slate-900 border-slate-800 text-slate-350'
+                              : 'bg-slate-900 border-slate-800 text-slate-300'
                           }`}
                         >
                           <span>{reqDroid.name}:</span>
@@ -1480,11 +1480,11 @@ export default function App() {
                   let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 flex items-center ";
 
                   if (inCycle) {
-                    cardClass += "bg-[#1c1214]/35 border-red-900/20";
-                    titleClass += hasProgress ? "text-red-400 font-extrabold" : "text-red-500/35 line-through";
+                    cardClass += "bg-[#1c1214]/65 border-red-900/35 hover:border-red-800/50";
+                    titleClass += hasProgress ? "text-red-400 font-extrabold" : "text-red-300/85 line-through font-semibold";
                   } else {
-                    cardClass += "bg-[#120e10]/35 border-institutional-border/15";
-                    titleClass += hasProgress ? "text-slate-400 font-bold" : "text-slate-500/30 line-through";
+                    cardClass += "bg-[#0c1628]/50 border-slate-800/70 hover:border-slate-700";
+                    titleClass += hasProgress ? "text-slate-200 font-bold" : "text-slate-300/80 line-through font-medium";
                   }
 
                   return (
