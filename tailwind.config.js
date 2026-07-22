@@ -13,7 +13,7 @@ export default {
           dark: '#0a101d',
           darker: '#050810',
           light: '#f0f5ff',
-          border: '#1e2d4a',
+          border: '#e2e8f0',
         }
       },
       fontFamily: {

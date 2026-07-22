@@ -153,125 +153,163 @@ const droidsData: Droid[] = [
   { name: "KX", maxReq: 1, type: "PELEA", rarity: "MITICO" }
 ];
 
+const srRewardsTable: Record<number, { crystals: number; creditMult: string; xpMult: string }> = {
+  12: { crystals: 11, creditMult: '22%', xpMult: '110%' },
+  13: { crystals: 16, creditMult: '32%', xpMult: '160%' },
+  14: { crystals: 22, creditMult: '44%', xpMult: '220%' },
+  15: { crystals: 29, creditMult: '58%', xpMult: '290%' },
+  16: { crystals: 37, creditMult: '74%', xpMult: '370%' },
+  17: { crystals: 46, creditMult: '92%', xpMult: '460%' },
+  18: { crystals: 56, creditMult: '112%', xpMult: '560%' },
+  19: { crystals: 67, creditMult: '134%', xpMult: '670%' },
+  20: { crystals: 79, creditMult: '158%', xpMult: '790%' },
+  21: { crystals: 92, creditMult: '184%', xpMult: '920%' },
+  22: { crystals: 106, creditMult: '212%', xpMult: '1060%' },
+  23: { crystals: 121, creditMult: '242%', xpMult: '1210%' },
+  24: { crystals: 137, creditMult: '274%', xpMult: '1370%' },
+  25: { crystals: 154, creditMult: '308%', xpMult: '1540%' },
+  26: { crystals: 172, creditMult: '344%', xpMult: '1720%' },
+  27: { crystals: 191, creditMult: '382%', xpMult: '1910%' },
+  28: { crystals: 221, creditMult: '422%', xpMult: '2110%' },
+  29: { crystals: 232, creditMult: '464%', xpMult: '2320%' },
+  30: { crystals: 254, creditMult: '508%', xpMult: '2540%' },
+};
+
+const getNovaCrystals = (level: number): number => {
+  return srRewardsTable[level]?.crystals || 0;
+};
+
 const rebirthRequirementsCycle1: RebirthRequirement[] = [
-  { level: 1, credits: "10,000 Credits", droids: [{ name: "CB", tier: 1 }, { name: "DRK-1 Probe", tier: 1 }, { name: "Pit", tier: 1 }] },
-  { level: 2, credits: "150,000 Credits", droids: [{ name: "2BB", tier: 1 }, { name: "Bal-Core", tier: 1 }, { name: "BDX Explorer", tier: 1 }] },
-  { level: 3, credits: "975,000 Credits", droids: [{ name: "A-LT", tier: 1 }, { name: "BU-4D", tier: 1 }, { name: "R9", tier: 2 }] },
-  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "ARG", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "Groundmech", tier: 1 }] },
-  { level: 5, credits: "5.35 Million Credits", droids: [{ name: "BU-4D", tier: 2 }, { name: "HOV-R", tier: 2 }, { name: "R9", tier: 3 }] },
-  { level: 6, credits: "9.85 Million Credits", droids: [{ name: "A-LT", tier: 3 }, { name: "ARG", tier: 3 }, { name: "Groundmech", tier: 2 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "B1 Security", tier: 3 }, { name: "BB", tier: 2 }, { name: "BU-4D", tier: 3 }] },
-  { level: 8, credits: "36 Million Credits", droids: [{ name: "HOV-R", tier: 3 }, { name: "LO", tier: 2 }, { name: "Util-Tec", tier: 2 }] },
-  { level: 9, credits: "89 Million Credits", droids: [{ name: "Groundmech", tier: 4 }, { name: "R6", tier: 2 }, { name: "Trak-R", tier: 2 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "Haul-R", tier: 4 }, { name: "LO", tier: 4 }, { name: "Strike-Orb", tier: 2 }] },
-  { level: 11, credits: "550 Million Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B1 Heavy", tier: 4 }, { name: "BB-9", tier: 1 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 1 }, { name: "MONO-WLKR", tier: 1 }, { name: "Proto-Roller", tier: 2 }] },
-  { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2-RP", tier: 1 }, { name: "Cyclo-Grav", tier: 1 }, { name: "R7", tier: 1 }] },
-  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 2 }, { name: "MONO-WLKR", tier: 2 }, { name: "Opti-STRK", tier: 1 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB-9", tier: 2 }, { name: "R7", tier: 2 }] },
-  { level: 16, credits: "52 Billion Credits", droids: [{ name: "MONO-WLKR", tier: 3 }, { name: "Opti-STRK", tier: 2 }, { name: "Proto-Roller", tier: 3 }] },
-  { level: 17, credits: "130 Billion Credits", droids: [{ name: "B2-RP", tier: 3 }, { name: "Cyclo-Grav", tier: 3 }, { name: "Mecha-Droid", tier: 3 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "BB-9", tier: 3 }, { name: "MONO-WLKR", tier: 4 }, { name: "R7", tier: 3 }] },
-  { level: 19, credits: "810 Billion Credits", droids: [{ name: "B2-RP", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "Proto-Roller", tier: 4 }] },
-  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "Mecha-Droid", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "R7", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "BB", tier: 5 }, { name: "Groundmech", tier: 5 }, { name: "Orb-Walker", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "AMP Walker", tier: 5 }, { name: "B1 Heavy", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "Opti-STRK", tier: 5 }, { name: "R7", tier: 5 }] },
-  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "BB-9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "MO-TRAK", tier: 1 }] },
-  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "IG", tier: 1 }, { name: "DRFT-R", tier: 2 }] },
-  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "CYCLENS", tier: 2 }, { name: "LOADLIFTER", tier: 3 }, { name: "RIC-1200", tier: 4 }] },
-  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "KX", tier: 3 }, { name: "TRI-TEK", tier: 4 }, { name: "SNOW MOUSE", tier: 5 }] }
+  { level: 1, credits: "10 K", droids: [{ name: "CB", tier: 1 }, { name: "DRK-1 Probe", tier: 1 }, { name: "Pit", tier: 1 }] },
+  { level: 2, credits: "150 K", droids: [{ name: "2BB", tier: 1 }, { name: "Bal-Core", tier: 1 }, { name: "BDX Explorer", tier: 1 }] },
+  { level: 3, credits: "975 K", droids: [{ name: "A-LT", tier: 1 }, { name: "BU-4D", tier: 1 }, { name: "R9", tier: 2 }] },
+  { level: 4, credits: "2.95 M", droids: [{ name: "ARG", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "Groundmech", tier: 1 }] },
+  { level: 5, credits: "5.35 M", droids: [{ name: "BU-4D", tier: 2 }, { name: "HOV-R", tier: 2 }, { name: "R9", tier: 3 }] },
+  { level: 6, credits: "9.85 M", droids: [{ name: "A-LT", tier: 3 }, { name: "ARG", tier: 3 }, { name: "Groundmech", tier: 2 }] },
+  { level: 7, credits: "14.5 M", droids: [{ name: "B1 Security", tier: 3 }, { name: "BB", tier: 2 }, { name: "BU-4D", tier: 3 }] },
+  { level: 8, credits: "36 M", droids: [{ name: "HOV-R", tier: 3 }, { name: "LO", tier: 2 }, { name: "Util-Tec", tier: 2 }] },
+  { level: 9, credits: "89 M", droids: [{ name: "Groundmech", tier: 4 }, { name: "R6", tier: 2 }, { name: "Trak-R", tier: 2 }] },
+  { level: 10, credits: "220 M", droids: [{ name: "Haul-R", tier: 4 }, { name: "LO", tier: 4 }, { name: "Strike-Orb", tier: 2 }] },
+  { level: 11, credits: "550 M", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B1 Heavy", tier: 4 }, { name: "BB-9", tier: 1 }] },
+  { level: 12, credits: "1.36 B", droids: [{ name: "Mecha-Droid", tier: 1 }, { name: "MONO-WLKR", tier: 1 }, { name: "Proto-Roller", tier: 2 }] },
+  { level: 13, credits: "3.4 B", droids: [{ name: "B2-RP", tier: 1 }, { name: "Cyclo-Grav", tier: 1 }, { name: "R7", tier: 1 }] },
+  { level: 14, credits: "8.45 B", droids: [{ name: "Mecha-Droid", tier: 2 }, { name: "MONO-WLKR", tier: 2 }, { name: "Opti-STRK", tier: 1 }] },
+  { level: 15, credits: "21 B", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB-9", tier: 2 }, { name: "R7", tier: 2 }] },
+  { level: 16, credits: "52 B", droids: [{ name: "MONO-WLKR", tier: 3 }, { name: "Opti-STRK", tier: 2 }, { name: "Proto-Roller", tier: 3 }] },
+  { level: 17, credits: "130 B", droids: [{ name: "B2-RP", tier: 3 }, { name: "Cyclo-Grav", tier: 3 }, { name: "Mecha-Droid", tier: 3 }] },
+  { level: 18, credits: "325 B", droids: [{ name: "BB-9", tier: 3 }, { name: "MONO-WLKR", tier: 4 }, { name: "R7", tier: 3 }] },
+  { level: 19, credits: "810 B", droids: [{ name: "B2-RP", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "Proto-Roller", tier: 4 }] },
+  { level: 20, credits: "2 T", droids: [{ name: "Mecha-Droid", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "R7", tier: 4 }] },
+  { level: 21, credits: "3 T", droids: [{ name: "BB", tier: 5 }, { name: "Groundmech", tier: 5 }, { name: "Orb-Walker", tier: 5 }] },
+  { level: 22, credits: "4.5 T", droids: [{ name: "AMP Walker", tier: 5 }, { name: "B1 Heavy", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 23, credits: "6 T", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "Opti-STRK", tier: 5 }, { name: "R7", tier: 5 }] },
+  { level: 24, credits: "9 T", droids: [{ name: "BB-9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "MO-TRAK", tier: 1 }] },
+  { level: 25, credits: "13.5 T", droids: [{ name: "B2-RP", tier: 5 }, { name: "IG", tier: 1 }, { name: "DRFT-R", tier: 2 }] },
+  { level: 26, credits: "21 T", droids: [{ name: "CYCLENS", tier: 2 }, { name: "LOADLIFTER", tier: 3 }, { name: "RIC-1200", tier: 4 }] },
+  { level: 27, credits: "32 T", droids: [{ name: "KX", tier: 3 }, { name: "TRI-TEK", tier: 4 }, { name: "SNOW MOUSE", tier: 5 }] },
+  { level: 28, credits: "45 T", droids: [{ name: "DRFT-R", tier: 5 }, { name: "MO-TRAK", tier: 4 }, { name: "Proto-Roller", tier: 6 }] },
+  { level: 29, credits: "68 T", droids: [{ name: "IG", tier: 5 }, { name: "Mecha-Droid", tier: 6 }, { name: "MONO-WLKR", tier: 6 }] },
+  { level: 30, credits: "100 T", droids: [{ name: "LOADLIFTER", tier: 6 }, { name: "CYCLENS", tier: 5 }, { name: "B2-RP", tier: 6 }] }
 ];
 
 const rebirthRequirementsCycle2: RebirthRequirement[] = [
-  { level: 1, credits: "10,000 Credits", droids: [{ name: "ID-10", tier: 1 }, { name: "Mouse", tier: 1 }, { name: "Gonk", tier: 1 }] },
-  { level: 2, credits: "150,000 Credits", droids: [{ name: "Roll-R", tier: 1 }, { name: "Senate Hovercam", tier: 1 }, { name: "NAV-EX", tier: 1 }] },
-  { level: 3, credits: "975,000 Credits", droids: [{ name: "R4", tier: 1 }, { name: "Vect-Arm", tier: 1 }, { name: "BDX Explorer", tier: 2 }] },
-  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "2BB", tier: 2 }, { name: "Bal-Core", tier: 2 }, { name: "Orb-Walker", tier: 1 }] },
-  { level: 5, credits: "5.35 Million Credits", droids: [{ name: "R4", tier: 2 }, { name: "Vect-Arm", tier: 2 }, { name: "NAV-EX", tier: 2 }] },
-  { level: 6, credits: "9.85 Million Credits", droids: [{ name: "Gunrunner", tier: 1 }, { name: "2BB", tier: 3 }, { name: "Bal-Core", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "Roll-R", tier: 3 }, { name: "BDX Explorer", tier: 3 }, { name: "R2", tier: 2 }] },
-  { level: 8, credits: "36 Million Credits", droids: [{ name: "R4", tier: 3 }, { name: "B2 Super", tier: 2 }, { name: "Gunrunner", tier: 2 }] },
-  { level: 9, credits: "89 Million Credits", droids: [{ name: "NAV-EX", tier: 4 }, { name: "Strike-Orb", tier: 2 }, { name: "AMP Walker", tier: 2 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "Vect-Arm", tier: 4 }, { name: "B2 Super", tier: 3 }, { name: "R2", tier: 3 }] },
-  { level: 11, credits: "550 Million Credits", droids: [{ name: "Strike-Orb", tier: 3 }, { name: "B2 Heavy", tier: 3 }, { name: "Bal-Core", tier: 4 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Orb-Walker", tier: 4 }, { name: "R2", tier: 4 }, { name: "BB-9", tier: 1 }] },
-  { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
-  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "R7", tier: 2 }, { name: "B2-RP", tier: 1 }, { name: "B2 Heavy", tier: 4 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB-9", tier: 2 }, { name: "Proto-Roller", tier: 2 }] },
-  { level: 16, credits: "52 Billion Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B2-RP", tier: 3 }, { name: "Mecha-Droid", tier: 2 }] },
-  { level: 17, credits: "130 Billion Credits", droids: [{ name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }, { name: "MONO-WLKR", tier: 2 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "Util-Tec", tier: 4 }, { name: "BB-9", tier: 3 }, { name: "Proto-Roller", tier: 3 }] },
-  { level: 19, credits: "810 Billion Credits", droids: [{ name: "Mecha-Droid", tier: 3 }, { name: "B2-RP", tier: 4 }, { name: "R7", tier: 4 }] },
-  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "R6", tier: 5 }, { name: "LO", tier: 5 }, { name: "Haul-R", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "Strike-Orb", tier: 5 }, { name: "Sen-Tri", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "BB-9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] },
-  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "Opti-STRK", tier: 5 }, { name: "B2-RP", tier: 5 }, { name: "SNOW MOUSE", tier: 1 }] },
-  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "TRI-TEK", tier: 2 }, { name: "RIC-1200", tier: 1 }] },
-  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "KX", tier: 2 }, { name: "DRFT-R", tier: 3 }, { name: "IG", tier: 4 }] },
-  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "LEP", tier: 3 }, { name: "LOADLIFTER", tier: 4 }, { name: "MO-TRAK", tier: 5 }] }
+  { level: 1, credits: "10 K", droids: [{ name: "ID-10", tier: 1 }, { name: "Mouse", tier: 1 }, { name: "Gonk", tier: 1 }] },
+  { level: 2, credits: "150 K", droids: [{ name: "Roll-R", tier: 1 }, { name: "Senate Hovercam", tier: 1 }, { name: "NAV-EX", tier: 1 }] },
+  { level: 3, credits: "975 K", droids: [{ name: "R4", tier: 1 }, { name: "Vect-Arm", tier: 1 }, { name: "BDX Explorer", tier: 2 }] },
+  { level: 4, credits: "2.95 M", droids: [{ name: "2BB", tier: 2 }, { name: "Bal-Core", tier: 2 }, { name: "Orb-Walker", tier: 1 }] },
+  { level: 5, credits: "5.35 M", droids: [{ name: "R4", tier: 2 }, { name: "Vect-Arm", tier: 2 }, { name: "NAV-EX", tier: 2 }] },
+  { level: 6, credits: "9.85 M", droids: [{ name: "Gunrunner", tier: 1 }, { name: "2BB", tier: 3 }, { name: "Bal-Core", tier: 3 }] },
+  { level: 7, credits: "14.5 M", droids: [{ name: "Roll-R", tier: 3 }, { name: "BDX Explorer", tier: 3 }, { name: "R2", tier: 2 }] },
+  { level: 8, credits: "36 M", droids: [{ name: "R4", tier: 3 }, { name: "B2 Super", tier: 2 }, { name: "Gunrunner", tier: 2 }] },
+  { level: 9, credits: "89 M", droids: [{ name: "NAV-EX", tier: 4 }, { name: "Strike-Orb", tier: 2 }, { name: "AMP Walker", tier: 2 }] },
+  { level: 10, credits: "220 M", droids: [{ name: "Vect-Arm", tier: 4 }, { name: "B2 Super", tier: 3 }, { name: "R2", tier: 3 }] },
+  { level: 11, credits: "550 M", droids: [{ name: "Strike-Orb", tier: 3 }, { name: "B2 Heavy", tier: 3 }, { name: "Bal-Core", tier: 4 }] },
+  { level: 12, credits: "1.36 B", droids: [{ name: "Orb-Walker", tier: 4 }, { name: "R2", tier: 4 }, { name: "BB-9", tier: 1 }] },
+  { level: 13, credits: "3.4 B", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
+  { level: 14, credits: "8.45 B", droids: [{ name: "R7", tier: 2 }, { name: "B2-RP", tier: 1 }, { name: "B2 Heavy", tier: 4 }] },
+  { level: 15, credits: "21 B", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB-9", tier: 2 }, { name: "Proto-Roller", tier: 2 }] },
+  { level: 16, credits: "52 B", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B2-RP", tier: 3 }, { name: "Mecha-Droid", tier: 2 }] },
+  { level: 17, credits: "130 B", droids: [{ name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }, { name: "MONO-WLKR", tier: 2 }] },
+  { level: 18, credits: "325 B", droids: [{ name: "Util-Tec", tier: 4 }, { name: "BB-9", tier: 3 }, { name: "Proto-Roller", tier: 3 }] },
+  { level: 19, credits: "810 B", droids: [{ name: "Mecha-Droid", tier: 3 }, { name: "B2-RP", tier: 4 }, { name: "R7", tier: 4 }] },
+  { level: 20, credits: "2 T", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
+  { level: 21, credits: "3 T", droids: [{ name: "R6", tier: 5 }, { name: "LO", tier: 5 }, { name: "Haul-R", tier: 5 }] },
+  { level: 22, credits: "4.5 T", droids: [{ name: "Strike-Orb", tier: 5 }, { name: "Sen-Tri", tier: 5 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 23, credits: "6 T", droids: [{ name: "BB-9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] },
+  { level: 24, credits: "9 T", droids: [{ name: "Opti-STRK", tier: 5 }, { name: "B2-RP", tier: 5 }, { name: "SNOW MOUSE", tier: 1 }] },
+  { level: 25, credits: "13.5 T", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "TRI-TEK", tier: 2 }, { name: "RIC-1200", tier: 1 }] },
+  { level: 26, credits: "21 T", droids: [{ name: "KX", tier: 2 }, { name: "DRFT-R", tier: 3 }, { name: "IG", tier: 4 }] },
+  { level: 27, credits: "32 T", droids: [{ name: "LEP", tier: 3 }, { name: "LOADLIFTER", tier: 4 }, { name: "MO-TRAK", tier: 5 }] },
+  { level: 28, credits: "45 T", droids: [{ name: "SNOW MOUSE", tier: 4 }, { name: "TRI-TEK", tier: 5 }, { name: "Mecha-Droid", tier: 6 }] },
+  { level: 29, credits: "68 T", droids: [{ name: "RIC", tier: 5 }, { name: "Cyclo-Grav", tier: 6 }, { name: "R7", tier: 6 }] },
+  { level: 30, credits: "100 T", droids: [{ name: "Opti-STRK", tier: 6 }, { name: "KX", tier: 5 }, { name: "DRFT-R", tier: 6 }] }
 ];
 
 const rebirthRequirementsCycle3: RebirthRequirement[] = [
-  { level: 1, credits: "10,000 Credits", droids: [{ name: "Gonk", tier: 1 }, { name: "Mouse", tier: 1 }, { name: "Pit", tier: 1 }] },
-  { level: 2, credits: "150,000 Credits", droids: [{ name: "2BB", tier: 1 }, { name: "R3", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
-  { level: 3, credits: "975,000 Credits", droids: [{ name: "R4", tier: 1 }, { name: "R5", tier: 1 }, { name: "R8", tier: 1 }] },
-  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "R9", tier: 2 }] },
-  { level: 5, credits: "5.35 Million Credits", droids: [{ name: "2BB", tier: 2 }, { name: "R3", tier: 2 }, { name: "Senate Hovercam", tier: 2 }] },
-  { level: 6, credits: "9.85 Million Credits", droids: [{ name: "BDX Explorer", tier: 3 }, { name: "R4", tier: 3 }, { name: "R5", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "B1 Battle", tier: 3 }, { name: "R8", tier: 3 }, { name: "R9", tier: 3 }] },
-  { level: 8, credits: "36 Million Credits", droids: [{ name: "2BB", tier: 4 }, { name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }] },
-  { level: 9, credits: "89 Million Credits", droids: [{ name: "BDX Explorer", tier: 4 }, { name: "R4", tier: 4 }, { name: "R5", tier: 4 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }, { name: "Trak-R", tier: 1 }] },
-  { level: 11, credits: "550 Million Credits", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "Util-Tec", tier: 1 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "Trak-R", tier: 2 }] },
-  { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
-  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "B2 Heavy", tier: 4 }, { name: "B2-RP", tier: 1 }, { name: "R7", tier: 2 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "BB-9", tier: 2 }, { name: "Proto-Roller", tier: 2 }, { name: "Strike-Orb", tier: 4 }] },
-  { level: 16, credits: "52 Billion Credits", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B2-RP", tier: 3 }, { name: "Mecha-Droid", tier: 2 }] },
-  { level: 17, credits: "130 Billion Credits", droids: [{ name: "MONO-WLKR", tier: 2 }, { name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "BB-9", tier: 3 }, { name: "Proto-Roller", tier: 3 }, { name: "Util-Tec", tier: 4 }] },
-  { level: 19, credits: "810 Billion Credits", droids: [{ name: "B2-RP", tier: 4 }, { name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }] },
-  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "Cyclo-Grav", tier: 4 }, { name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "B2 Super", tier: 5 }, { name: "Opti-Pod", tier: 5 }, { name: "R2", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "Gunrunner", tier: 5 }, { name: "LNG-Shot", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "Cyclo-Grav", tier: 5 }, { name: "Mecha-Droid", tier: 5 }, { name: "MONO-WLKR", tier: 5 }] },
-  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "BB-9", tier: 5 }, { name: "RIC", tier: 1 }] },
-  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "LOADLIFTER", tier: 1 }, { name: "MO-TRAK", tier: 2 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "LEP", tier: 2 }, { name: "SNOW MOUSE", tier: 4 }, { name: "TRI-TEK", tier: 3 }] },
-  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "DRFT-R", tier: 5 }, { name: "IG", tier: 4 }, { name: "RIC-1200", tier: 3 }] }
+  { level: 1, credits: "10 K", droids: [{ name: "Gonk", tier: 1 }, { name: "Mouse", tier: 1 }, { name: "Pit", tier: 1 }] },
+  { level: 2, credits: "150 K", droids: [{ name: "2BB", tier: 1 }, { name: "R3", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
+  { level: 3, credits: "975 K", droids: [{ name: "R4", tier: 1 }, { name: "R5", tier: 1 }, { name: "R8", tier: 1 }] },
+  { level: 4, credits: "2.95 M", droids: [{ name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "R9", tier: 2 }] },
+  { level: 5, credits: "5.35 M", droids: [{ name: "2BB", tier: 2 }, { name: "R3", tier: 2 }, { name: "Senate Hovercam", tier: 2 }] },
+  { level: 6, credits: "9.85 M", droids: [{ name: "BDX Explorer", tier: 3 }, { name: "R4", tier: 3 }, { name: "R5", tier: 3 }] },
+  { level: 7, credits: "14.5 M", droids: [{ name: "B1 Battle", tier: 3 }, { name: "R8", tier: 3 }, { name: "R9", tier: 3 }] },
+  { level: 8, credits: "36 M", droids: [{ name: "2BB", tier: 4 }, { name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }] },
+  { level: 9, credits: "89 M", droids: [{ name: "BDX Explorer", tier: 4 }, { name: "R4", tier: 4 }, { name: "R5", tier: 4 }] },
+  { level: 10, credits: "220 M", droids: [{ name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }, { name: "Trak-R", tier: 1 }] },
+  { level: 11, credits: "550 M", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "Util-Tec", tier: 1 }] },
+  { level: 12, credits: "1.36 B", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "Trak-R", tier: 2 }] },
+  { level: 13, credits: "3.4 B", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
+  { level: 14, credits: "8.45 B", droids: [{ name: "B2 Heavy", tier: 4 }, { name: "B2-RP", tier: 1 }, { name: "R7", tier: 2 }] },
+  { level: 15, credits: "21 B", droids: [{ name: "BB-9", tier: 2 }, { name: "Proto-Roller", tier: 2 }, { name: "Strike-Orb", tier: 4 }] },
+  { level: 16, credits: "52 B", droids: [{ name: "AMP Walker", tier: 4 }, { name: "B2-RP", tier: 3 }, { name: "Mecha-Droid", tier: 2 }] },
+  { level: 17, credits: "130 B", droids: [{ name: "MONO-WLKR", tier: 2 }, { name: "Opti-Pod", tier: 4 }, { name: "R7", tier: 3 }] },
+  { level: 18, credits: "325 B", droids: [{ name: "BB-9", tier: 3 }, { name: "Proto-Roller", tier: 3 }, { name: "Util-Tec", tier: 4 }] },
+  { level: 19, credits: "810 B", droids: [{ name: "B2-RP", tier: 4 }, { name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }] },
+  { level: 20, credits: "2 T", droids: [{ name: "Cyclo-Grav", tier: 4 }, { name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
+  { level: 21, credits: "3 T", droids: [{ name: "B2 Super", tier: 5 }, { name: "Opti-Pod", tier: 5 }, { name: "R2", tier: 5 }] },
+  { level: 22, credits: "4.5 T", droids: [{ name: "Gunrunner", tier: 5 }, { name: "LNG-Shot", tier: 5 }, { name: "B2-RP", tier: 5 }] },
+  { level: 23, credits: "6 T", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "Mecha-Droid", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }] },
+  { level: 24, credits: "9 T", droids: [{ name: "BB-9", tier: 5 }, { name: "B2-RP", tier: 5 }, { name: "RIC", tier: 1 }] },
+  { level: 25, credits: "13.5 T", droids: [{ name: "MO-TRAK", tier: 2 }, { name: "LOADLIFTER", tier: 1 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 26, credits: "21 T", droids: [{ name: "LEP", tier: 2 }, { name: "SNOW MOUSE", tier: 4 }, { name: "TRI-TEK", tier: 3 }] },
+  { level: 27, credits: "32 T", droids: [{ name: "DRFT-R", tier: 5 }, { name: "IG", tier: 4 }, { name: "RIC-1200", tier: 3 }] },
+  { level: 28, credits: "45 T", droids: [{ name: "RIC", tier: 4 }, { name: "MO-TRAK", tier: 5 }, { name: "BB-9", tier: 6 }] },
+  { level: 29, credits: "68 T", droids: [{ name: "IG", tier: 5 }, { name: "Mecha-Droid", tier: 6 }, { name: "Opti-STRK", tier: 6 }] },
+  { level: 30, credits: "100 T", droids: [{ name: "R7", tier: 6 }, { name: "LEP", tier: 5 }, { name: "DRFT-R", tier: 6 }] }
 ];
 
 const rebirthRequirementsCycle4: RebirthRequirement[] = [
-  { level: 1, credits: "10,000 Credits", droids: [{ name: "ID-10", tier: 1 }, { name: "Pit", tier: 1 }, { name: "DRK-1 Probe", tier: 1 }] },
-  { level: 2, credits: "150,000 Credits", droids: [{ name: "2BB", tier: 1 }, { name: "R3", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
-  { level: 3, credits: "975,000 Credits", droids: [{ name: "R4", tier: 1 }, { name: "R5", tier: 2 }, { name: "R8", tier: 2 }] },
-  { level: 4, credits: "2.95 Million Credits", droids: [{ name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }, { name: "R9", tier: 2 }] },
-  { level: 5, credits: "5.35 Million Credits", droids: [{ name: "2BB", tier: 2 }, { name: "R3", tier: 2 }, { name: "Senate Hovercam", tier: 2 }] },
-  { level: 6, credits: "9.85 Million Credits", droids: [{ name: "BDX Explorer", tier: 3 }, { name: "R4", tier: 3 }, { name: "R5", tier: 3 }] },
-  { level: 7, credits: "14.5 Million Credits", droids: [{ name: "B1 Battle", tier: 3 }, { name: "R8", tier: 3 }, { name: "R9", tier: 3 }] },
-  { level: 8, credits: "36 Million Credits", droids: [{ name: "2BB", tier: 4 }, { name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }] },
-  { level: 9, credits: "89 Million Credits", droids: [{ name: "BDX Explorer", tier: 4 }, { name: "R4", tier: 4 }, { name: "R5", tier: 4 }] },
-  { level: 10, credits: "220 Million Credits", droids: [{ name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }, { name: "Trak-R", tier: 1 }] },
-  { level: 11, credits: "550 Million Credits", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "Util-Tec", tier: 1 }] },
-  { level: 12, credits: "1.36 Billion Credits", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "Trak-R", tier: 2 }] },
-  { level: 13, credits: "3.4 Billion Credits", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
-  { level: 14, credits: "8.45 Billion Credits", droids: [{ name: "Bal-Core", tier: 3 }, { name: "Groundmech", tier: 3 }, { name: "Trak-R", tier: 4 }] },
-  { level: 15, credits: "21 Billion Credits", droids: [{ name: "B2 Heavy", tier: 3 }, { name: "B2 Super", tier: 4 }, { name: "B2-RP", tier: 1 }] },
-  { level: 16, credits: "52 Billion Credits", droids: [{ name: "BB-9", tier: 1 }, { name: "R7", tier: 2 }, { name: "Util-Tec", tier: 4 }] },
-  { level: 17, credits: "130 Billion Credits", droids: [{ name: "Cyclo-Grav", tier: 2 }, { name: "Mecha-Droid", tier: 2 }, { name: "Opti-STRK", tier: 1 }] },
-  { level: 18, credits: "325 Billion Credits", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB-9", tier: 2 }, { name: "R7", tier: 3 }] },
-  { level: 19, credits: "810 Billion Credits", droids: [{ name: "B2-RP", tier: 4 }, { name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }] },
-  { level: 20, credits: "2 Trillion Credits", droids: [{ name: "Cyclo-Grav", tier: 4 }, { name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }] },
-  { level: 21, credits: "3 Trillion Credits", droids: [{ name: "AMP Walker", tier: 5 }, { name: "Groundmech", tier: 5 }, { name: "Haul-R", tier: 5 }] },
-  { level: 22, credits: "4.5 Trillion Credits", droids: [{ name: "B2 Super", tier: 5 }, { name: "Gunrunner", tier: 5 }, { name: "Strike-Orb", tier: 5 }] },
-  { level: 23, credits: "6 Trillion Credits", droids: [{ name: "B2-RP", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "MONO-WLKR", tier: 5 }] },
-  { level: 24, credits: "9 Trillion Credits", droids: [{ name: "Mecha-Droid", tier: 5 }, { name: "MO-TRAK", tier: 1 }, { name: "Proto-Roller", tier: 5 }] },
-  { level: 25, credits: "13.5 Trillion Credits", droids: [{ name: "Opti-STRK", tier: 5 }, { name: "TRI-TEK", tier: 1 }, { name: "DRFT-R", tier: 2 }] },
-  { level: 26, credits: "21 Trillion Credits", droids: [{ name: "CYCLENS", tier: 2 }, { name: "LEP", tier: 3 }, { name: "MO-TRAK", tier: 4 }] },
-  { level: 27, credits: "32 Trillion Credits", droids: [{ name: "RIC-1200", tier: 3 }, { name: "SNOW MOUSE", tier: 4 }, { name: "LOADLIFTER", tier: 5 }] }
-];;
+  { level: 1, credits: "10 K", droids: [{ name: "ID-10", tier: 1 }, { name: "Pit", tier: 1 }, { name: "DRK-1 Probe", tier: 1 }] },
+  { level: 2, credits: "150 K", droids: [{ name: "2BB", tier: 1 }, { name: "R3", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
+  { level: 3, credits: "975 K", droids: [{ name: "R4", tier: 1 }, { name: "R5", tier: 2 }, { name: "R8", tier: 2 }] },
+  { level: 4, credits: "2.95 M", droids: [{ name: "R9", tier: 2 }, { name: "B1 Battle", tier: 2 }, { name: "B1 Security", tier: 2 }] },
+  { level: 5, credits: "5.35 M", droids: [{ name: "2BB", tier: 2 }, { name: "R3", tier: 2 }, { name: "Senate Hovercam", tier: 2 }] },
+  { level: 6, credits: "9.85 M", droids: [{ name: "BDX Explorer", tier: 3 }, { name: "R4", tier: 3 }, { name: "R5", tier: 3 }] },
+  { level: 7, credits: "14.5 M", droids: [{ name: "R8", tier: 3 }, { name: "R9", tier: 3 }, { name: "B1 Battle", tier: 3 }] },
+  { level: 8, credits: "36 M", droids: [{ name: "B1 Security", tier: 4 }, { name: "R3", tier: 4 }, { name: "2BB", tier: 4 }] },
+  { level: 9, credits: "89 M", droids: [{ name: "BDX Explorer", tier: 4 }, { name: "R4", tier: 4 }, { name: "R5", tier: 4 }] },
+  { level: 10, credits: "220 M", droids: [{ name: "Trak-R", tier: 1 }, { name: "Groundmech", tier: 1 }, { name: "Senate Hovercam", tier: 4 }] },
+  { level: 11, credits: "550 M", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "Util-Tec", tier: 1 }] },
+  { level: 12, credits: "1.36 B", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "Trak-R", tier: 2 }] },
+  { level: 13, credits: "3.4 B", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
+  { level: 14, credits: "8.45 B", droids: [{ name: "Bal-Core", tier: 3 }, { name: "Groundmech", tier: 3 }, { name: "Trak-R", tier: 4 }] },
+  { level: 15, credits: "21 B", droids: [{ name: "B2 Heavy", tier: 3 }, { name: "B2 Super", tier: 4 }, { name: "B2-RP", tier: 1 }] },
+  { level: 16, credits: "52 B", droids: [{ name: "BB-9", tier: 1 }, { name: "R7", tier: 2 }, { name: "Util-Tec", tier: 4 }] },
+  { level: 17, credits: "130 B", droids: [{ name: "Cyclo-Grav", tier: 2 }, { name: "Mecha-Droid", tier: 2 }, { name: "Opti-STRK", tier: 1 }] },
+  { level: 18, credits: "325 B", droids: [{ name: "B2-RP", tier: 2 }, { name: "BB-9", tier: 2 }, { name: "R7", tier: 3 }] },
+  { level: 19, credits: "810 B", droids: [{ name: "B2-RP", tier: 4 }, { name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }] },
+  { level: 20, credits: "2 T", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }] },
+  { level: 21, credits: "3 T", droids: [{ name: "AMP Walker", tier: 5 }, { name: "Groundmech", tier: 5 }, { name: "Haul-R", tier: 5 }] },
+  { level: 22, credits: "4.5 T", droids: [{ name: "Gunrunner", tier: 5 }, { name: "Strike-Orb", tier: 5 }, { name: "B2 Super", tier: 5 }] },
+  { level: 23, credits: "6 T", droids: [{ name: "MONO-WLKR", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] },
+  { level: 24, credits: "9 T", droids: [{ name: "Mecha-Droid", tier: 5 }, { name: "MO-TRAK", tier: 1 }, { name: "Proto-Roller", tier: 5 }] },
+  { level: 25, credits: "13.5 T", droids: [{ name: "Opti-STRK", tier: 5 }, { name: "TRI-TEK", tier: 1 }, { name: "DRFT-R", tier: 2 }] },
+  { level: 26, credits: "21 T", droids: [{ name: "CYCLENS", tier: 2 }, { name: "LEP", tier: 3 }, { name: "MO-TRAK", tier: 4 }] },
+  { level: 27, credits: "32 T", droids: [{ name: "RIC-1200", tier: 3 }, { name: "SNOW MOUSE", tier: 4 }, { name: "LOADLIFTER", tier: 5 }] },
+  { level: 28, credits: "45 T", droids: [{ name: "IG", tier: 4 }, { name: "KX", tier: 5 }, { name: "Opti-STRK", tier: 6 }] },
+  { level: 29, credits: "68 T", droids: [{ name: "TRI-TEK", tier: 5 }, { name: "R7", tier: 6 }, { name: "BB-9", tier: 6 }] },
+  { level: 30, credits: "100 T", droids: [{ name: "MONO-WLKR", tier: 6 }, { name: "CYCLENS", tier: 5 }, { name: "IG", tier: 6 }] }
+];
 
 const tiersConfig = [
   { level: 1, label: 'Base', short: 'BAS' },
@@ -338,6 +376,8 @@ const novaUpgradesList: NovaUpgrade[] = [
   { id: 'pickaxe_mastery', nameKey: 'upgrade_pickaxe_mastery_name', descKey: 'upgrade_pickaxe_mastery_desc', category: 'core', maxLevel: 11, costs: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], icon: Wrench },
   { id: 'jawa_bartering', nameKey: 'upgrade_jawa_bartering_name', descKey: 'upgrade_jawa_bartering_desc', category: 'core', maxLevel: 5, costs: [5, 15, 30, 45, 60], icon: ShoppingBag },
   { id: 'super_crates', nameKey: 'upgrade_super_crates_name', descKey: 'upgrade_super_crates_desc', category: 'core', maxLevel: 3, costs: [10, 25, 75], icon: Package },
+  { id: 'critical_chance', nameKey: 'upgrade_critical_chance_name', descKey: 'upgrade_critical_chance_desc', category: 'core', maxLevel: 1, costs: [60], icon: Target },
+  { id: 'critical_amount', nameKey: 'upgrade_critical_amount_name', descKey: 'upgrade_critical_amount_desc', category: 'core', maxLevel: 1, costs: [30], icon: Swords },
 
   // Workshop Upgrades
   { id: 'lounge_slot', nameKey: 'upgrade_lounge_slot_name', descKey: 'upgrade_lounge_slot_desc', category: 'workshop', maxLevel: 4, costs: [1, 30, 60, 120], icon: Bed },
@@ -1110,42 +1150,42 @@ export default function App() {
   const isNextReqMet = nextReq ? getRebirthStatus(nextReq) === 'ready' : false;
 
   return (
-    <div className="min-h-screen bg-[#050810] text-[#e2e8f0] font-sans antialiased p-3 pb-8 space-y-4">
+    <div className="min-h-screen bg-[#f8fafc] text-[#1e293b] font-sans antialiased p-3 pb-8 space-y-4">
       <div className="max-w-6xl mx-auto space-y-3">
         
         {/* Navigation Tabs */}
-        <div className="flex bg-[#0c1628]/80 border border-institutional-border p-1 rounded-xl shadow-md gap-1">
+        <div className="flex bg-white border border-slate-200 p-1.5 rounded-xl shadow-sm gap-1.5">
           <button
             onClick={() => saveActiveTab('tracker')}
-            className={`flex-1 py-2 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
               activeTab === 'tracker'
-                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-secondary/35'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
+                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-primary/50'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
-            <Target size={14} />
+            <Target size={15} />
             <span>{t('navTracker')}</span>
           </button>
           <button
             onClick={() => saveActiveTab('droidex')}
-            className={`flex-1 py-2 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
               activeTab === 'droidex'
-                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-secondary/35'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
+                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-primary/50'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
-            <Award size={14} />
+            <Award size={15} />
             <span>{t('navDroidex')}</span>
           </button>
           <button
             onClick={() => saveActiveTab('novashop')}
-            className={`flex-1 py-2 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
               activeTab === 'novashop'
-                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-secondary/35'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
+                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-primary/50'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
-            <Sparkles size={14} />
+            <Sparkles size={15} />
             <span>{t('navNovaShop')}</span>
           </button>
         </div>
@@ -1153,22 +1193,22 @@ export default function App() {
         {activeTab === 'tracker' && (
           <>
             {/* Cabecera y Controles Principales */}
-            <header className="bg-gradient-to-br from-[#0c1628] to-[#0a101d] border border-institutional-border p-3.5 rounded-xl shadow-lg flex flex-col gap-3">
+            <header className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col gap-3.5">
           
           {/* Fila 1: Título y Controles */}
           <div className="flex justify-between items-center gap-2">
-            <h1 className="text-base font-bold text-white font-narrow flex items-center gap-1.5 flex-wrap">
-              <span>{t('title')}</span>
+            <h1 className="text-lg font-bold text-slate-900 font-narrow flex items-center gap-2 flex-wrap">
+              <span className="text-[#17479d]">{t('title')}</span>
               <div className="relative inline-flex items-center">
                 <select
                   value={currentCycle}
                   onChange={(e) => saveCycle(parseInt(e.target.value, 10))}
-                  className="bg-institutional-primary/30 text-institutional-secondary border border-institutional-primary/50 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider cursor-pointer outline-none hover:bg-institutional-primary/45 transition-colors"
+                  className="bg-slate-100 text-[#17479d] border border-slate-300 px-2 py-0.5 rounded text-xs uppercase font-bold tracking-wider cursor-pointer outline-none hover:bg-slate-200 transition-colors"
                 >
-                  <option value={1} className="bg-[#0c1628] text-white">{t('cycle')} 1</option>
-                  <option value={2} className="bg-[#0c1628] text-white">{t('cycle')} 2</option>
-                  <option value={3} className="bg-[#0c1628] text-white">{t('cycle')} 3</option>
-                  <option value={4} className="bg-[#0c1628] text-white">{t('cycle')} 4</option>
+                  <option value={1} className="bg-white text-slate-900">{t('cycle')} 1</option>
+                  <option value={2} className="bg-white text-slate-900">{t('cycle')} 2</option>
+                  <option value={3} className="bg-white text-slate-900">{t('cycle')} 3</option>
+                  <option value={4} className="bg-white text-slate-900">{t('cycle')} 4</option>
                 </select>
               </div>
             </h1>
@@ -1178,11 +1218,11 @@ export default function App() {
                 <select
                   value={language}
                   onChange={(e) => saveLanguage(e.target.value)}
-                  className="bg-institutional-primary/30 text-institutional-secondary border border-institutional-primary/50 px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer outline-none hover:bg-institutional-primary/45 transition-colors uppercase"
+                  className="bg-slate-100 text-[#17479d] border border-slate-300 px-2 py-0.5 rounded text-xs font-bold cursor-pointer outline-none hover:bg-slate-200 transition-colors uppercase"
                 >
-                  <option value="es" className="bg-[#0c1628] text-white">ES</option>
-                  <option value="en" className="bg-[#0c1628] text-white">EN</option>
-                  <option value="pt" className="bg-[#0c1628] text-white">PT</option>
+                  <option value="es" className="bg-white text-slate-900">ES</option>
+                  <option value="en" className="bg-white text-slate-900">EN</option>
+                  <option value="pt" className="bg-white text-slate-900">PT</option>
                 </select>
               </div>
 
@@ -1190,14 +1230,14 @@ export default function App() {
               {currentRebirth >= 12 ? (
                 <button
                   onClick={() => setShowSuperRebirthModal(true)}
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-700 hover:bg-purple-650 text-white rounded-lg border border-purple-500/30 shadow-[0_0_8px_rgba(147,51,234,0.3)] transition-all cursor-pointer font-bold"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-700 hover:bg-purple-650 text-white rounded-lg border border-purple-500/30 shadow-sm transition-all cursor-pointer font-bold"
                 >
                   <Sparkles size={12} /> <span>{t('superRebirth')} (+{getNovaCrystals(currentRebirth)})</span>
                 </button>
               ) : (
                 <button
                   disabled
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-955/20 border border-purple-900/40 text-purple-400/40 rounded-lg cursor-not-allowed font-bold"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-slate-100 border border-slate-200 text-slate-400 rounded-lg cursor-not-allowed font-bold"
                   title={t('superRebirthTooltip')}
                 >
                   <Lock size={12} /> <span>{t('superRebirth')} (R-12)</span>
@@ -1207,7 +1247,7 @@ export default function App() {
               {/* Botón Reiniciar */}
               <button 
                 onClick={() => setShowResetModal(true)}
-                className="flex items-center gap-1 px-2.5 py-1 text-xs text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg border border-red-500/25 transition-colors cursor-pointer font-bold"
+                className="flex items-center gap-1 px-2.5 py-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg border border-red-200 transition-colors cursor-pointer font-bold"
               >
                 <RotateCcw size={12} /> <span>{t('reiniciar')}</span>
               </button>
@@ -1215,24 +1255,24 @@ export default function App() {
           </div>
 
           {/* Fila 2: Selector Rebirth Horizontal Deslizable */}
-          <div className="bg-[#050810]/75 py-2 px-3 rounded-lg border border-institutional-border flex flex-col gap-1.5">
-            <div className="flex justify-between items-center text-[11px] text-[#94a3b8]">
-              <span className="font-bold flex items-center gap-1">
-                <Target size={12} className="text-institutional-secondary" />
+          <div className="bg-slate-50 py-2.5 px-3 rounded-xl border border-slate-200 flex flex-col gap-1.5">
+            <div className="flex justify-between items-center text-xs text-slate-600">
+              <span className="font-bold flex items-center gap-1.5">
+                <Target size={14} className="text-[#00adee]" />
                 {t('slideRebirth')}
               </span>
-              <span>{t('rebirthLabel')} <strong className="text-white">R-{currentRebirth}</strong></span>
+              <span>{t('rebirthLabel')} <strong className="text-[#17479d]">R-{currentRebirth}</strong></span>
             </div>
-            <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
-              {Array.from({ length: 28 }, (_, i) => {
+            <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
+              {Array.from({ length: 31 }, (_, i) => {
                 const lvl = i;
                 const isActive = lvl === currentRebirth;
                 
                 let btnClass = "h-8 w-8 text-xs font-bold rounded-full flex items-center justify-center transition-all duration-100 select-none cursor-pointer flex-shrink-0 ";
                 if (isActive) {
-                  btnClass += "bg-institutional-primary text-white border-2 border-institutional-secondary font-extrabold shadow-[0_0_8px_rgba(0,173,238,0.3)]";
+                  btnClass += "bg-[#17479d] text-white border-2 border-[#00adee] font-extrabold shadow-sm";
                 } else {
-                  btnClass += "bg-[#050810] border border-institutional-border text-[#94a3b8] hover:border-slate-500 hover:text-white";
+                  btnClass += "bg-white border border-slate-200 text-slate-600 hover:border-slate-400 hover:text-slate-900";
                 }
 
                 return (
@@ -1249,18 +1289,18 @@ export default function App() {
           </div>
 
           {/* Fila 3: Siguiente Rebirth Requisitos */}
-          <div className="bg-[#050810]/80 border border-institutional-border rounded-xl p-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
+          <div className="bg-white border border-slate-200 rounded-xl p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs shadow-sm">
             {nextReq ? (
               <>
                 <div className="space-y-2 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="bg-institutional-secondary/20 text-institutional-secondary border border-institutional-secondary/35 px-2 py-0.5 rounded text-[10px] font-bold">
+                    <span className="bg-sky-50 text-[#17479d] border border-sky-200 px-2 py-0.5 rounded text-[10px] font-bold">
                       {t('nextMeta')}
                     </span>
-                    <span className="text-sm font-extrabold text-white font-narrow">
+                    <span className="text-sm font-extrabold text-slate-900 font-narrow">
                       {t('requirementsForRebirth', { level: nextLevel.toString() })}
                     </span>
-                    <span className="text-yellow-400 font-bold bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded flex items-center gap-1 font-mono">
+                    <span className="text-amber-700 font-bold bg-amber-50 border border-amber-200 px-2 py-0.5 rounded flex items-center gap-1 font-mono">
                       <Coins size={12} />
                       {formatCredits(nextReq.credits)}
                     </span>
@@ -1277,8 +1317,8 @@ export default function App() {
                           key={index}
                           className={`px-2 py-1 rounded text-xs border flex items-center gap-1.5 ${
                             isMet 
-                              ? 'bg-green-950/20 border-green-900/35 text-green-400 font-bold' 
-                              : 'bg-slate-900 border-slate-800 text-slate-300'
+                              ? 'bg-green-50 border-green-200 text-green-700 font-bold' 
+                              : 'bg-slate-100 border-slate-200 text-slate-700'
                           }`}
                         >
                           <span>{reqDroid.name}:</span>
@@ -1295,7 +1335,7 @@ export default function App() {
                 {isNextReqMet && (
                   <button
                     onClick={() => saveRebirth(nextLevel)}
-                    className="bg-green-600 hover:bg-green-500 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
                   >
                     <span>{t('rebirthReady')}</span>
                     <ArrowRight size={12} />
@@ -1303,7 +1343,7 @@ export default function App() {
                 )}
               </>
             ) : (
-              <span className="text-green-400 font-bold flex items-center gap-2 py-1 text-sm">
+              <span className="text-green-600 font-bold flex items-center gap-2 py-1 text-sm">
                 <Sparkles size={16} /> {t('congratulationsFinished')}
               </span>
             )}
@@ -1317,21 +1357,21 @@ export default function App() {
           {/* Buscador */}
           <div className="relative">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-              <Search size={14} />
+              <Search size={15} />
             </span>
             <input
               type="text"
               value={trackerSearch}
               onChange={(e) => setTrackerSearch(e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="w-full bg-[#0c1628]/80 border border-institutional-border focus:border-institutional-secondary/60 pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-500 outline-none transition-colors shadow-sm"
+              className="w-full bg-white border border-slate-300 focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-slate-900 placeholder-slate-400 outline-none transition-colors shadow-sm"
             />
             {trackerSearch && (
               <button
                 onClick={() => setTrackerSearch('')}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-700 cursor-pointer"
               >
-                <X size={14} />
+                <X size={15} />
               </button>
             )}
           </div>
@@ -1339,11 +1379,11 @@ export default function App() {
           {/* Sección 1: Requisitos de Rebirth */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
-              <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-[#64748b] tracking-wider">
+              <h3 className="text-xs uppercase font-extrabold text-slate-500 tracking-wider">
                 {t('rebirthRequirementsSection')}
               </h3>
               {requiredDroids.length !== droidsData.filter(d => getRequiredTier(d.name) > 0).length && (
-                <span className="text-[9px] font-mono text-slate-500 font-bold">
+                <span className="text-[10px] font-mono text-slate-500 font-bold">
                   {requiredDroids.length} / {droidsData.filter(d => getRequiredTier(d.name) > 0).length}
                 </span>
               )}
@@ -1364,20 +1404,20 @@ export default function App() {
                 return (
                   <div 
                     key={droid.name} 
-                    className={`p-3 rounded-lg border flex flex-col justify-between transition-all duration-150 ${
+                    className={`p-3 rounded-xl border flex flex-col justify-between transition-all duration-150 ${
                       isImmediate
-                        ? 'bg-gradient-to-b from-[#112544] to-[#0c1628] border-2 border-institutional-secondary ring-1 ring-institutional-secondary/20 shadow-[0_0_12px_rgba(0,173,238,0.25)]'
+                        ? 'bg-sky-50/70 border-2 border-[#00adee] ring-1 ring-[#00adee]/20 shadow-sm'
                         : isCompleted 
-                        ? 'bg-[#0c1628]/35 border-green-950/20 opacity-80' 
-                        : 'bg-[#0c1628]/80 border-institutional-border/80 hover:border-slate-700'
+                        ? 'bg-slate-50 border-slate-200 opacity-80' 
+                        : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
                     }`}
                   >
                     {/* Fila 1: Nombre, Rarity y Trash/Clear */}
                     <div className="flex justify-between items-center gap-1.5 mb-2">
                       <h4 className={`text-sm sm:text-base truncate flex-1 leading-tight ${
                         isImmediate 
-                          ? 'text-institutional-secondary font-extrabold' 
-                          : 'text-white font-bold'
+                          ? 'text-[#17479d] font-extrabold' 
+                          : 'text-slate-900 font-bold'
                       }`} title={droid.name}>
                         {droid.name}
                       </h4>
@@ -1385,37 +1425,37 @@ export default function App() {
                         {droid.achieved > 0 && (
                           <button
                             onClick={() => handleClearDroid(droid.name)}
-                            className="p-0.5 text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded transition-colors cursor-pointer"
+                            className="p-0.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors cursor-pointer"
                             title={t('notRequiredTooltip')}
                           >
-                            <Trash2 size={11} />
+                            <Trash2 size={12} />
                           </button>
                         )}
                         {isImmediate && (
-                          <span className="px-1.5 py-0.5 bg-institutional-secondary text-[#050810] text-[8px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: nextLevel.toString() })}>
+                          <span className="px-1.5 py-0.5 bg-[#00adee] text-white text-[9px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: nextLevel.toString() })}>
                             R-{nextLevel}
                           </span>
                         )}
-                        <span className={`text-[8px] font-extrabold uppercase px-1 py-0.2 rounded border border-current leading-none ${rarityInfo.color}`} title={t('rarityTooltip') + ': ' + t(`rarity_${droid.rarity}`)}>
+                        <span className={`text-[9px] font-extrabold uppercase px-1 py-0.2 rounded border border-current leading-none ${rarityInfo.color}`} title={t('rarityTooltip') + ': ' + t(`rarity_${droid.rarity}`)}>
                           {t(`rarity_${droid.rarity}`)[0]}
                         </span>
-                        <span className={`text-[8px] font-semibold flex items-center px-1 py-0.2 rounded leading-none ${typeInfo.color} ${typeInfo.bg}`} title={t('typeTooltip') + ': ' + t(`type_${droid.type}`)}>
-                          <TypeIcon size={8} />
+                        <span className={`text-[9px] font-semibold flex items-center px-1 py-0.2 rounded leading-none ${typeInfo.color} ${typeInfo.bg}`} title={t('typeTooltip') + ': ' + t(`type_${droid.type}`)}>
+                          <TypeIcon size={9} />
                         </span>
                       </div>
                     </div>
 
                     {/* Fila 2: Requisitos y Meta (Descriptivo) */}
-                    <div className="bg-[#050810]/50 px-2 py-1 rounded text-[10px] flex justify-between items-center mb-2.5 border border-institutional-border/30" title={rec.text}>
-                      <span className={`truncate text-[9px] font-bold ${
-                        rec.type === 'upgrade' ? 'text-yellow-400' :
-                        rec.type === 'keep_upgrade' ? 'text-cyan-400' :
-                        rec.type === 'keep' ? 'text-green-400 font-bold' :
-                        'text-slate-400 font-medium'
+                    <div className="bg-slate-50 px-2 py-1 rounded text-xs flex justify-between items-center mb-2.5 border border-slate-200" title={rec.text}>
+                      <span className={`truncate text-[10px] font-bold ${
+                        rec.type === 'upgrade' ? 'text-amber-600' :
+                        rec.type === 'keep_upgrade' ? 'text-cyan-600' :
+                        rec.type === 'keep' ? 'text-green-600 font-bold' :
+                        'text-slate-500 font-medium'
                       }`}>
                         {rec.text}
                       </span>
-                      <span className="text-slate-500 text-[8px] font-mono truncate ml-1 flex-shrink-0" title={t('futureRebirthsTooltip')}>
+                      <span className="text-slate-400 text-[9px] font-mono truncate ml-1 flex-shrink-0" title={t('futureRebirthsTooltip')}>
                         {reqList.filter(r => r.level > currentRebirth).map(r => `R${r.level}`).join(', ')}
                       </span>
                     </div>
@@ -1427,16 +1467,16 @@ export default function App() {
                         let baseClasses = "flex-1 flex items-center justify-center text-[10px] font-bold border-y border-r last:border-r-0 first:border-l first:rounded-l-lg last:rounded-r-lg transition-all duration-100 select-none ";
 
                         if (!isActive) {
-                          baseClasses += "bg-slate-950 border-slate-900/60 text-slate-600 hover:bg-slate-900 cursor-pointer";
+                          baseClasses += "bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200 cursor-pointer";
                         } else {
                           baseClasses += "cursor-pointer border-transparent z-10 ";
                           switch(tier.level) {
                             case 1: baseClasses += "bg-slate-400 text-slate-950"; break;
-                            case 2: baseClasses += "bg-yellow-500 text-slate-950"; break;
+                            case 2: baseClasses += "bg-amber-400 text-amber-950 font-bold"; break;
                             case 3: baseClasses += "bg-cyan-500 text-slate-950 font-extrabold"; break;
                             case 4: baseClasses += "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold"; break;
-                            case 5: baseClasses += "bg-purple-900 border-t-purple-400 text-purple-100 shadow-inner"; break;
-                            case 6: baseClasses += "bg-gradient-to-r from-indigo-900 via-blue-900 to-indigo-950 border-t-indigo-400 text-indigo-100 shadow-inner"; break;
+                            case 5: baseClasses += "bg-purple-800 text-purple-100 font-bold"; break;
+                            case 6: baseClasses += "bg-indigo-900 text-indigo-100 font-bold"; break;
                           }
                         }
 
@@ -1460,12 +1500,12 @@ export default function App() {
 
           {/* Sección 2: Droides No Requeridos */}
           {discardedDroids.length > 0 && (
-            <div className="space-y-2 pt-2 border-t border-institutional-border/40">
+            <div className="space-y-2 pt-2 border-t border-slate-200">
               <div className="flex justify-between items-center px-1">
-                <h3 className="text-[10px] sm:text-xs uppercase font-extrabold text-[#64748b] tracking-wider">
+                <h3 className="text-xs uppercase font-extrabold text-slate-500 tracking-wider">
                   {t('notRequiredSection')}
                 </h3>
-                <span className="text-[9px] font-mono bg-red-950/20 border border-red-500/20 px-1.5 py-0.2 rounded text-red-400 font-bold">
+                <span className="text-[10px] font-mono bg-red-50 border border-red-200 px-1.5 py-0.2 rounded text-red-600 font-bold">
                   {discardedDroids.length}
                 </span>
               </div>
@@ -1476,15 +1516,15 @@ export default function App() {
                   const inCycle = isDroidInCycle(droid.name);
 
                   // Definir estilos dinámicos de contenedor e h4
-                  let cardClass = "p-2.5 rounded-lg border flex items-center justify-between transition-all duration-150 select-none ";
+                  let cardClass = "p-2.5 rounded-xl border flex items-center justify-between transition-all duration-150 select-none ";
                   let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 flex items-center ";
 
                   if (inCycle) {
-                    cardClass += "bg-[#1c1214]/65 border-red-900/35 hover:border-red-800/50";
-                    titleClass += hasProgress ? "text-red-400 font-extrabold" : "text-red-300/85 line-through font-semibold";
+                    cardClass += "bg-red-50/60 border-red-200 hover:border-red-300";
+                    titleClass += hasProgress ? "text-red-700 font-extrabold" : "text-red-400 line-through font-semibold";
                   } else {
-                    cardClass += "bg-[#0c1628]/50 border-slate-800/70 hover:border-slate-700";
-                    titleClass += hasProgress ? "text-slate-200 font-bold" : "text-slate-300/80 line-through font-medium";
+                    cardClass += "bg-slate-50 border-slate-200 hover:border-slate-300";
+                    titleClass += hasProgress ? "text-slate-800 font-bold" : "text-slate-400 line-through font-medium";
                   }
 
                   return (
@@ -1503,7 +1543,7 @@ export default function App() {
                       {hasProgress && (
                         <button
                           onClick={() => handleClearDroid(droid.name)}
-                          className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded transition-colors cursor-pointer"
+                          className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-100/50 rounded transition-colors cursor-pointer"
                           title={t('notRequiredTooltip')}
                         >
                           <Trash2 size={12} />
@@ -1519,7 +1559,7 @@ export default function App() {
         </main>
 
         {/* Footer simple de la aplicación */}
-        <footer className="text-center py-2 text-[10px] text-slate-600 shrink-0">
+        <footer className="text-center py-2 text-xs text-slate-500 shrink-0">
           {t('droidsOrderFooter')}
         </footer>
       </>
@@ -1530,12 +1570,12 @@ export default function App() {
         
         {/* Columna Izquierda: Grid de Droides y Selector de Tiers */}
         <div className="lg:col-span-7 flex flex-col gap-3">
-          <div className="bg-gradient-to-br from-[#0c1628] to-[#0a101d] border border-institutional-border p-4 rounded-xl shadow-lg flex flex-col gap-3">
+          <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col gap-3">
             <div className="flex justify-between items-center flex-wrap gap-2">
-              <h2 className="text-lg font-bold text-white font-narrow flex items-center gap-2">
-                <Award className="text-institutional-secondary" size={18} />
+              <h2 className="text-xl font-bold text-[#17479d] font-narrow flex items-center gap-2">
+                <Award className="text-[#00adee]" size={20} />
                 <span>{t('droidexTitle')}</span>
-                <span className="text-xs bg-institutional-primary/40 border border-institutional-secondary/20 px-2 py-0.5 rounded text-white font-mono font-bold">
+                <span className="text-xs bg-institutional-primary/10 border border-institutional-primary/20 px-2.5 py-0.5 rounded text-[#17479d] font-mono font-bold">
                   {stats.obtainedCount}/{stats.totalCount}
                 </span>
               </h2>
@@ -1543,20 +1583,20 @@ export default function App() {
 
             {/* Barra de progreso de Hitos/Milestones */}
             {!milestone.isMax ? (
-              <div className="bg-[#050810]/60 p-2.5 rounded-lg border border-institutional-border/50 text-[10px] space-y-1.5">
-                <div className="flex justify-between text-slate-400 font-bold">
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
+                <div className="flex justify-between text-slate-700 font-bold">
                   <span>{t('milestoneGoal', { needed: milestone.needed.toString(), multiplier: milestone.multiplier.toString() })}</span>
-                  <span className="font-mono text-white">{milestone.progress}/{milestone.needed}</span>
+                  <span className="font-mono text-[#17479d] font-extrabold">{milestone.progress}/{milestone.needed}</span>
                 </div>
-                <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-805">
+                <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden border border-slate-300">
                   <div 
-                    className="bg-gradient-to-r from-orange-500 to-amber-500 h-full rounded-full transition-all duration-300"
+                    className="bg-gradient-to-r from-[#17479d] to-[#00adee] h-full rounded-full transition-all duration-300"
                     style={{ width: `${milestone.percent}%` }}
                   ></div>
                 </div>
               </div>
             ) : (
-              <div className="bg-green-950/20 border border-green-500/35 p-2 rounded-lg text-center text-xs text-green-400 font-bold">
+              <div className="bg-green-50 border border-green-200 p-2.5 rounded-xl text-center text-xs text-green-700 font-bold">
                 {t('milestoneMax')}
               </div>
             )}
@@ -1564,37 +1604,37 @@ export default function App() {
             {/* Buscador de Droidex */}
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-                <Search size={14} />
+                <Search size={15} />
               </span>
               <input
                 type="text"
                 value={droidexSearch}
                 onChange={(e) => setDroidexSearch(e.target.value)}
                 placeholder={t('searchPlaceholder')}
-                className="w-full bg-[#050810]/75 border border-institutional-border focus:border-institutional-secondary/60 pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-500 outline-none transition-colors"
+                className="w-full bg-slate-50 border border-slate-300 focus:border-[#00adee] focus:bg-white pl-9 pr-9 py-2 rounded-xl text-xs text-slate-900 placeholder-slate-400 outline-none transition-colors shadow-inner"
               />
               {droidexSearch && (
                 <button
                   onClick={() => setDroidexSearch('')}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-700 cursor-pointer"
                 >
-                  <X size={14} />
+                  <X size={15} />
                 </button>
               )}
             </div>
 
             {/* Tabs de Selección de Tier */}
-            <div className="flex bg-[#050810] p-1 rounded-lg border border-institutional-border gap-1 overflow-x-auto">
+            <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200 gap-1 overflow-x-auto">
               {localizedTiersConfig.map(tier => {
                 const isActive = tier.level === activeDroidexTier;
                 return (
                   <button
                     key={tier.level}
                     onClick={() => setActiveDroidexTier(tier.level)}
-                    className={`flex-1 min-w-[70px] py-1.5 text-[10px] font-bold uppercase rounded-md transition-all text-center cursor-pointer select-none ${
+                    className={`flex-1 min-w-[70px] py-1.5 text-xs font-bold uppercase rounded-md transition-all text-center cursor-pointer select-none ${
                       isActive
-                        ? 'bg-institutional-secondary text-slate-950 shadow-md font-extrabold'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-850'
+                        ? 'bg-[#17479d] text-white shadow-sm font-extrabold'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/80'
                     }`}
                   >
                     {tier.label}
@@ -1604,7 +1644,7 @@ export default function App() {
             </div>
 
             {/* Grid de Droides */}
-            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-300">
               {(() => {
                 if (droidexSearch === '') {
                   return filteredDroidexList.map((droid: Droid) => {
@@ -1613,19 +1653,19 @@ export default function App() {
                     const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
                     const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-                    let borderClass = 'border-slate-800 bg-[#0c1628]/35';
+                    let borderClass = 'border-slate-200 bg-slate-50 hover:bg-slate-100/80';
                     if (isObtained) {
                       switch (activeDroidexTier) {
-                        case 1: borderClass = 'border-slate-450 bg-slate-400/5 hover:bg-slate-400/10'; break;
-                        case 2: borderClass = 'border-yellow-500/40 bg-yellow-500/5 hover:bg-yellow-500/10'; break;
-                        case 3: borderClass = 'border-cyan-500/40 bg-cyan-500/5 hover:bg-cyan-500/10'; break;
-                        case 4: borderClass = 'border-pink-500/40 bg-pink-500/5 hover:bg-pink-500/10'; break;
-                        case 5: borderClass = 'border-purple-500/45 bg-purple-950/10 hover:bg-purple-950/20'; break;
+                        case 1: borderClass = 'border-slate-400 bg-slate-100 hover:bg-slate-200/70'; break;
+                        case 2: borderClass = 'border-amber-300 bg-amber-50 hover:bg-amber-100/70'; break;
+                        case 3: borderClass = 'border-cyan-300 bg-cyan-50 hover:bg-cyan-100/70'; break;
+                        case 4: borderClass = 'border-pink-300 bg-pink-50 hover:bg-pink-100/70'; break;
+                        case 5: borderClass = 'border-purple-300 bg-purple-50 hover:bg-purple-100/70'; break;
                       }
                     }
 
                     if (isSelected) {
-                      borderClass = 'border-orange-500 bg-[#161a29] ring-2 ring-orange-500/60 ring-offset-2 ring-offset-[#050810]';
+                      borderClass = 'border-[#00adee] bg-sky-50 ring-2 ring-[#00adee]/60 shadow-md';
                     }
 
                     return (
@@ -1641,17 +1681,17 @@ export default function App() {
                               {renderDroidModel(droid, activeDroidexTier)}
                             </div>
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-slate-900/80 flex items-center justify-center text-slate-500 font-bold">
+                            <div className="w-8 h-8 rounded-full bg-slate-200/80 flex items-center justify-center text-slate-500 font-bold text-sm">
                               ?
                             </div>
                           )}
                         </div>
 
-                        {/* Rarity Label */}
-                        <div className={`text-[9px] font-bold uppercase tracking-wider text-center truncate w-full ${isObtained ? rarityInfo.color : 'text-slate-600'}`}>
+                        {/* Name & Rarity Label */}
+                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-slate-900' : 'text-slate-600'}`}>
                           {droid.name}
                         </div>
-                        <div className="text-[7px] text-slate-500 mt-0.5 truncate w-full text-center">
+                        <div className="text-[9px] text-slate-500 mt-0.5 truncate w-full text-center font-medium">
                           {t(`rarity_${droid.rarity}`)}
                         </div>
                       </div>
@@ -1686,19 +1726,19 @@ export default function App() {
                     const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
                     const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-                    let borderClass = 'border-slate-800 bg-[#0c1628]/35';
+                    let borderClass = 'border-slate-200 bg-slate-50 hover:bg-slate-100/80';
                     if (isObtained) {
                       switch (tier) {
-                        case 1: borderClass = 'border-slate-450 bg-slate-400/5 hover:bg-slate-400/10'; break;
-                        case 2: borderClass = 'border-yellow-500/40 bg-yellow-500/5 hover:bg-yellow-500/10'; break;
-                        case 3: borderClass = 'border-cyan-500/40 bg-cyan-500/5 hover:bg-cyan-500/10'; break;
-                        case 4: borderClass = 'border-pink-500/40 bg-pink-500/5 hover:bg-pink-500/10'; break;
-                        case 5: borderClass = 'border-purple-500/45 bg-purple-950/10 hover:bg-purple-950/20'; break;
+                        case 1: borderClass = 'border-slate-400 bg-slate-100 hover:bg-slate-200/70'; break;
+                        case 2: borderClass = 'border-amber-300 bg-amber-50 hover:bg-amber-100/70'; break;
+                        case 3: borderClass = 'border-cyan-300 bg-cyan-50 hover:bg-cyan-100/70'; break;
+                        case 4: borderClass = 'border-pink-300 bg-pink-50 hover:bg-pink-100/70'; break;
+                        case 5: borderClass = 'border-purple-300 bg-purple-50 hover:bg-purple-100/70'; break;
                       }
                     }
 
                     if (isSelected) {
-                      borderClass = 'border-orange-500 bg-[#161a29] ring-2 ring-orange-500/60 ring-offset-2 ring-offset-[#050810]';
+                      borderClass = 'border-[#00adee] bg-sky-50 ring-2 ring-[#00adee]/60 shadow-md';
                     }
 
                     return (
@@ -1717,17 +1757,17 @@ export default function App() {
                               {renderDroidModel(droid, tier)}
                             </div>
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-slate-900/80 flex items-center justify-center text-slate-500 font-bold">
+                            <div className="w-8 h-8 rounded-full bg-slate-200/80 flex items-center justify-center text-slate-500 font-bold text-sm">
                               ?
                             </div>
                           )}
                         </div>
 
-                        {/* Rarity Label */}
-                        <div className={`text-[9px] font-bold uppercase tracking-wider text-center truncate w-full ${isObtained ? rarityInfo.color : 'text-slate-600'}`}>
+                        {/* Name & Tier Label */}
+                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-slate-900' : 'text-slate-600'}`}>
                           {droid.name}
                         </div>
-                        <div className="text-[7px] text-slate-500 mt-0.5 truncate w-full text-center">
+                        <div className="text-[9px] text-slate-500 mt-0.5 truncate w-full text-center font-medium">
                           {isIconicDroid(droid) ? t('type_Iconic') : getLocalizedTierName(tier)}
                         </div>
                       </div>
@@ -1741,43 +1781,43 @@ export default function App() {
 
         {/* Columna Derecha: Detalle de Droide */}
         <div className="lg:col-span-5 flex flex-col gap-3">
-          <div className="bg-[#0c1628] border border-institutional-border rounded-xl p-4 shadow-lg flex flex-col gap-3 h-full justify-between">
+          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col gap-3 h-full justify-between">
             
             <div className="space-y-3">
               <div className="flex justify-between items-start gap-1">
                 <div>
-                  <span className="text-[9px] uppercase tracking-wider text-slate-500 font-bold">
+                  <span className="text-xs uppercase tracking-wider text-[#17479d] font-bold">
                     {selectedDroid.rarity === 'ICONICO' ? t('type_Iconic') : getLocalizedTierName(activeDroidexTier)}
                   </span>
-                  <h3 className="text-xl font-bold text-white font-narrow leading-tight">
+                  <h3 className="text-2xl font-bold text-slate-900 font-narrow leading-tight">
                     {selectedDroid.name}
                   </h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded border border-current leading-none ${droidRarities[selectedDroid.rarity]?.color || 'text-fuchsia-400'}`}>
+                  <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border border-current leading-none ${droidRarities[selectedDroid.rarity]?.color || 'text-fuchsia-600'}`}>
                     {t(`rarity_${selectedDroid.rarity}`)}
                   </span>
                 </div>
               </div>
 
               {/* Wireframe render block */}
-              <div className="bg-[#050810]/70 rounded-xl border border-institutional-border/80 flex items-center justify-center p-6 h-56 relative overflow-hidden shadow-inner">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e2d4a_1px,transparent_1px),linear-gradient(to_bottom,#1e2d4a_1px,transparent_1px)] bg-[size:14px_24px] opacity-10"></div>
+              <div className="bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-center p-6 h-56 relative overflow-hidden shadow-inner">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e2d4a_1px,transparent_1px),linear-gradient(to_bottom,#1e2d4a_1px,transparent_1px)] bg-[size:14px_24px] opacity-20"></div>
                 
                 <div className="z-10 flex flex-col items-center">
                   {renderDroidModel(selectedDroid, activeDroidexTier)}
                 </div>
 
-                <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 text-[9px] font-bold text-slate-400 bg-[#0c1628]/90 px-2 py-0.5 rounded border border-slate-805">
-                  {React.createElement(droidTypes[selectedDroid.type]?.icon || Cpu, { size: 10, className: droidTypes[selectedDroid.type]?.color })}
+                <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 text-xs font-bold text-slate-300 bg-slate-800/90 px-2.5 py-1 rounded border border-slate-700">
+                  {React.createElement(droidTypes[selectedDroid.type]?.icon || Cpu, { size: 12, className: droidTypes[selectedDroid.type]?.color })}
                   <span>{t(`type_${selectedDroid.type}`)}</span>
                 </div>
               </div>
 
               {/* Perk / Stat Box */}
-              <div className="bg-institutional-primary/10 border border-institutional-secondary/25 p-3 rounded-lg flex flex-col gap-1">
-                <span className="text-[8px] uppercase tracking-wider text-institutional-secondary font-bold">Bono del Droidex:</span>
-                <span className="text-sm font-extrabold text-white">
+              <div className="bg-sky-50 border border-sky-200 p-3 rounded-lg flex flex-col gap-1">
+                <span className="text-[10px] uppercase tracking-wider text-[#17479d] font-bold">Bono del Droidex:</span>
+                <span className="text-sm font-extrabold text-slate-900">
                   {getDroidexStatsPerk(selectedDroid, activeDroidexTier)}
                 </span>
               </div>
@@ -1794,10 +1834,10 @@ export default function App() {
                   className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm ${
                     isSelectedObtained
                       ? 'bg-green-600 hover:bg-red-600 text-white font-extrabold'
-                      : 'bg-slate-800 hover:bg-slate-700 text-[#94a3b8] hover:text-white'
+                      : 'bg-[#17479d] hover:bg-[#12387d] text-white font-bold'
                   }`}
                 >
-                  <CheckCircle2 size={14} />
+                  <CheckCircle2 size={16} />
                   <span>
                     {isSelectedObtained
                       ? (isToggleHovered ? t('markPendiente') : t('statusFabricado'))
@@ -1808,16 +1848,16 @@ export default function App() {
             </div>
 
             {/* Back / Next Navigators */}
-            <div className="flex gap-2 pt-3 border-t border-institutional-border/50">
+            <div className="flex gap-2 pt-3 border-t border-slate-200">
               <button
                 onClick={handlePrevDroid}
-                className="flex-1 py-1.5 px-3 bg-gradient-to-r from-[#e05307] to-[#f77b06] hover:from-[#f77b06] hover:to-[#ff9124] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none"
+                className="flex-1 py-2 px-3 bg-[#17479d] hover:bg-[#12387d] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none shadow-sm"
               >
                 <span>{t('prevDroid')}</span>
               </button>
               <button
                 onClick={handleNextDroid}
-                className="flex-1 py-1.5 px-3 bg-gradient-to-r from-[#e05307] to-[#f77b06] hover:from-[#f77b06] hover:to-[#ff9124] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none"
+                className="flex-1 py-2 px-3 bg-[#17479d] hover:bg-[#12387d] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none shadow-sm"
               >
                 <span>{t('nextDroid')}</span>
               </button>
@@ -1834,8 +1874,8 @@ export default function App() {
         
         {/* Columna Izquierda: Categorías de la Tienda */}
         <div className="lg:col-span-3 flex flex-col gap-2">
-          <div className="bg-[#0c1628] border border-institutional-border p-3.5 rounded-xl shadow-lg flex flex-col gap-2">
-            <h3 className="text-[10px] uppercase font-extrabold text-[#64748b] tracking-wider px-1 mb-1">
+          <div className="bg-white border border-slate-200 p-3.5 rounded-xl shadow-sm flex flex-col gap-2">
+            <h3 className="text-xs uppercase font-extrabold text-slate-500 tracking-wider px-1 mb-1">
               Categorías
             </h3>
             
@@ -1845,13 +1885,13 @@ export default function App() {
                 const first = novaUpgradesList.find(up => up.category === 'core');
                 if (first) setSelectedShopUpgradeId(first.id);
               }}
-              className={`w-full py-2 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'core'
-                  ? 'bg-institutional-primary text-white border border-institutional-secondary/25'
-                  : 'bg-[#050810]/50 text-slate-400 hover:text-white hover:bg-slate-800/40 border border-transparent'
+                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
+                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
               }`}
             >
-              <Heart size={14} />
+              <Heart size={15} />
               <span>{t('upgradeCategory_core')}</span>
             </button>
 
@@ -1861,13 +1901,13 @@ export default function App() {
                 const first = novaUpgradesList.find(up => up.category === 'workshop');
                 if (first) setSelectedShopUpgradeId(first.id);
               }}
-              className={`w-full py-2 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'workshop'
-                  ? 'bg-institutional-primary text-white border border-institutional-secondary/25'
-                  : 'bg-[#050810]/50 text-slate-400 hover:text-white hover:bg-slate-800/40 border border-transparent'
+                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
+                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
               }`}
             >
-              <Cpu size={14} />
+              <Cpu size={15} />
               <span>{t('upgradeCategory_workshop')}</span>
             </button>
 
@@ -1877,13 +1917,13 @@ export default function App() {
                 const first = novaUpgradesList.find(up => up.category === 'cosmetic');
                 if (first) setSelectedShopUpgradeId(first.id);
               }}
-              className={`w-full py-2 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'cosmetic'
-                  ? 'bg-institutional-primary text-white border border-institutional-secondary/25'
-                  : 'bg-[#050810]/50 text-slate-400 hover:text-white hover:bg-slate-800/40 border border-transparent'
+                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
+                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
               }`}
             >
-              <Palette size={14} />
+              <Palette size={15} />
               <span>{t('upgradeCategory_cosmetic')}</span>
             </button>
 
@@ -1893,13 +1933,13 @@ export default function App() {
                 const first = novaUpgradesList.find(up => up.category === 'iconic');
                 if (first) setSelectedShopUpgradeId(first.id);
               }}
-              className={`w-full py-2 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'iconic'
-                  ? 'bg-institutional-primary text-white border border-institutional-secondary/25'
-                  : 'bg-[#050810]/50 text-slate-400 hover:text-white hover:bg-slate-800/40 border border-transparent'
+                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
+                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
               }`}
             >
-              <Award size={14} />
+              <Award size={15} />
               <span>{t('upgradeCategory_iconic')}</span>
             </button>
           </div>
@@ -1907,9 +1947,9 @@ export default function App() {
 
         {/* Columna Central: Lista de Upgrades */}
         <div className="lg:col-span-5 flex flex-col gap-3">
-          <div className="bg-gradient-to-br from-[#0c1628] to-[#0a101d] border border-institutional-border p-4 rounded-xl shadow-lg flex flex-col gap-3">
+          <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col gap-3">
             <div className="flex justify-between items-center flex-wrap gap-2">
-              <h2 className="text-base font-bold text-white font-narrow flex items-center gap-1.5">
+              <h2 className="text-lg font-bold text-[#17479d] font-narrow flex items-center gap-1.5">
                 {t('novaShopTitle')}
               </h2>
               
@@ -1918,7 +1958,7 @@ export default function App() {
                   setCrystalsInputValue(novaCrystals.toString());
                   setShowCrystalsEdit(true);
                 }}
-                className="flex items-center gap-1.5 px-3 py-1 bg-[#120e24]/75 border border-purple-800/45 text-purple-300 rounded-lg shadow-[0_0_8px_rgba(147,51,234,0.25)] hover:bg-[#120e24] cursor-pointer transition-all font-mono font-bold text-xs"
+                className="flex items-center gap-1.5 px-3 py-1 bg-purple-50 border border-purple-200 text-purple-700 rounded-lg hover:bg-purple-100 cursor-pointer transition-all font-mono font-bold text-xs shadow-sm"
                 title="Hacer clic para ajustar cristales"
               >
                 <span>💎</span>
@@ -1928,39 +1968,39 @@ export default function App() {
             </div>
 
             {/* Grid de Upgrades */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-300">
               {novaUpgradesList
                 .filter(up => up.category === activeShopCategory)
                 .map((upgrade: NovaUpgrade) => {
                   const currentLevel = getUpgradeLevel(upgrade.id);
                   const isSelected = selectedShopUpgradeId === upgrade.id;
                   
-                  let cardBorder = isSelected ? 'border-cyan-500/80 bg-[#161a29]/65 ring-1 ring-cyan-500/20' : 'border-institutional-border/60 bg-[#0c1628]/35 hover:border-slate-700';
+                  let cardBorder = isSelected ? 'border-[#00adee] bg-sky-50 ring-1 ring-[#00adee]/30 shadow-sm' : 'border-slate-200 bg-slate-50 hover:bg-slate-100/80';
 
                   return (
                     <div
                       key={upgrade.id}
                       onClick={() => setSelectedShopUpgradeId(upgrade.id)}
-                      className={`p-3 rounded-lg border flex flex-col justify-between cursor-pointer select-none transition-all ${cardBorder}`}
+                      className={`p-3 rounded-xl border flex flex-col justify-between cursor-pointer select-none transition-all ${cardBorder}`}
                     >
                       <div className="flex gap-2 items-start mb-2">
-                        <span className={`p-1.5 rounded bg-slate-900 border border-slate-850 flex-shrink-0 text-cyan-400`}>
-                          {React.createElement(upgrade.icon, { size: 14 })}
+                        <span className="p-1.5 rounded bg-sky-100 border border-sky-200 flex-shrink-0 text-[#17479d]">
+                          {React.createElement(upgrade.icon, { size: 15 })}
                         </span>
                         <div className="min-w-0">
-                          <h4 className="text-xs font-bold text-white leading-tight truncate">
+                          <h4 className="text-xs font-bold text-slate-900 leading-tight truncate">
                             {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
                           </h4>
-                          <span className="text-[9px] font-mono text-slate-400 font-bold block mt-0.5">
+                          <span className="text-[10px] font-mono text-slate-500 font-bold block mt-0.5">
                             {upgrade.category === 'iconic' ? (currentLevel > 0 ? 'Adquirido' : 'Pendiente') : `Lvl ${currentLevel}/${upgrade.maxLevel}`}
                           </span>
                         </div>
                       </div>
 
                       {upgrade.category !== 'iconic' && (
-                        <div className="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden border border-slate-900">
+                        <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden border border-slate-300">
                           <div
-                            className="bg-cyan-500 h-full rounded-full transition-all duration-300"
+                            className="bg-[#00adee] h-full rounded-full transition-all duration-300"
                             style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
                           ></div>
                         </div>
@@ -1984,44 +2024,44 @@ export default function App() {
             const canAfford = novaCrystals >= nextCost;
 
             return (
-              <div className="bg-[#0c1628] border border-institutional-border rounded-xl p-4 shadow-lg flex flex-col gap-4 justify-between h-full">
+              <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col gap-4 justify-between h-full">
                 
                 <div className="space-y-4">
                   <div className="flex gap-3 items-center">
-                    <span className="p-2 rounded bg-cyan-950/20 border border-cyan-500/30 text-cyan-400 shadow-[0_0_6px_rgba(0,173,238,0.2)]">
-                      {React.createElement(upgrade.icon, { size: 20 })}
+                    <span className="p-2 rounded bg-sky-50 border border-sky-200 text-[#17479d]">
+                      {React.createElement(upgrade.icon, { size: 22 })}
                     </span>
                     <div>
-                      <span className="text-[9px] uppercase tracking-wider text-slate-500 font-bold">
+                      <span className="text-[10px] uppercase tracking-wider text-[#17479d] font-bold">
                         {t(`upgradeCategory_${upgrade.category}`)}
                       </span>
-                      <h3 className="text-base font-bold text-white font-narrow leading-tight">
+                      <h3 className="text-xl font-bold text-slate-900 font-narrow leading-tight">
                         {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
                       </h3>
                     </div>
                   </div>
 
-                  <p className="text-xs text-[#94a3b8] leading-relaxed">
+                  <p className="text-xs text-slate-600 leading-relaxed">
                     {upgrade.category === 'iconic' ? getIconicDroidDesc(upgrade.nameKey) : t(upgrade.descKey)}
                   </p>
 
                   {upgrade.category !== 'iconic' ? (
                     <div className="space-y-2">
                       <div className="flex justify-between text-xs font-bold">
-                        <span className="text-slate-400">Progreso de Nivel</span>
-                        <span className="text-white font-mono">{currentLevel} / {upgrade.maxLevel}</span>
+                        <span className="text-slate-500">Progreso de Nivel</span>
+                        <span className="text-slate-900 font-mono">{currentLevel} / {upgrade.maxLevel}</span>
                       </div>
-                      <div className="w-full bg-slate-900 border border-slate-800 h-2.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-slate-200 border border-slate-300 h-2.5 rounded-full overflow-hidden">
                         <div
-                          className="bg-cyan-500 h-full rounded-full transition-all duration-305 shadow-[0_0_8px_rgba(6,182,212,0.4)]"
+                          className="bg-[#00adee] h-full rounded-full transition-all duration-300"
                           style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
                         ></div>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between text-xs py-1.5 border-y border-slate-850">
-                      <span className="text-slate-400 font-bold">Estado en Colección</span>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${currentLevel > 0 ? 'bg-green-950/30 border border-green-500/20 text-green-400' : 'bg-slate-900 border border-slate-800 text-slate-500'}`}>
+                    <div className="flex items-center justify-between text-xs py-2 border-y border-slate-200">
+                      <span className="text-slate-500 font-bold">Estado en Colección</span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${currentLevel > 0 ? 'bg-green-50 border border-green-200 text-green-700' : 'bg-slate-100 border border-slate-200 text-slate-500'}`}>
                         {currentLevel > 0 ? 'Adquirido' : 'Pendiente'}
                       </span>
                     </div>
@@ -2029,17 +2069,17 @@ export default function App() {
 
                   <div className="pt-2">
                     {isMax ? (
-                      <div className="bg-green-950/35 border border-green-500/25 p-3 rounded-lg text-center font-bold text-xs text-green-400">
+                      <div className="bg-green-50 border border-green-200 p-3 rounded-lg text-center font-bold text-xs text-green-700">
                         {t('maxLevelReached')}
                       </div>
                     ) : (
                       <button
                         onClick={() => buyUpgradeLevel(upgrade.id)}
                         disabled={!canAfford}
-                        className={`w-full py-3 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md select-none cursor-pointer ${
+                        className={`w-full py-3 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm select-none cursor-pointer ${
                           canAfford
-                            ? 'bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-extrabold'
-                            : 'bg-slate-850 border border-slate-800 text-slate-550 cursor-not-allowed'
+                            ? 'bg-[#17479d] hover:bg-[#12387d] text-white font-extrabold'
+                            : 'bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed'
                         }`}
                       >
                         <span>💎</span>
@@ -2049,21 +2089,21 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="bg-slate-950/40 p-2.5 rounded-lg border border-[#1e2d4a]/50 text-xs mt-2">
+                <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs mt-2">
                   <div className="flex items-center justify-between gap-1.5">
                     <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Ajustar Nivel Manual:</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel - 1)}
-                        className="w-6 h-6 bg-slate-850 hover:bg-slate-750 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                         disabled={currentLevel <= 0}
                       >
                         <Minus size={12} />
                       </button>
-                      <span className="px-2 font-mono font-bold text-white text-xs">{currentLevel}</span>
+                      <span className="px-2 font-mono font-bold text-slate-900 text-xs">{currentLevel}</span>
                       <button
                         onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel + 1)}
-                        className="w-6 h-6 bg-slate-850 hover:bg-slate-750 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                         disabled={currentLevel >= upgrade.maxLevel}
                       >
                         <Plus size={12} />
@@ -2084,22 +2124,22 @@ export default function App() {
 
   {/* Modal de Reinicio */}
   {showResetModal && (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-      <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
-        <h3 className="text-sm font-bold mb-1 text-white font-narrow">¿Reiniciar progreso?</h3>
-        <p className="text-[#94a3b8] mb-4">
+    <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+      <div className="bg-white border border-slate-200 p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
+        <h3 className="text-base font-bold mb-1 text-slate-900 font-narrow">¿Reiniciar progreso?</h3>
+        <p className="text-slate-600 mb-4 leading-relaxed">
           Restablecerá tu Rebirth al nivel 0 (inicio) y borrará tus droides. No se puede deshacer.
         </p>
         <div className="flex justify-end gap-2">
           <button 
             onClick={() => setShowResetModal(false)} 
-            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-[#94a3b8] hover:text-white transition-all font-bold cursor-pointer"
+            className="px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all font-bold cursor-pointer"
           >
             Cancelar
           </button>
           <button 
             onClick={handleReset} 
-            className="px-3 py-1.5 rounded bg-red-650 hover:bg-red-600 text-white transition-all font-bold shadow-md cursor-pointer"
+            className="px-3 py-1.5 rounded bg-red-600 hover:bg-red-700 text-white transition-all font-bold shadow-sm cursor-pointer"
           >
             Sí, reiniciar
           </button>
@@ -2110,36 +2150,36 @@ export default function App() {
 
   {/* Modal de Super Rebirth */}
   {showSuperRebirthModal && (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-      <div className="bg-[#120e24] border border-purple-900/40 p-5 rounded-xl max-w-xs w-full shadow-[0_0_20px_rgba(147,51,234,0.3)] relative font-sans text-xs">
-        <h3 className="text-sm font-bold mb-1 text-white font-narrow flex items-center gap-1.5 text-purple-400">
-          <Sparkles size={14} /> ¿Realizar Super Rebirth?
+    <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+      <div className="bg-white border border-slate-200 p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
+        <h3 className="text-base font-bold mb-1 text-purple-700 font-narrow flex items-center gap-1.5">
+          <Sparkles size={16} /> ¿Realizar Super Rebirth?
         </h3>
-        <p className="text-[#94a3b8] mb-3">
-          Estás en Rebirth <strong className="text-white">R-{currentRebirth}</strong>. Al volver a comenzar obtendrás:
+        <p className="text-slate-600 mb-3 leading-relaxed">
+          Estás en Rebirth <strong className="text-slate-900">R-{currentRebirth}</strong>. Al volver a comenzar obtendrás:
         </p>
         
-        <div className="bg-purple-950/40 border border-purple-800/40 p-2.5 rounded-lg text-center mb-4 shadow-inner">
-          <div className="text-[10px] uppercase font-bold text-purple-300 tracking-wider mb-0.5">Recompensa</div>
-          <div className="text-base font-black text-purple-100 flex items-center justify-center gap-1">
+        <div className="bg-purple-50 border border-purple-200 p-3 rounded-xl text-center mb-4">
+          <div className="text-[10px] uppercase font-bold text-purple-700 tracking-wider mb-0.5">Recompensa</div>
+          <div className="text-base font-black text-purple-900 flex items-center justify-center gap-1">
             <span>💎 {getNovaCrystals(currentRebirth)} Cristales Nova</span>
           </div>
         </div>
 
-        <p className="text-red-400/80 mb-4 leading-relaxed text-[11px]">
+        <p className="text-red-600 mb-4 leading-relaxed text-xs">
           ⚠️ Esto restablecerá tu Rebirth al nivel 0 y borrará todos tus droides del tracker.
         </p>
 
         <div className="flex justify-end gap-2">
           <button 
             onClick={() => setShowSuperRebirthModal(false)} 
-            className="px-3 py-1.5 rounded bg-slate-900 hover:bg-slate-800 text-[#94a3b8] hover:text-white transition-all font-bold cursor-pointer"
+            className="px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all font-bold cursor-pointer"
           >
             Cancelar
           </button>
           <button 
             onClick={handleSuperRebirth} 
-            className="px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-650 text-white transition-all font-bold shadow-md cursor-pointer"
+            className="px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-800 text-white transition-all font-bold shadow-sm cursor-pointer"
           >
             Confirmar Super Rebirth
           </button>
@@ -2150,9 +2190,9 @@ export default function App() {
 
   {/* Modal de Ajuste de Cristales */}
   {showCrystalsEdit && (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-      <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
-        <h3 className="text-sm font-bold mb-2 text-white font-narrow flex items-center gap-1.5">
+    <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+      <div className="bg-white border border-slate-200 p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
+        <h3 className="text-base font-bold mb-2 text-slate-900 font-narrow flex items-center gap-1.5">
           <span>💎</span> {t('customCrystalsLabel')}
         </h3>
         
@@ -2161,13 +2201,13 @@ export default function App() {
           min="0"
           value={crystalsInputValue}
           onChange={(e) => setCrystalsInputValue(e.target.value)}
-          className="w-full bg-[#050810] border border-institutional-border p-2.5 rounded-lg text-white font-mono font-bold text-sm text-center outline-none focus:border-institutional-secondary mb-4"
+          className="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-lg text-slate-900 font-mono font-bold text-sm text-center outline-none focus:border-[#00adee] mb-4"
         />
 
         <div className="flex justify-end gap-2">
           <button 
             onClick={() => setShowCrystalsEdit(false)} 
-            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-[#94a3b8] hover:text-white transition-all font-bold cursor-pointer"
+            className="px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all font-bold cursor-pointer"
           >
             {t('cancel')}
           </button>
@@ -2177,7 +2217,7 @@ export default function App() {
               saveNovaCrystals(isNaN(val) ? 0 : Math.max(0, val));
               setShowCrystalsEdit(false);
             }} 
-            className="px-3 py-1.5 rounded bg-institutional-primary hover:bg-institutional-primary/80 border border-institutional-secondary/35 text-white transition-all font-bold shadow-md cursor-pointer"
+            className="px-3 py-1.5 rounded bg-institutional-primary hover:bg-[#12387d] text-white transition-all font-bold shadow-sm cursor-pointer"
           >
             {t('save')}
           </button>
