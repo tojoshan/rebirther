@@ -344,16 +344,7 @@ const getTierColor = (tier: number) => {
   }
 };
 
-const getNovaCrystals = (level: number): number => {
-  if (level < 12) return 0;
-  let crystals = 11;
-  let increment = 5;
-  for (let i = 13; i <= level; i++) {
-    crystals += increment;
-    increment += 1;
-  }
-  return crystals;
-};
+
 
 interface NovaUpgrade {
   id: string;
