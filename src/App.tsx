@@ -1141,17 +1141,17 @@ export default function App() {
   const isNextReqMet = nextReq ? getRebirthStatus(nextReq) === 'ready' : false;
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-[#1e293b] font-sans antialiased p-3 pb-8 space-y-4">
+    <div className="min-h-screen bg-[#050810] text-[#e2e8f0] font-sans antialiased p-3 pb-8 space-y-4">
       <div className="max-w-6xl mx-auto space-y-3">
         
         {/* Navigation Tabs */}
-        <div className="flex bg-white border border-slate-200 p-1.5 rounded-xl shadow-sm gap-1.5">
+        <div className="flex bg-[#0c1628] border border-[#1e2d4a] p-1.5 rounded-xl shadow-lg gap-1.5">
           <button
             onClick={() => saveActiveTab('tracker')}
             className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
               activeTab === 'tracker'
-                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-primary/50'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
+                : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
             }`}
           >
             <Target size={15} />
@@ -1161,8 +1161,8 @@ export default function App() {
             onClick={() => saveActiveTab('droidex')}
             className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
               activeTab === 'droidex'
-                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-primary/50'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
+                : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
             }`}
           >
             <Award size={15} />
@@ -1172,8 +1172,8 @@ export default function App() {
             onClick={() => saveActiveTab('novashop')}
             className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
               activeTab === 'novashop'
-                ? 'bg-institutional-primary text-white shadow-sm border border-institutional-primary/50'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
+                : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
             }`}
           >
             <Sparkles size={15} />
@@ -1184,22 +1184,22 @@ export default function App() {
         {activeTab === 'tracker' && (
           <>
             {/* Cabecera y Controles Principales */}
-            <header className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col gap-3.5">
+            <header className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3.5">
           
           {/* Fila 1: Título y Controles */}
           <div className="flex justify-between items-center gap-2">
-            <h1 className="text-lg font-bold text-slate-900 font-narrow flex items-center gap-2 flex-wrap">
-              <span className="text-[#17479d]">{t('title')}</span>
+            <h1 className="text-lg font-bold text-white font-narrow flex items-center gap-2 flex-wrap">
+              <span className="text-[#00adee]">{t('title')}</span>
               <div className="relative inline-flex items-center">
                 <select
                   value={currentCycle}
                   onChange={(e) => saveCycle(parseInt(e.target.value, 10))}
-                  className="bg-slate-100 text-[#17479d] border border-slate-300 px-2 py-0.5 rounded text-xs uppercase font-bold tracking-wider cursor-pointer outline-none hover:bg-slate-200 transition-colors"
+                  className="bg-[#0f172a] text-[#00adee] border border-[#1e2d4a] px-2 py-0.5 rounded text-xs uppercase font-bold tracking-wider cursor-pointer outline-none hover:bg-[#13223d] transition-colors"
                 >
-                  <option value={1} className="bg-white text-slate-900">{t('cycle')} 1</option>
-                  <option value={2} className="bg-white text-slate-900">{t('cycle')} 2</option>
-                  <option value={3} className="bg-white text-slate-900">{t('cycle')} 3</option>
-                  <option value={4} className="bg-white text-slate-900">{t('cycle')} 4</option>
+                  <option value={1} className="bg-[#0c1628] text-white">{t('cycle')} 1</option>
+                  <option value={2} className="bg-[#0c1628] text-white">{t('cycle')} 2</option>
+                  <option value={3} className="bg-[#0c1628] text-white">{t('cycle')} 3</option>
+                  <option value={4} className="bg-[#0c1628] text-white">{t('cycle')} 4</option>
                 </select>
               </div>
             </h1>
@@ -1209,11 +1209,11 @@ export default function App() {
                 <select
                   value={language}
                   onChange={(e) => saveLanguage(e.target.value)}
-                  className="bg-slate-100 text-[#17479d] border border-slate-300 px-2 py-0.5 rounded text-xs font-bold cursor-pointer outline-none hover:bg-slate-200 transition-colors uppercase"
+                  className="bg-[#0f172a] text-[#00adee] border border-[#1e2d4a] px-2 py-0.5 rounded text-xs font-bold cursor-pointer outline-none hover:bg-[#13223d] transition-colors uppercase"
                 >
-                  <option value="es" className="bg-white text-slate-900">ES</option>
-                  <option value="en" className="bg-white text-slate-900">EN</option>
-                  <option value="pt" className="bg-white text-slate-900">PT</option>
+                  <option value="es" className="bg-[#0c1628] text-white">ES</option>
+                  <option value="en" className="bg-[#0c1628] text-white">EN</option>
+                  <option value="pt" className="bg-[#0c1628] text-white">PT</option>
                 </select>
               </div>
 
@@ -1221,14 +1221,14 @@ export default function App() {
               {currentRebirth >= 12 ? (
                 <button
                   onClick={() => setShowSuperRebirthModal(true)}
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-700 hover:bg-purple-650 text-white rounded-lg border border-purple-500/30 shadow-sm transition-all cursor-pointer font-bold"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-800 hover:bg-purple-700 text-white rounded-lg border border-purple-500/40 shadow-[0_0_10px_rgba(147,51,234,0.3)] transition-all cursor-pointer font-bold"
                 >
                   <Sparkles size={12} /> <span>{t('superRebirth')} (+{getNovaCrystals(currentRebirth)})</span>
                 </button>
               ) : (
                 <button
                   disabled
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-slate-100 border border-slate-200 text-slate-400 rounded-lg cursor-not-allowed font-bold"
+                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-950/40 border border-purple-900/50 text-purple-300/50 rounded-lg cursor-not-allowed font-bold"
                   title={t('superRebirthTooltip')}
                 >
                   <Lock size={12} /> <span>{t('superRebirth')} (R-12)</span>
@@ -1238,7 +1238,7 @@ export default function App() {
               {/* Botón Reiniciar */}
               <button 
                 onClick={() => setShowResetModal(true)}
-                className="flex items-center gap-1 px-2.5 py-1 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg border border-red-200 transition-colors cursor-pointer font-bold"
+                className="flex items-center gap-1 px-2.5 py-1 text-xs text-red-400 hover:text-red-300 hover:bg-red-950/40 rounded-lg border border-red-800/40 transition-colors cursor-pointer font-bold"
               >
                 <RotateCcw size={12} /> <span>{t('reiniciar')}</span>
               </button>
@@ -1246,24 +1246,24 @@ export default function App() {
           </div>
 
           {/* Fila 2: Selector Rebirth Horizontal Deslizable */}
-          <div className="bg-slate-50 py-2.5 px-3 rounded-xl border border-slate-200 flex flex-col gap-1.5">
-            <div className="flex justify-between items-center text-xs text-slate-600">
+          <div className="bg-[#091120] py-2.5 px-3 rounded-xl border border-[#1e2d4a] flex flex-col gap-1.5">
+            <div className="flex justify-between items-center text-xs text-slate-300">
               <span className="font-bold flex items-center gap-1.5">
                 <Target size={14} className="text-[#00adee]" />
                 {t('slideRebirth')}
               </span>
-              <span>{t('rebirthLabel')} <strong className="text-[#17479d]">R-{currentRebirth}</strong></span>
+              <span>{t('rebirthLabel')} <strong className="text-[#00adee] font-extrabold">R-{currentRebirth}</strong></span>
             </div>
-            <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
+            <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
               {Array.from({ length: 31 }, (_, i) => {
                 const lvl = i;
                 const isActive = lvl === currentRebirth;
                 
                 let btnClass = "h-8 w-8 text-xs font-bold rounded-full flex items-center justify-center transition-all duration-100 select-none cursor-pointer flex-shrink-0 ";
                 if (isActive) {
-                  btnClass += "bg-[#17479d] text-white border-2 border-[#00adee] font-extrabold shadow-sm";
+                  btnClass += "bg-[#17479d] text-white border-2 border-[#00adee] font-extrabold shadow-[0_0_10px_rgba(0,173,238,0.4)]";
                 } else {
-                  btnClass += "bg-white border border-slate-200 text-slate-600 hover:border-slate-400 hover:text-slate-900";
+                  btnClass += "bg-[#050810] border border-[#1e2d4a] text-slate-300 hover:border-slate-500 hover:text-white";
                 }
 
                 return (
@@ -1280,18 +1280,18 @@ export default function App() {
           </div>
 
           {/* Fila 3: Siguiente Rebirth Requisitos */}
-          <div className="bg-white border border-slate-200 rounded-xl p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs shadow-sm">
+          <div className="bg-[#091120] border border-[#1e2d4a] rounded-xl p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs shadow-md">
             {nextReq ? (
               <>
                 <div className="space-y-2 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="bg-sky-50 text-[#17479d] border border-sky-200 px-2 py-0.5 rounded text-[10px] font-bold">
+                    <span className="bg-[#00adee]/20 text-[#00adee] border border-[#00adee]/40 px-2 py-0.5 rounded text-[10px] font-bold">
                       {t('nextMeta')}
                     </span>
-                    <span className="text-sm font-extrabold text-slate-900 font-narrow">
+                    <span className="text-sm font-extrabold text-white font-narrow">
                       {t('requirementsForRebirth', { level: nextLevel.toString() })}
                     </span>
-                    <span className="text-amber-700 font-bold bg-amber-50 border border-amber-200 px-2 py-0.5 rounded flex items-center gap-1 font-mono">
+                    <span className="text-amber-300 font-bold bg-amber-950/40 border border-amber-500/30 px-2 py-0.5 rounded flex items-center gap-1 font-mono">
                       <Coins size={12} />
                       {formatCredits(nextReq.credits)}
                     </span>
@@ -1308,8 +1308,8 @@ export default function App() {
                           key={index}
                           className={`px-2 py-1 rounded text-xs border flex items-center gap-1.5 ${
                             isMet 
-                              ? 'bg-green-50 border-green-200 text-green-700 font-bold' 
-                              : 'bg-slate-100 border-slate-200 text-slate-700'
+                              ? 'bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 font-bold' 
+                              : 'bg-[#0f172a] border border-[#1e2d4a] text-slate-200'
                           }`}
                         >
                           <span>{reqDroid.name}:</span>
@@ -1326,7 +1326,7 @@ export default function App() {
                 {isNextReqMet && (
                   <button
                     onClick={() => saveRebirth(nextLevel)}
-                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
                   >
                     <span>{t('rebirthReady')}</span>
                     <ArrowRight size={12} />
@@ -1334,7 +1334,7 @@ export default function App() {
                 )}
               </>
             ) : (
-              <span className="text-green-600 font-bold flex items-center gap-2 py-1 text-sm">
+              <span className="text-emerald-400 font-bold flex items-center gap-2 py-1 text-sm">
                 <Sparkles size={16} /> {t('congratulationsFinished')}
               </span>
             )}
@@ -1355,12 +1355,12 @@ export default function App() {
               value={trackerSearch}
               onChange={(e) => setTrackerSearch(e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="w-full bg-white border border-slate-300 focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-slate-900 placeholder-slate-400 outline-none transition-colors shadow-sm"
+              className="w-full bg-[#0c1628] border border-[#1e2d4a] focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-400 outline-none transition-colors shadow-inner"
             />
             {trackerSearch && (
               <button
                 onClick={() => setTrackerSearch('')}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-700 cursor-pointer"
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
               >
                 <X size={15} />
               </button>
@@ -1370,11 +1370,11 @@ export default function App() {
           {/* Sección 1: Requisitos de Rebirth */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
-              <h3 className="text-xs uppercase font-extrabold text-slate-500 tracking-wider">
+              <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider">
                 {t('rebirthRequirementsSection')}
               </h3>
               {requiredDroids.length !== droidsData.filter(d => getRequiredTier(d.name) > 0).length && (
-                <span className="text-[10px] font-mono text-slate-500 font-bold">
+                <span className="text-[10px] font-mono text-slate-400 font-bold">
                   {requiredDroids.length} / {droidsData.filter(d => getRequiredTier(d.name) > 0).length}
                 </span>
               )}
@@ -1397,18 +1397,18 @@ export default function App() {
                     key={droid.name} 
                     className={`p-3 rounded-xl border flex flex-col justify-between transition-all duration-150 ${
                       isImmediate
-                        ? 'bg-sky-50/70 border-2 border-[#00adee] ring-1 ring-[#00adee]/20 shadow-sm'
+                        ? 'bg-gradient-to-b from-[#112544] to-[#0c1628] border-2 border-[#00adee] ring-1 ring-[#00adee]/30 shadow-[0_0_15px_rgba(0,173,238,0.2)]'
                         : isCompleted 
-                        ? 'bg-slate-50 border-slate-200 opacity-80' 
-                        : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
+                        ? 'bg-[#0c1628]/60 border border-emerald-900/40 opacity-90' 
+                        : 'bg-[#0c1628] border border-[#1e2d4a] hover:border-slate-600 shadow-md'
                     }`}
                   >
                     {/* Fila 1: Nombre, Rarity y Trash/Clear */}
                     <div className="flex justify-between items-center gap-1.5 mb-2">
                       <h4 className={`text-sm sm:text-base truncate flex-1 leading-tight ${
                         isImmediate 
-                          ? 'text-[#17479d] font-extrabold' 
-                          : 'text-slate-900 font-bold'
+                          ? 'text-[#00adee] font-extrabold' 
+                          : isCompleted ? 'text-slate-100 font-bold' : 'text-white font-bold'
                       }`} title={droid.name}>
                         {droid.name}
                       </h4>
@@ -1416,14 +1416,14 @@ export default function App() {
                         {droid.achieved > 0 && (
                           <button
                             onClick={() => handleClearDroid(droid.name)}
-                            className="p-0.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors cursor-pointer"
+                            className="p-0.5 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded transition-colors cursor-pointer"
                             title={t('notRequiredTooltip')}
                           >
                             <Trash2 size={12} />
                           </button>
                         )}
                         {isImmediate && (
-                          <span className="px-1.5 py-0.5 bg-[#00adee] text-white text-[9px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: nextLevel.toString() })}>
+                          <span className="px-1.5 py-0.5 bg-[#00adee] text-slate-950 text-[9px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: nextLevel.toString() })}>
                             R-{nextLevel}
                           </span>
                         )}
@@ -1437,16 +1437,17 @@ export default function App() {
                     </div>
 
                     {/* Fila 2: Requisitos y Meta (Descriptivo) */}
-                    <div className="bg-slate-50 px-2 py-1 rounded text-xs flex justify-between items-center mb-2.5 border border-slate-200" title={rec.text}>
+                    <div className="bg-[#050810]/70 px-2 py-1 rounded text-xs flex justify-between items-center mb-2.5 border border-[#1e2d4a]/50" title={rec.text}>
                       <span className={`truncate text-[10px] font-bold ${
-                        rec.type === 'upgrade' ? 'text-amber-600' :
-                        rec.type === 'keep_upgrade' ? 'text-cyan-600' :
-                        rec.type === 'keep' ? 'text-green-600 font-bold' :
-                        'text-slate-500 font-medium'
+                        rec.type === 'upgrade' ? 'text-amber-300' :
+                        rec.type === 'keep_upgrade' ? 'text-cyan-300' :
+                        rec.type === 'keep' ? 'text-emerald-300 font-bold' :
+                        rec.type === 'sell' ? 'text-rose-400 font-bold' :
+                        'text-slate-400 font-medium'
                       }`}>
                         {rec.text}
                       </span>
-                      <span className="text-slate-400 text-[9px] font-mono truncate ml-1 flex-shrink-0" title={t('futureRebirthsTooltip')}>
+                      <span className="text-slate-300 text-[9px] font-mono truncate ml-1 flex-shrink-0 font-bold" title={t('futureRebirthsTooltip')}>
                         {reqList.filter(r => r.level > currentRebirth).map(r => `R${r.level}`).join(', ')}
                       </span>
                     </div>
@@ -1458,16 +1459,16 @@ export default function App() {
                         let baseClasses = "flex-1 flex items-center justify-center text-[10px] font-bold border-y border-r last:border-r-0 first:border-l first:rounded-l-lg last:rounded-r-lg transition-all duration-100 select-none ";
 
                         if (!isActive) {
-                          baseClasses += "bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200 cursor-pointer";
+                          baseClasses += "bg-[#050810] border-[#1e2d4a]/70 text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer";
                         } else {
                           baseClasses += "cursor-pointer border-transparent z-10 ";
                           switch(tier.level) {
-                            case 1: baseClasses += "bg-slate-400 text-slate-950"; break;
-                            case 2: baseClasses += "bg-amber-400 text-amber-950 font-bold"; break;
-                            case 3: baseClasses += "bg-cyan-500 text-slate-950 font-extrabold"; break;
+                            case 1: baseClasses += "bg-slate-300 text-slate-950 font-bold"; break;
+                            case 2: baseClasses += "bg-amber-400 text-slate-950 font-extrabold"; break;
+                            case 3: baseClasses += "bg-cyan-400 text-slate-950 font-extrabold"; break;
                             case 4: baseClasses += "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold"; break;
-                            case 5: baseClasses += "bg-purple-800 text-purple-100 font-bold"; break;
-                            case 6: baseClasses += "bg-indigo-900 text-indigo-100 font-bold"; break;
+                            case 5: baseClasses += "bg-purple-800 text-purple-100 font-extrabold border-t border-purple-400"; break;
+                            case 6: baseClasses += "bg-indigo-900 text-indigo-100 font-extrabold border-t border-indigo-400"; break;
                           }
                         }
 
@@ -1491,12 +1492,12 @@ export default function App() {
 
           {/* Sección 2: Droides No Requeridos */}
           {discardedDroids.length > 0 && (
-            <div className="space-y-2 pt-2 border-t border-slate-200">
+            <div className="space-y-2 pt-2 border-t border-[#1e2d4a]">
               <div className="flex justify-between items-center px-1">
-                <h3 className="text-xs uppercase font-extrabold text-slate-500 tracking-wider">
+                <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider">
                   {t('notRequiredSection')}
                 </h3>
-                <span className="text-[10px] font-mono bg-red-50 border border-red-200 px-1.5 py-0.2 rounded text-red-600 font-bold">
+                <span className="text-[10px] font-mono bg-red-950/40 border border-red-500/30 px-1.5 py-0.2 rounded text-red-300 font-bold">
                   {discardedDroids.length}
                 </span>
               </div>
@@ -1511,11 +1512,11 @@ export default function App() {
                   let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 flex items-center ";
 
                   if (inCycle) {
-                    cardClass += "bg-red-50/60 border-red-200 hover:border-red-300";
-                    titleClass += hasProgress ? "text-red-700 font-extrabold" : "text-red-400 line-through font-semibold";
+                    cardClass += "bg-red-950/30 border-red-800/40 hover:border-red-600/50";
+                    titleClass += hasProgress ? "text-red-300 font-extrabold" : "text-red-300/90 font-semibold";
                   } else {
-                    cardClass += "bg-slate-50 border-slate-200 hover:border-slate-300";
-                    titleClass += hasProgress ? "text-slate-800 font-bold" : "text-slate-400 line-through font-medium";
+                    cardClass += "bg-[#0c1628]/60 border border-[#1e2d4a] hover:border-slate-600";
+                    titleClass += hasProgress ? "text-slate-200 font-bold" : "text-slate-300 font-medium";
                   }
 
                   return (
@@ -1534,7 +1535,7 @@ export default function App() {
                       {hasProgress && (
                         <button
                           onClick={() => handleClearDroid(droid.name)}
-                          className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-100/50 rounded transition-colors cursor-pointer"
+                          className="p-1 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded transition-colors cursor-pointer"
                           title={t('notRequiredTooltip')}
                         >
                           <Trash2 size={12} />
@@ -1550,7 +1551,7 @@ export default function App() {
         </main>
 
         {/* Footer simple de la aplicación */}
-        <footer className="text-center py-2 text-xs text-slate-500 shrink-0">
+        <footer className="text-center py-2 text-xs text-slate-400 shrink-0">
           {t('droidsOrderFooter')}
         </footer>
       </>
@@ -1561,12 +1562,12 @@ export default function App() {
         
         {/* Columna Izquierda: Grid de Droides y Selector de Tiers */}
         <div className="lg:col-span-7 flex flex-col gap-3">
-          <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col gap-3">
+          <div className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3">
             <div className="flex justify-between items-center flex-wrap gap-2">
-              <h2 className="text-xl font-bold text-[#17479d] font-narrow flex items-center gap-2">
+              <h2 className="text-xl font-bold text-white font-narrow flex items-center gap-2">
                 <Award className="text-[#00adee]" size={20} />
                 <span>{t('droidexTitle')}</span>
-                <span className="text-xs bg-institutional-primary/10 border border-institutional-primary/20 px-2.5 py-0.5 rounded text-[#17479d] font-mono font-bold">
+                <span className="text-xs bg-institutional-primary/20 border border-institutional-primary/40 px-2.5 py-0.5 rounded text-[#00adee] font-mono font-bold">
                   {stats.obtainedCount}/{stats.totalCount}
                 </span>
               </h2>
@@ -1574,12 +1575,12 @@ export default function App() {
 
             {/* Barra de progreso de Hitos/Milestones */}
             {!milestone.isMax ? (
-              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
-                <div className="flex justify-between text-slate-700 font-bold">
+              <div className="bg-[#091120] p-3 rounded-xl border border-[#1e2d4a] text-xs space-y-1.5">
+                <div className="flex justify-between text-slate-200 font-bold">
                   <span>{t('milestoneGoal', { needed: milestone.needed.toString(), multiplier: milestone.multiplier.toString() })}</span>
-                  <span className="font-mono text-[#17479d] font-extrabold">{milestone.progress}/{milestone.needed}</span>
+                  <span className="font-mono text-[#00adee] font-extrabold">{milestone.progress}/{milestone.needed}</span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden border border-slate-300">
+                <div className="w-full bg-[#050810] rounded-full h-2.5 overflow-hidden border border-[#1e2d4a]">
                   <div 
                     className="bg-gradient-to-r from-[#17479d] to-[#00adee] h-full rounded-full transition-all duration-300"
                     style={{ width: `${milestone.percent}%` }}
@@ -1587,7 +1588,7 @@ export default function App() {
                 </div>
               </div>
             ) : (
-              <div className="bg-green-50 border border-green-200 p-2.5 rounded-xl text-center text-xs text-green-700 font-bold">
+              <div className="bg-emerald-950/50 border border-emerald-500/40 p-2.5 rounded-xl text-center text-xs text-emerald-300 font-bold">
                 {t('milestoneMax')}
               </div>
             )}
@@ -1602,12 +1603,12 @@ export default function App() {
                 value={droidexSearch}
                 onChange={(e) => setDroidexSearch(e.target.value)}
                 placeholder={t('searchPlaceholder')}
-                className="w-full bg-slate-50 border border-slate-300 focus:border-[#00adee] focus:bg-white pl-9 pr-9 py-2 rounded-xl text-xs text-slate-900 placeholder-slate-400 outline-none transition-colors shadow-inner"
+                className="w-full bg-[#050810] border border-[#1e2d4a] focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-400 outline-none transition-colors shadow-inner"
               />
               {droidexSearch && (
                 <button
                   onClick={() => setDroidexSearch('')}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-700 cursor-pointer"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
                 >
                   <X size={15} />
                 </button>
@@ -1615,7 +1616,7 @@ export default function App() {
             </div>
 
             {/* Tabs de Selección de Tier */}
-            <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200 gap-1 overflow-x-auto">
+            <div className="flex bg-[#091120] p-1 rounded-lg border border-[#1e2d4a] gap-1 overflow-x-auto">
               {localizedTiersConfig.map(tier => {
                 const isActive = tier.level === activeDroidexTier;
                 return (
@@ -1624,8 +1625,8 @@ export default function App() {
                     onClick={() => setActiveDroidexTier(tier.level)}
                     className={`flex-1 min-w-[70px] py-1.5 text-xs font-bold uppercase rounded-md transition-all text-center cursor-pointer select-none ${
                       isActive
-                        ? 'bg-[#17479d] text-white shadow-sm font-extrabold'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/80'
+                        ? 'bg-[#17479d] text-white shadow-sm font-extrabold border border-[#00adee]/40'
+                        : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
                     }`}
                   >
                     {tier.label}
@@ -1635,7 +1636,7 @@ export default function App() {
             </div>
 
             {/* Grid de Droides */}
-            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-300">
+            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
               {(() => {
                 if (droidexSearch === '') {
                   return filteredDroidexList.map((droid: Droid) => {
@@ -1644,19 +1645,19 @@ export default function App() {
                     const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
                     const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-                    let borderClass = 'border-slate-200 bg-slate-50 hover:bg-slate-100/80';
+                    let borderClass = 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
                     if (isObtained) {
                       switch (activeDroidexTier) {
-                        case 1: borderClass = 'border-slate-400 bg-slate-100 hover:bg-slate-200/70'; break;
-                        case 2: borderClass = 'border-amber-300 bg-amber-50 hover:bg-amber-100/70'; break;
-                        case 3: borderClass = 'border-cyan-300 bg-cyan-50 hover:bg-cyan-100/70'; break;
-                        case 4: borderClass = 'border-pink-300 bg-pink-50 hover:bg-pink-100/70'; break;
-                        case 5: borderClass = 'border-purple-300 bg-purple-50 hover:bg-purple-100/70'; break;
+                        case 1: borderClass = 'border-slate-500 bg-slate-900/80'; break;
+                        case 2: borderClass = 'border-amber-500/50 bg-amber-950/30'; break;
+                        case 3: borderClass = 'border-cyan-500/50 bg-cyan-950/30'; break;
+                        case 4: borderClass = 'border-pink-500/50 bg-pink-950/30'; break;
+                        case 5: borderClass = 'border-purple-500/50 bg-purple-950/30'; break;
                       }
                     }
 
                     if (isSelected) {
-                      borderClass = 'border-[#00adee] bg-sky-50 ring-2 ring-[#00adee]/60 shadow-md';
+                      borderClass = 'border-[#00adee] bg-[#112544] ring-2 ring-[#00adee]/60 shadow-[0_0_12px_rgba(0,173,238,0.3)]';
                     }
 
                     return (
@@ -1672,17 +1673,17 @@ export default function App() {
                               {renderDroidModel(droid, activeDroidexTier)}
                             </div>
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-slate-200/80 flex items-center justify-center text-slate-500 font-bold text-sm">
+                            <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold text-sm">
                               ?
                             </div>
                           )}
                         </div>
 
                         {/* Name & Rarity Label */}
-                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-slate-900' : 'text-slate-600'}`}>
+                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-white' : 'text-slate-300'}`}>
                           {droid.name}
                         </div>
-                        <div className="text-[9px] text-slate-500 mt-0.5 truncate w-full text-center font-medium">
+                        <div className="text-[9px] text-slate-400 mt-0.5 truncate w-full text-center font-medium">
                           {t(`rarity_${droid.rarity}`)}
                         </div>
                       </div>
@@ -1717,19 +1718,19 @@ export default function App() {
                     const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
                     const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-                    let borderClass = 'border-slate-200 bg-slate-50 hover:bg-slate-100/80';
+                    let borderClass = 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
                     if (isObtained) {
                       switch (tier) {
-                        case 1: borderClass = 'border-slate-400 bg-slate-100 hover:bg-slate-200/70'; break;
-                        case 2: borderClass = 'border-amber-300 bg-amber-50 hover:bg-amber-100/70'; break;
-                        case 3: borderClass = 'border-cyan-300 bg-cyan-50 hover:bg-cyan-100/70'; break;
-                        case 4: borderClass = 'border-pink-300 bg-pink-50 hover:bg-pink-100/70'; break;
-                        case 5: borderClass = 'border-purple-300 bg-purple-50 hover:bg-purple-100/70'; break;
+                        case 1: borderClass = 'border-slate-500 bg-slate-900/80'; break;
+                        case 2: borderClass = 'border-amber-500/50 bg-amber-950/30'; break;
+                        case 3: borderClass = 'border-cyan-500/50 bg-cyan-950/30'; break;
+                        case 4: borderClass = 'border-pink-500/50 bg-pink-950/30'; break;
+                        case 5: borderClass = 'border-purple-500/50 bg-purple-950/30'; break;
                       }
                     }
 
                     if (isSelected) {
-                      borderClass = 'border-[#00adee] bg-sky-50 ring-2 ring-[#00adee]/60 shadow-md';
+                      borderClass = 'border-[#00adee] bg-[#112544] ring-2 ring-[#00adee]/60 shadow-[0_0_12px_rgba(0,173,238,0.3)]';
                     }
 
                     return (
@@ -1748,17 +1749,17 @@ export default function App() {
                               {renderDroidModel(droid, tier)}
                             </div>
                           ) : (
-                            <div className="w-8 h-8 rounded-full bg-slate-200/80 flex items-center justify-center text-slate-500 font-bold text-sm">
+                            <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold text-sm">
                               ?
                             </div>
                           )}
                         </div>
 
                         {/* Name & Tier Label */}
-                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-slate-900' : 'text-slate-600'}`}>
+                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-white' : 'text-slate-300'}`}>
                           {droid.name}
                         </div>
-                        <div className="text-[9px] text-slate-500 mt-0.5 truncate w-full text-center font-medium">
+                        <div className="text-[9px] text-slate-400 mt-0.5 truncate w-full text-center font-medium">
                           {isIconicDroid(droid) ? t('type_Iconic') : getLocalizedTierName(tier)}
                         </div>
                       </div>
@@ -1772,43 +1773,43 @@ export default function App() {
 
         {/* Columna Derecha: Detalle de Droide */}
         <div className="lg:col-span-5 flex flex-col gap-3">
-          <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col gap-3 h-full justify-between">
+          <div className="bg-[#0c1628] border border-[#1e2d4a] rounded-xl p-4 shadow-lg flex flex-col gap-3 h-full justify-between">
             
             <div className="space-y-3">
               <div className="flex justify-between items-start gap-1">
                 <div>
-                  <span className="text-xs uppercase tracking-wider text-[#17479d] font-bold">
+                  <span className="text-xs uppercase tracking-wider text-[#00adee] font-bold">
                     {selectedDroid.rarity === 'ICONICO' ? t('type_Iconic') : getLocalizedTierName(activeDroidexTier)}
                   </span>
-                  <h3 className="text-2xl font-bold text-slate-900 font-narrow leading-tight">
+                  <h3 className="text-2xl font-bold text-white font-narrow leading-tight">
                     {selectedDroid.name}
                   </h3>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border border-current leading-none ${droidRarities[selectedDroid.rarity]?.color || 'text-fuchsia-600'}`}>
+                  <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border border-current leading-none ${droidRarities[selectedDroid.rarity]?.color || 'text-fuchsia-400'}`}>
                     {t(`rarity_${selectedDroid.rarity}`)}
                   </span>
                 </div>
               </div>
 
               {/* Wireframe render block */}
-              <div className="bg-slate-900 rounded-xl border border-slate-800 flex items-center justify-center p-6 h-56 relative overflow-hidden shadow-inner">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e2d4a_1px,transparent_1px),linear-gradient(to_bottom,#1e2d4a_1px,transparent_1px)] bg-[size:14px_24px] opacity-20"></div>
+              <div className="bg-[#050810] rounded-xl border border-[#1e2d4a] flex items-center justify-center p-6 h-56 relative overflow-hidden shadow-inner">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e2d4a_1px,transparent_1px),linear-gradient(to_bottom,#1e2d4a_1px,transparent_1px)] bg-[size:14px_24px] opacity-25"></div>
                 
                 <div className="z-10 flex flex-col items-center">
                   {renderDroidModel(selectedDroid, activeDroidexTier)}
                 </div>
 
-                <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 text-xs font-bold text-slate-300 bg-slate-800/90 px-2.5 py-1 rounded border border-slate-700">
+                <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 text-xs font-bold text-slate-200 bg-[#0c1628]/90 px-2.5 py-1 rounded border border-[#1e2d4a]">
                   {React.createElement(droidTypes[selectedDroid.type]?.icon || Cpu, { size: 12, className: droidTypes[selectedDroid.type]?.color })}
                   <span>{t(`type_${selectedDroid.type}`)}</span>
                 </div>
               </div>
 
               {/* Perk / Stat Box */}
-              <div className="bg-sky-50 border border-sky-200 p-3 rounded-lg flex flex-col gap-1">
-                <span className="text-[10px] uppercase tracking-wider text-[#17479d] font-bold">Bono del Droidex:</span>
-                <span className="text-sm font-extrabold text-slate-900">
+              <div className="bg-[#091120] border border-[#00adee]/30 p-3 rounded-lg flex flex-col gap-1">
+                <span className="text-[10px] uppercase tracking-wider text-[#00adee] font-bold">Bono del Droidex:</span>
+                <span className="text-sm font-extrabold text-white">
                   {getDroidexStatsPerk(selectedDroid, activeDroidexTier)}
                 </span>
               </div>
@@ -1822,9 +1823,9 @@ export default function App() {
                     setDroidexObtainedState(selectedDroid.name, activeDroidexTier, !isSelectedObtained);
                     setIsToggleHovered(false);
                   }}
-                  className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm ${
+                  className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${
                     isSelectedObtained
-                      ? 'bg-green-600 hover:bg-red-600 text-white font-extrabold'
+                      ? 'bg-emerald-600 hover:bg-rose-600 text-white font-extrabold'
                       : 'bg-[#17479d] hover:bg-[#12387d] text-white font-bold'
                   }`}
                 >
@@ -1839,7 +1840,7 @@ export default function App() {
             </div>
 
             {/* Back / Next Navigators */}
-            <div className="flex gap-2 pt-3 border-t border-slate-200">
+            <div className="flex gap-2 pt-3 border-t border-[#1e2d4a]">
               <button
                 onClick={handlePrevDroid}
                 className="flex-1 py-2 px-3 bg-[#17479d] hover:bg-[#12387d] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none shadow-sm"
@@ -1865,8 +1866,8 @@ export default function App() {
         
         {/* Columna Izquierda: Categorías de la Tienda */}
         <div className="lg:col-span-3 flex flex-col gap-2">
-          <div className="bg-white border border-slate-200 p-3.5 rounded-xl shadow-sm flex flex-col gap-2">
-            <h3 className="text-xs uppercase font-extrabold text-slate-500 tracking-wider px-1 mb-1">
+          <div className="bg-[#0c1628] border border-[#1e2d4a] p-3.5 rounded-xl shadow-lg flex flex-col gap-2">
+            <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider px-1 mb-1">
               Categorías
             </h3>
             
@@ -1878,8 +1879,8 @@ export default function App() {
               }}
               className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'core'
-                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
-                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
+                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
               }`}
             >
               <Heart size={15} />
@@ -1894,8 +1895,8 @@ export default function App() {
               }}
               className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'workshop'
-                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
-                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
+                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
               }`}
             >
               <Cpu size={15} />
@@ -1910,8 +1911,8 @@ export default function App() {
               }}
               className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'cosmetic'
-                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
-                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
+                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
               }`}
             >
               <Palette size={15} />
@@ -1926,8 +1927,8 @@ export default function App() {
               }}
               className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
                 activeShopCategory === 'iconic'
-                  ? 'bg-institutional-primary text-white border border-institutional-primary shadow-sm'
-                  : 'bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
+                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
               }`}
             >
               <Award size={15} />
@@ -1938,9 +1939,9 @@ export default function App() {
 
         {/* Columna Central: Lista de Upgrades */}
         <div className="lg:col-span-5 flex flex-col gap-3">
-          <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col gap-3">
+          <div className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3">
             <div className="flex justify-between items-center flex-wrap gap-2">
-              <h2 className="text-lg font-bold text-[#17479d] font-narrow flex items-center gap-1.5">
+              <h2 className="text-lg font-bold text-white font-narrow flex items-center gap-1.5">
                 {t('novaShopTitle')}
               </h2>
               
@@ -1949,24 +1950,24 @@ export default function App() {
                   setCrystalsInputValue(novaCrystals.toString());
                   setShowCrystalsEdit(true);
                 }}
-                className="flex items-center gap-1.5 px-3 py-1 bg-purple-50 border border-purple-200 text-purple-700 rounded-lg hover:bg-purple-100 cursor-pointer transition-all font-mono font-bold text-xs shadow-sm"
+                className="flex items-center gap-1.5 px-3 py-1 bg-purple-950/60 border border-purple-500/40 text-purple-200 rounded-lg hover:bg-purple-900/80 cursor-pointer transition-all font-mono font-bold text-xs shadow-md"
                 title="Hacer clic para ajustar cristales"
               >
                 <span>💎</span>
                 <span>{novaCrystals}</span>
-                <span className="text-[10px] text-slate-500 font-sans font-normal uppercase">{t('crystalsCount')}</span>
+                <span className="text-[10px] text-slate-300 font-sans font-normal uppercase">{t('crystalsCount')}</span>
               </button>
             </div>
 
             {/* Grid de Upgrades */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-300">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
               {novaUpgradesList
                 .filter(up => up.category === activeShopCategory)
                 .map((upgrade: NovaUpgrade) => {
                   const currentLevel = getUpgradeLevel(upgrade.id);
                   const isSelected = selectedShopUpgradeId === upgrade.id;
                   
-                  let cardBorder = isSelected ? 'border-[#00adee] bg-sky-50 ring-1 ring-[#00adee]/30 shadow-sm' : 'border-slate-200 bg-slate-50 hover:bg-slate-100/80';
+                  let cardBorder = isSelected ? 'border-[#00adee] bg-[#112544] ring-1 ring-[#00adee]/40 shadow-md' : 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
 
                   return (
                     <div
@@ -1975,21 +1976,21 @@ export default function App() {
                       className={`p-3 rounded-xl border flex flex-col justify-between cursor-pointer select-none transition-all ${cardBorder}`}
                     >
                       <div className="flex gap-2 items-start mb-2">
-                        <span className="p-1.5 rounded bg-sky-100 border border-sky-200 flex-shrink-0 text-[#17479d]">
+                        <span className="p-1.5 rounded bg-[#17479d]/30 border border-[#00adee]/30 flex-shrink-0 text-[#00adee]">
                           {React.createElement(upgrade.icon, { size: 15 })}
                         </span>
                         <div className="min-w-0">
-                          <h4 className="text-xs font-bold text-slate-900 leading-tight truncate">
+                          <h4 className="text-xs font-bold text-white leading-tight truncate">
                             {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
                           </h4>
-                          <span className="text-[10px] font-mono text-slate-500 font-bold block mt-0.5">
+                          <span className="text-[10px] font-mono text-slate-300 font-bold block mt-0.5">
                             {upgrade.category === 'iconic' ? (currentLevel > 0 ? 'Adquirido' : 'Pendiente') : `Lvl ${currentLevel}/${upgrade.maxLevel}`}
                           </span>
                         </div>
                       </div>
 
                       {upgrade.category !== 'iconic' && (
-                        <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden border border-slate-300">
+                        <div className="w-full bg-[#050810] rounded-full h-1.5 overflow-hidden border border-[#1e2d4a]">
                           <div
                             className="bg-[#00adee] h-full rounded-full transition-all duration-300"
                             style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
@@ -2015,34 +2016,34 @@ export default function App() {
             const canAfford = novaCrystals >= nextCost;
 
             return (
-              <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col gap-4 justify-between h-full">
+              <div className="bg-[#0c1628] border border-[#1e2d4a] rounded-xl p-4 shadow-lg flex flex-col gap-4 justify-between h-full">
                 
                 <div className="space-y-4">
                   <div className="flex gap-3 items-center">
-                    <span className="p-2 rounded bg-sky-50 border border-sky-200 text-[#17479d]">
+                    <span className="p-2 rounded bg-[#091120] border border-[#00adee]/30 text-[#00adee]">
                       {React.createElement(upgrade.icon, { size: 22 })}
                     </span>
                     <div>
-                      <span className="text-[10px] uppercase tracking-wider text-[#17479d] font-bold">
+                      <span className="text-[10px] uppercase tracking-wider text-[#00adee] font-bold">
                         {t(`upgradeCategory_${upgrade.category}`)}
                       </span>
-                      <h3 className="text-xl font-bold text-slate-900 font-narrow leading-tight">
+                      <h3 className="text-xl font-bold text-white font-narrow leading-tight">
                         {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
                       </h3>
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <p className="text-xs text-slate-200 leading-relaxed">
                     {upgrade.category === 'iconic' ? getIconicDroidDesc(upgrade.nameKey) : t(upgrade.descKey)}
                   </p>
 
                   {upgrade.category !== 'iconic' ? (
                     <div className="space-y-2">
                       <div className="flex justify-between text-xs font-bold">
-                        <span className="text-slate-500">Progreso de Nivel</span>
-                        <span className="text-slate-900 font-mono">{currentLevel} / {upgrade.maxLevel}</span>
+                        <span className="text-slate-300">Progreso de Nivel</span>
+                        <span className="text-white font-mono">{currentLevel} / {upgrade.maxLevel}</span>
                       </div>
-                      <div className="w-full bg-slate-200 border border-slate-300 h-2.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-[#050810] border border-[#1e2d4a] h-2.5 rounded-full overflow-hidden">
                         <div
                           className="bg-[#00adee] h-full rounded-full transition-all duration-300"
                           style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
@@ -2050,9 +2051,9 @@ export default function App() {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between text-xs py-2 border-y border-slate-200">
-                      <span className="text-slate-500 font-bold">Estado en Colección</span>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${currentLevel > 0 ? 'bg-green-50 border border-green-200 text-green-700' : 'bg-slate-100 border border-slate-200 text-slate-500'}`}>
+                    <div className="flex items-center justify-between text-xs py-2 border-y border-[#1e2d4a]">
+                      <span className="text-slate-300 font-bold">Estado en Colección</span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${currentLevel > 0 ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300' : 'bg-[#091120] border border-[#1e2d4a] text-slate-400'}`}>
                         {currentLevel > 0 ? 'Adquirido' : 'Pendiente'}
                       </span>
                     </div>
@@ -2060,17 +2061,17 @@ export default function App() {
 
                   <div className="pt-2">
                     {isMax ? (
-                      <div className="bg-green-50 border border-green-200 p-3 rounded-lg text-center font-bold text-xs text-green-700">
+                      <div className="bg-emerald-950/50 border border-emerald-500/40 p-3 rounded-lg text-center font-bold text-xs text-emerald-300">
                         {t('maxLevelReached')}
                       </div>
                     ) : (
                       <button
                         onClick={() => buyUpgradeLevel(upgrade.id)}
                         disabled={!canAfford}
-                        className={`w-full py-3 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm select-none cursor-pointer ${
+                        className={`w-full py-3 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md select-none cursor-pointer ${
                           canAfford
                             ? 'bg-[#17479d] hover:bg-[#12387d] text-white font-extrabold'
-                            : 'bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed'
+                            : 'bg-slate-900 border border-slate-800 text-slate-500 cursor-not-allowed'
                         }`}
                       >
                         <span>💎</span>
@@ -2080,21 +2081,21 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs mt-2">
+                <div className="bg-[#091120] p-2.5 rounded-lg border border-[#1e2d4a] text-xs mt-2">
                   <div className="flex items-center justify-between gap-1.5">
-                    <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Ajustar Nivel Manual:</span>
+                    <span className="text-[10px] text-slate-300 font-bold uppercase tracking-wide">Ajustar Nivel Manual:</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel - 1)}
-                        className="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                         disabled={currentLevel <= 0}
                       >
                         <Minus size={12} />
                       </button>
-                      <span className="px-2 font-mono font-bold text-slate-900 text-xs">{currentLevel}</span>
+                      <span className="px-2 font-mono font-bold text-white text-xs">{currentLevel}</span>
                       <button
                         onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel + 1)}
-                        className="w-6 h-6 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                         disabled={currentLevel >= upgrade.maxLevel}
                       >
                         <Plus size={12} />
@@ -2115,22 +2116,22 @@ export default function App() {
 
   {/* Modal de Reinicio */}
   {showResetModal && (
-    <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
-      <div className="bg-white border border-slate-200 p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
-        <h3 className="text-base font-bold mb-1 text-slate-900 font-narrow">¿Reiniciar progreso?</h3>
-        <p className="text-slate-600 mb-4 leading-relaxed">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+      <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
+        <h3 className="text-base font-bold mb-1 text-white font-narrow">¿Reiniciar progreso?</h3>
+        <p className="text-slate-300 mb-4 leading-relaxed">
           Restablecerá tu Rebirth al nivel 0 (inicio) y borrará tus droides. No se puede deshacer.
         </p>
         <div className="flex justify-end gap-2">
           <button 
             onClick={() => setShowResetModal(false)} 
-            className="px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all font-bold cursor-pointer"
+            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
           >
             Cancelar
           </button>
           <button 
             onClick={handleReset} 
-            className="px-3 py-1.5 rounded bg-red-600 hover:bg-red-700 text-white transition-all font-bold shadow-sm cursor-pointer"
+            className="px-3 py-1.5 rounded bg-rose-600 hover:bg-rose-500 text-white transition-all font-bold shadow-md cursor-pointer"
           >
             Sí, reiniciar
           </button>
@@ -2141,36 +2142,36 @@ export default function App() {
 
   {/* Modal de Super Rebirth */}
   {showSuperRebirthModal && (
-    <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
-      <div className="bg-white border border-slate-200 p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
-        <h3 className="text-base font-bold mb-1 text-purple-700 font-narrow flex items-center gap-1.5">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+      <div className="bg-[#0c1628] border border-purple-900/50 p-5 rounded-xl max-w-xs w-full shadow-[0_0_25px_rgba(147,51,234,0.3)] relative font-sans text-xs">
+        <h3 className="text-base font-bold mb-1 text-purple-300 font-narrow flex items-center gap-1.5">
           <Sparkles size={16} /> ¿Realizar Super Rebirth?
         </h3>
-        <p className="text-slate-600 mb-3 leading-relaxed">
-          Estás en Rebirth <strong className="text-slate-900">R-{currentRebirth}</strong>. Al volver a comenzar obtendrás:
+        <p className="text-slate-300 mb-3 leading-relaxed">
+          Estás en Rebirth <strong className="text-white">R-{currentRebirth}</strong>. Al volver a comenzar obtendrás:
         </p>
         
-        <div className="bg-purple-50 border border-purple-200 p-3 rounded-xl text-center mb-4">
-          <div className="text-[10px] uppercase font-bold text-purple-700 tracking-wider mb-0.5">Recompensa</div>
-          <div className="text-base font-black text-purple-900 flex items-center justify-center gap-1">
+        <div className="bg-purple-950/50 border border-purple-800/50 p-3 rounded-xl text-center mb-4">
+          <div className="text-[10px] uppercase font-bold text-purple-300 tracking-wider mb-0.5">Recompensa</div>
+          <div className="text-base font-black text-purple-100 flex items-center justify-center gap-1">
             <span>💎 {getNovaCrystals(currentRebirth)} Cristales Nova</span>
           </div>
         </div>
 
-        <p className="text-red-600 mb-4 leading-relaxed text-xs">
+        <p className="text-rose-400 mb-4 leading-relaxed text-xs font-semibold">
           ⚠️ Esto restablecerá tu Rebirth al nivel 0 y borrará todos tus droides del tracker.
         </p>
 
         <div className="flex justify-end gap-2">
           <button 
             onClick={() => setShowSuperRebirthModal(false)} 
-            className="px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all font-bold cursor-pointer"
+            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
           >
             Cancelar
           </button>
           <button 
             onClick={handleSuperRebirth} 
-            className="px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-800 text-white transition-all font-bold shadow-sm cursor-pointer"
+            className="px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-white transition-all font-bold shadow-md cursor-pointer"
           >
             Confirmar Super Rebirth
           </button>
@@ -2181,9 +2182,9 @@ export default function App() {
 
   {/* Modal de Ajuste de Cristales */}
   {showCrystalsEdit && (
-    <div className="fixed inset-0 bg-slate-900/60 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
-      <div className="bg-white border border-slate-200 p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
-        <h3 className="text-base font-bold mb-2 text-slate-900 font-narrow flex items-center gap-1.5">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+      <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
+        <h3 className="text-base font-bold mb-2 text-white font-narrow flex items-center gap-1.5">
           <span>💎</span> {t('customCrystalsLabel')}
         </h3>
         
@@ -2192,13 +2193,13 @@ export default function App() {
           min="0"
           value={crystalsInputValue}
           onChange={(e) => setCrystalsInputValue(e.target.value)}
-          className="w-full bg-slate-50 border border-slate-300 p-2.5 rounded-lg text-slate-900 font-mono font-bold text-sm text-center outline-none focus:border-[#00adee] mb-4"
+          className="w-full bg-[#050810] border border-[#1e2d4a] p-2.5 rounded-lg text-white font-mono font-bold text-sm text-center outline-none focus:border-[#00adee] mb-4"
         />
 
         <div className="flex justify-end gap-2">
           <button 
             onClick={() => setShowCrystalsEdit(false)} 
-            className="px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all font-bold cursor-pointer"
+            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
           >
             {t('cancel')}
           </button>
@@ -2208,7 +2209,7 @@ export default function App() {
               saveNovaCrystals(isNaN(val) ? 0 : Math.max(0, val));
               setShowCrystalsEdit(false);
             }} 
-            className="px-3 py-1.5 rounded bg-institutional-primary hover:bg-[#12387d] text-white transition-all font-bold shadow-sm cursor-pointer"
+            className="px-3 py-1.5 rounded bg-institutional-primary hover:bg-[#12387d] text-white transition-all font-bold shadow-md cursor-pointer"
           >
             {t('save')}
           </button>
