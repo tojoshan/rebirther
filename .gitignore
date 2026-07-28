@@ -17,3 +17,7 @@ node_modules/
 
 # TypeScript
 *.tsbuildinfo
+
+# Data
+data/*.*
+data
