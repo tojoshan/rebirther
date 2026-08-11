@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Droid Tycoon Trak-R</title>
+<meta name="description" content="Create a shareable Flawless tracker for Droid Tycoon. Track droids, party progress, and the Beskar cycle from one clean link."/>
+<meta property="og:title" content="Droid Tycoon Trak-R"/>
+<meta property="og:description" content="A shareable Flawless tracker for Droid Tycoon collectors."/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="/assets/trakr_tycoon_logo_transparent.png"/>
+<meta name="theme-color" content="#05070c"/>
+<link rel="icon" href="/assets/trakr_icon_cropped.png"/>
+<link rel="stylesheet" href="/styles.css?v=patchnotes-v124-layout-20260731"/>
+
+<style id="group-route-clean-inline-v106">
+body.group-route .landing-hero,body.group-route .pro-landing,body.group-route .premium-home,body.group-route .trust-strip,body.group-route .rates,body.group-route .showcase,body.group-route .landing-footer{display:none!important;}
+body.group-route main > section:not(#tracker){display:none!important;}
+body.group-route #tracker{display:block!important;margin-top:32px!important;}
+body.group-route{background:#02050c url('/assets/WebNewBG.png?v=group-clean-v106-20260708') center top/cover fixed no-repeat!important;}
+body.group-route::after{display:none!important;}
+</style>
+<style id="home-app-featured-v11">
+body.landing-route .topbar nav a[href="/app"]{padding:6px 10px;border:1px solid rgba(89,230,248,.3);border-radius:8px;background:rgba(8,145,178,.12);color:#dffcff!important}
+.home-app-featured{position:relative;display:grid;grid-template-columns:minmax(340px,.82fr) minmax(480px,1.18fr);align-items:center;gap:38px;margin:64px 0 76px;padding:42px;border:1px solid rgba(110,220,255,.25);border-radius:26px;background:radial-gradient(circle at 94% 10%,rgba(91,57,203,.28),transparent 38%),linear-gradient(145deg,rgba(7,20,38,.97),rgba(5,10,22,.96));box-shadow:0 30px 90px rgba(0,0,0,.38);overflow:hidden}.home-app-featured:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;box-shadow:inset 0 1px rgba(255,255,255,.035)}.home-app-copy{position:relative;z-index:1}.home-app-kicker{display:inline-flex;padding:7px 10px;border:1px solid rgba(89,230,248,.31);border-radius:999px;color:#76efff;font-size:10px;font-weight:950;letter-spacing:.13em;text-transform:uppercase}.home-app-copy h2{max-width:500px;margin:16px 0 14px;color:#f4f8ff;font-size:clamp(42px,4.9vw,68px);line-height:.94;letter-spacing:-.055em}.home-app-copy>p{max-width:500px;margin:0;color:#a4b8d0;font-size:15px;line-height:1.65}.home-app-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.home-app-download,.home-app-learn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:11px;text-decoration:none;font-size:12px;font-weight:950}.home-app-download{border:1px solid #65eaff;background:linear-gradient(135deg,#0891b2,#4f46e5);color:#fff;box-shadow:0 13px 34px rgba(14,165,233,.22)}.home-app-learn{border:1px solid rgba(167,139,250,.3);background:rgba(46,30,82,.35);color:#e8e0ff}.home-app-version{display:block;margin-top:12px;color:#7087a2;font-size:9px;font-weight:850}.home-app-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:23px 0 0;padding:0;list-style:none}.home-app-features li{padding:10px;border:1px solid rgba(148,197,255,.12);border-radius:9px;background:rgba(6,15,28,.65);color:#b8c9dd;font-size:10px;font-weight:800}.home-app-features li:before{content:"✓";margin-right:7px;color:#6ff0b8}.home-app-video{position:relative;z-index:1;overflow:hidden;border:1px solid rgba(133,196,255,.26);border-radius:18px;background:#02050a;box-shadow:0 24px 65px rgba(0,0,0,.52)}.home-app-video-bar{display:flex;align-items:center;height:36px;padding:0 12px;border-bottom:1px solid rgba(148,163,184,.12);background:#0a1422;color:#7f93ac;font-size:8px;font-weight:900;letter-spacing:.1em}.home-app-video-bar span{margin-right:auto}.home-app-video-bar i{width:6px;height:6px;margin-left:5px;border-radius:50%;background:#334155}.home-app-video-bar i:nth-of-type(1){background:#f87171}.home-app-video-bar i:nth-of-type(2){background:#facc15}.home-app-video-bar i:nth-of-type(3){background:#4ade80}.home-app-video video{display:block;width:100%;height:auto;max-height:590px;object-fit:contain;background:#000}.premium-hero{margin-top:24px}.desktop-app-section,.homepage-benefits{display:none!important}@media(max-width:980px){.home-app-featured{grid-template-columns:1fr;padding:30px}.home-app-copy h2{max-width:700px}.home-app-copy>p{max-width:700px}.home-app-video{max-width:720px}}@media(max-width:620px){.home-app-featured{margin:36px 0 52px;padding:21px 15px;border-radius:18px}.home-app-copy h2{font-size:42px}.home-app-features{grid-template-columns:1fr 1fr}.home-app-actions>a{width:100%}}
+
+/* prelaunch-mobile-containment-v11c-20260726 */
+body.landing-route{overflow-x:hidden!important}
+@media(max-width:760px){
+  body.landing-route .premium-shell{width:100%!important;max-width:100vw!important;min-width:0!important;overflow:hidden!important}
+  body.landing-route .home-app-featured{box-sizing:border-box!important;width:calc(100vw - 32px)!important;max-width:calc(100vw - 32px)!important;margin-left:auto!important;margin-right:auto!important;overflow:hidden!important}
+  body.landing-route .home-app-copy,body.landing-route .home-app-visual{width:100%!important;max-width:100%!important;min-width:0!important}
+  body.landing-route .home-app-copy h2,body.landing-route .home-app-copy>p{width:100%!important;max-width:100%!important;overflow-wrap:anywhere!important}
+  body.landing-route .home-app-copy h2{font-size:36px!important;line-height:.98!important}
+  body.landing-route .home-app-video{display:block!important;width:100%!important;max-width:100%!important}
+  body.landing-route .premium-hero{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+  body.landing-route .premium-hero h1{width:100%!important;max-width:100%!important;font-size:34px!important;line-height:.96!important;overflow-wrap:anywhere!important}
+}
+</style>
+</head>
+<body class="landing-route">
+<div class="site-bg"></div>
+<aside class="karma-ticker" aria-label="Top karma users"><a href="/leaderboard"><span id="karma-ticker-track">Loading top karma pilots…</span></a></aside>
+<header class="topbar">
+  <a class="brand" href="/"><img src="/assets/trakr_icon_cropped.png" alt="Trak-R icon"><span>Droid Tycoon Trak-R</span></a>
+  <nav><a class="nav-app-link" href="/app">App</a><a href="/droidex">Droidex</a><a href="/rebirth" data-auth-link="rebirth">Rebirth</a><a href="/flawless" data-auth-link="flawless">Flawless</a><a href="/trading">Trading</a><a href="/chat">Chat</a><a href="/donate">Donate</a></nav>
+  <div class="nav-tools" aria-label="Tracker tools">
+    <div class="nav-active-players" aria-label="Active Droid Tycoon players"><i></i><span id="active-player-count">—</span></div>
+    <div class="nav-timer-stack" aria-label="Spawn timers"><div class="nav-timer" aria-label="Guaranteed Beskar spawn timer"><img class="nav-beskar-icon" src="/assets/timers/beskar-card.png?v=mythic-timer-v1" alt="Beskar"><b id="beskar-countdown">20:00</b></div><div class="nav-timer nav-timer-mythic" aria-label="Mythic droid spawn timer"><img class="nav-beskar-icon" src="/assets/timers/mythic-card.png?v=mythic-timer-v1" alt="Mythic"><b id="mythic-countdown">55:00</b></div><div class="nav-timer nav-timer-galactic" aria-label="Galactic droid spawn timer"><img class="nav-beskar-icon" src="/assets/timers/GalacticCard.png?v=official-galactic-card-20260719" alt="Galactic"><b id="galactic-countdown">45:00</b></div></div>
+    <button id="login-button" class="login-button" type="button">Login</button>
+  </div>
+</header>
+
+<main>
+  <section class="landing-hero pro-landing premium-home">
+    <div class="premium-bg" aria-hidden="true"><img class="premium-hero-art" src="/assets/WebNewBG.png?v=20260702" alt=""></div><div class="premium-overlay" aria-hidden="true"></div>
+    <div class="premium-shell">
+      <section class="main-event-card" aria-label="Chopper Event">
+        <img src="/assets/Chopper.png?v=chopper-event-20260808-v2" alt="Chopper Event banner">
+        <div class="main-event-copy">
+          <div class="main-event-countdown" aria-label="Chopper Event countdown"><span>Starts in</span><strong id="galactic-event-countdown" data-event-time="2026-08-08T20:00:00Z">4d 4h 50m 46s</strong></div>
+        </div>
+      </section>
+      <div class="landing-timer-grid" aria-label="Spawn timers">
+        <article class="landing-timer-card beskar-timer-card">
+          <img src="/assets/timers/beskar-card.png?v=mythic-timer-v1" alt="Beskar logo">
+          <div><span>Beskar spawn</span><strong id="landing-beskar-countdown">20:00</strong><small>Every 15 minutes</small></div>
+        </article>
+        <article class="landing-timer-card mythic-timer-card">
+          <img src="/assets/timers/mythic-card.png?v=mythic-timer-v1" alt="Mythic logo">
+          <div><span>Mythic spawn</span><strong id="landing-mythic-countdown">55:00</strong><small>Every 60 minutes</small></div>
+        </article>
+        <article class="landing-timer-card galactic-timer-card">
+          <img src="/assets/timers/GalacticCard.png?v=official-galactic-card-20260719" alt="Galactic droid symbol">
+          <div><span>Galactic droid spawn</span><strong id="landing-galactic-countdown">45:00</strong><small>At :45 every hour</small></div>
+        </article>
+      </div>
+
+      <button id="limited-deal-card" class="limited-deal-card compact-limited-deal limited-deal-strip limited-deal-unboxed limited-deal-split" type="button" aria-label="Open Secret Vendor limited deal vote">
+        <span class="limited-deal-image-stage">
+          <span class="limited-deal-karma-line">Vote and earn karma!</span>
+          <span class="limited-deal-featured-droid">
+            <img id="limited-deal-droid-img" class="limited-deal-droid-img" src="/assets/droids/UnknownBlueprint.png" alt="Unknown limited deal blueprint">
+            <span id="limited-deal-label" class="limited-deal-label">UNKNOWN BLUEPRINT</span>
+          </span>
+          <span class="limited-deal-banner-row">
+            <img class="limited-deal-vendor-img" src="/assets/JawaVendor.png?v=staging-limited-split-v1" alt="Jawa secret vendor">
+            <span class="limited-deal-banner-wrap">
+              <img class="limited-deal-banner-img" src="/assets/LIMITEDDEALBANNER.png?v=staging-limited-split-v1" alt="Limited Deal">
+              <span class="limited-deal-countdown"><span>Resets in</span><strong id="limited-deal-timer" class="limited-deal-timer">--:--</strong></span>
+            </span>
+          </span>
+        </span>
+      </button>
+      <div id="limited-deal-modal" class="limited-deal-modal" hidden>
+        <div class="limited-deal-modal-card" role="dialog" aria-modal="true" aria-labelledby="limited-deal-modal-title">
+          <button class="limited-deal-close" type="button" aria-label="Close limited deal menu">×</button>
+          <p class="limited-eyebrow">Secret Vendor</p>
+          <h2 id="limited-deal-modal-title">Waiting for votes</h2>
+          <p class="limited-deal-reset-copy">Come back after the reset to vote for the next blueprint and earn karma.</p>
+          <div class="limited-current"><figure><img id="limited-deal-modal-img" src="/assets/droids/UnknownBlueprint.png" alt="Unknown limited deal blueprint"></figure><div><span>Current pick</span><strong id="limited-deal-current">Waiting for votes</strong></div></div>
+          <div class="limited-vote-row limited-vote-row-3"><select id="limited-deal-select" aria-label="Vote for limited deal droid"><option value="">Choose blueprint...</option></select><select id="limited-deal-tier" aria-label="Vote for limited deal type"><option>Default</option><option>Gold</option><option>Diamond</option><option>Rainbow</option><option>Beskar</option></select><button id="limited-deal-vote" type="button">Vote</button></div>
+          <div id="limited-deal-leaders" class="limited-deal-leaders" hidden></div>
+        </div>
+      </div>
+
+      <section id="app" class="home-app-featured" aria-labelledby="home-app-title">
+        <div class="home-app-copy">
+          <span class="home-app-kicker">DroidTrakr Windows App</span>
+          <h2 id="home-app-title">Keep DroidTrakr in the game.</h2>
+          <p>Your tracker, team, timers, Droid search, Limited Deals, and chat. Directly over Fortnite.</p>
+          <div class="home-app-actions">
+            <a class="home-app-download" href="/downloads/overlay/DroidTrakr-Launcher.exe" download>Download for Windows ↓</a>
+            <a class="home-app-learn" href="/app">Explore the app →</a>
+          </div>
+          <span class="home-app-version" id="desktop-app-version">Checking latest version...</span>
+          <ul class="home-app-features" aria-label="App features">
+            <li>Rebirth sync</li><li>Team view</li><li>Spawn timers</li><li>Droid search</li><li>Limited Deals</li><li>In-game chat</li>
+          </ul>
+        </div>
+        <div class="home-app-video"><div class="home-app-video-bar"><span>LIVE APP PREVIEW</span><i></i><i></i><i></i></div><video autoplay muted loop playsinline controls preload="metadata" poster="/assets/app/droidtrakr-overlay-preview-poster.webp"><source src="/assets/app/droidtrakr-overlay-preview.mp4" type="video/mp4"></video></div>
+      </section>
+
+      <div class="premium-hero">
+        <h1><span class="headline-line">TRACK EVERY <em class="cyan-word">REBIRTH.</em></span><span class="headline-line">DISCOVER EVERY <em class="gold-word">FLAWLESS.</em></span></h1>
+      </div>
+
+      <div id="tracker-options" class="premium-tracker-grid">
+        <a class="premium-tracker-card rebirth-card" href="/rebirth" data-auth-link="rebirth">
+          <div class="premium-card-top">
+            <img src="/assets/rebirth-icon.png?v=rebirth71" alt="" class="premium-card-icon">
+            <div><small>Rebirth Tracking</small><h2>Cycle Progress</h2></div>
+          </div>
+          <strong class="premium-card-action cyan-action">Open Rebirth Tracker →</strong>
+        </a>
+
+        <a id="create" class="premium-tracker-card flawless-card flawless-create-card" href="/flawless" data-auth-link="flawless">
+          <div class="premium-card-top">
+            <img src="/assets/flawless-icon.png?v=rebirth71" alt="" class="premium-card-icon">
+            <div><small>Flawless Tracking</small><h2>Flawless Status</h2></div>
+          </div>
+          <strong class="premium-card-action gold-action">Open Flawless Tracker →</strong>
+        </a>
+
+        <a class="premium-tracker-card trading-card" href="/trading">
+          <div class="premium-card-top">
+            <img src="/assets/SignalsIcon.png?v=admin-icons-bg-v10-20260702" alt="" class="premium-card-icon">
+            <div><small>Droid Trading</small><h2>Droid Signals</h2></div>
+          </div>
+          <strong class="premium-card-action trade-action">Open Trading Signals →</strong>
+        </a>
+
+        <a class="premium-tracker-card droidex-card droidex-home-card" href="/droidex">
+          <div class="premium-card-top droidex-home-card-top">
+            <div><small>Droidex Collection</small><h2>Droidex Progress</h2></div>
+          </div>
+          <div class="droidex-home-art" aria-hidden="true">
+            <img src="/assets/droids/R2_Rainbow.webp?v=droidex-home-art-v16-20260702" alt="">
+            <img src="/assets/droids/BB9_Beskar.webp?v=droidex-home-art-v16-20260702" alt="">
+          </div>
+          <strong class="premium-card-action droidex-action">Open Droidex →</strong>
+        </a>
+      </div>
+
+</div>
+    <footer class="landing-footer"><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · Fan-made companion tracker.</footer>
+  </section>
+
+  <section id="tracker" class="tracker-shell">
+    <div class="tracker-head">
+      <div>
+        <p class="kicker" id="group-subtitle">Shared tracker</p>
+        <h2 id="group-name">Droid Tycoon Trak-R</h2>
+      </div>
+      <input id="share-link" class="sr-only" readonly aria-hidden="true" tabindex="-1"/>
+    </div>
+
+    <section id="invite-inbox" class="invite-inbox" hidden></section>
+    <section class="stats" aria-label="Group stats"></section>
+
+    <div class="controls-row">
+      <div class="playerbar compact-invite"><input id="new-player" placeholder="Invite username" autocomplete="off" aria-label="Invite username"/><button id="add-player" type="button">Send</button></div>
+      <div class="filters" role="group" aria-label="Filters"><button class="active" data-filter="all">All</button><button data-filter="complete">Complete</button><button data-filter="missing">Missing</button></div>
+    </div>
+    <div class="searchbar"><input id="search" placeholder="Search droids or rarity" autocomplete="off"/><span>Group progress syncs automatically.</span></div>
+    <section id="sheet-manager" class="sheet-manager" hidden></section>
+    <div id="grid" class="grid"></div>
+  </section>
+</main>
+<script src="/droid-images.js?v=galactic-art-35-20260721"></script>
+<script src="/app.js?v=patchnotes-v125-20260808"></script>
+
+
+
+<script id="desktop-app-version-loader">
+fetch('/downloads/overlay/manifest.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(m){
+  var el=document.getElementById('desktop-app-version'); if(!el)return;
+  var mb=m.size?Math.round((Number(m.size)/1048576)*10)/10:null;
+  el.textContent='Version 1.0'+(mb?' · '+mb+' MB':'');
+}).catch(function(){var el=document.getElementById('desktop-app-version');if(el)el.textContent='Latest Windows build';});
+</script>
+<script id="group-route-clean-inline-v106">
+(function(){
+  function cleanGroupRoute(){
+    if(!/\/droid-tycoon\/group\//.test(location.pathname)) return;
+    document.body.classList.add('group-route','tracker-route');
+    document.body.classList.remove('landing-route');
+    document.querySelectorAll('.landing-hero,.pro-landing,.premium-home,.trust-strip,.rates,.showcase,.landing-footer').forEach(function(el){el.remove();});
+    var main=document.querySelector('main');
+    if(main){ Array.from(main.children).forEach(function(el){ if(el.id !== 'tracker') el.remove(); }); }
+    var tracker=document.getElementById('tracker');
+    if(tracker){ tracker.style.display='block'; tracker.classList.add('flawless-direct-tracker'); }
+    document.title='Flawless Tracker — Droid Tycoon Trak-R';
+  }
+  cleanGroupRoute();
+  document.addEventListener('DOMContentLoaded', cleanGroupRoute);
+  setTimeout(cleanGroupRoute,50); setTimeout(cleanGroupRoute,250); setTimeout(cleanGroupRoute,1000);
+})();
+</script>
+</body>
+</html>

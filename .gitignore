@@ -20,4 +20,7 @@ node_modules/
 
 # Data
 data/*.*
-data
+data/
+
+# Extraction Scripts
+scripts/
