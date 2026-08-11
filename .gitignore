@@ -19,7 +19,6 @@ node_modules/
 *.tsbuildinfo
 
 # Data
-data/*.*
 data/
 
 # Extraction Scripts

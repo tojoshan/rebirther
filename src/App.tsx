@@ -720,7 +720,7 @@ const rebirthRequirementsCycle2: RebirthRequirement[] = [
   { level: 20, credits: "2 T", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }] },
   { level: 21, credits: "3 T", droids: [{ name: "LO", tier: 3 }, { name: "R6", tier: 3 }, { name: "Haul-R", tier: 3 }] },
   { level: 22, credits: "4.5 T", droids: [{ name: "Sen-Tri", tier: 3 }, { name: "Strike-Orb", tier: 3 }, { name: "Proto-Roller", tier: 4 }] },
-  { level: 23, credits: "6 T", droids: [{ name: "BB-9", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }, { name: "B2-RP", tier: 4 }] },
+  { level: 23, credits: "6 T", droids: [{ name: "BB-9", tier: 5 }, { name: "Cyclo-Grav", tier: 5 }, { name: "B2-RP", tier: 5 }] },
   { level: 24, credits: "9 T", droids: [{ name: "Opti-STRK", tier: 4 }, { name: "B2-RP", tier: 4 }, { name: "SNOW MOUSE", tier: 5 }] },
   { level: 25, credits: "13.5 T", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "TRI-TEK", tier: 5 }, { name: "RIC-1200", tier: 5 }] },
   { level: 26, credits: "21 T", droids: [{ name: "KX", tier: 5 }, { name: "DRFT-R", tier: 5 }, { name: "IG", tier: 5 }] },
