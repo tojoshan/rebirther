@@ -1,7 +1,7 @@
 {
   "es": {
     "title": "Droid Tracker",
-    "cycle": "Ciclo",
+    "cycle": "Ruta",
     "reiniciar": "Reiniciar",
     "superRebirth": "Super Rebirth",
     "slideRebirth": "Desliza para elegir tu Rebirth actual:",
@@ -156,7 +156,7 @@
   },
   "en": {
     "title": "Droid Tracker",
-    "cycle": "Cycle",
+    "cycle": "Path",
     "reiniciar": "Reset",
     "superRebirth": "Super Rebirth",
     "slideRebirth": "Slide to choose your current Rebirth:",
@@ -309,7 +309,7 @@
   },
   "pt": {
     "title": "Droid Tracker",
-    "cycle": "Ciclo",
+    "cycle": "Ruta",
     "reiniciar": "Reiniciar",
     "superRebirth": "Super Rebirth",
     "slideRebirth": "Arraste para escolher seu Rebirth atual:",
