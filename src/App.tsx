@@ -733,10 +733,10 @@ const rebirthRequirementsCycle2: RebirthRequirement[] = [
 const rebirthRequirementsCycle3: RebirthRequirement[] = [
   { level: 1, credits: "10 K", droids: [{ name: "Mouse", tier: 1 }, { name: "Pit", tier: 1 }, { name: "Gonk", tier: 1 }] },
   { level: 2, credits: "150 K", droids: [{ name: "R3", tier: 1 }, { name: "2BB", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
-  { level: 3, credits: "975 K", droids: [{ name: "R8", tier: 1 }, { name: "R5", tier: 1 }, { name: "R4", tier: 1 }] },
-  { level: 4, credits: "2.95 M", droids: [{ name: "B1 Battle", tier: 1 }, { name: "R9", tier: 1 }, { name: "B1 Security", tier: 1 }] },
-  { level: 5, credits: "5.35 M", droids: [{ name: "R3", tier: 1 }, { name: "2BB", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
-  { level: 6, credits: "9.85 M", droids: [{ name: "R5", tier: 1 }, { name: "R4", tier: 1 }, { name: "BDX Explorer", tier: 1 }] },
+  { level: 3, credits: "975 K", droids: [{ name: "R8", tier: 1 }, { name: "R5", tier: 1 }, { name: "R9", tier: 2 }] },
+  { level: 4, credits: "2.95 M", droids: [{ name: "R3", tier: 2 }, { name: "B1 Battle", tier: 1 }, { name: "B1 Security", tier: 1 }] },
+  { level: 5, credits: "5.35 M", droids: [{ name: "R5", tier: 3 }, { name: "2BB", tier: 1 }, { name: "Senate Hovercam", tier: 1 }] },
+  { level: 6, credits: "9.85 M", droids: [{ name: "R8", tier: 3 }, { name: "R9", tier: 3 }, { name: "B1 Battle", tier: 3 }] },
   { level: 7, credits: "14.5 M", droids: [{ name: "R8", tier: 1 }, { name: "B1 Battle", tier: 1 }, { name: "R9", tier: 1 }] },
   { level: 8, credits: "36 M", droids: [{ name: "R3", tier: 4 }, { name: "2BB", tier: 4 }, { name: "B1 Security", tier: 4 }] },
   { level: 9, credits: "89 M", droids: [{ name: "R5", tier: 4 }, { name: "R4", tier: 4 }, { name: "BDX Explorer", tier: 4 }] },
@@ -1961,43 +1961,7 @@ export default function App() {
             )}
           </div>
 
-          {/* Sección Acceso Rápido: Nombres de Droides Requeridos */}
-          {requiredDroids.length > 0 && (
-            <div className="bg-[#0c1628] border border-[#1e2d4a] p-3 rounded-xl shadow-lg space-y-2">
-              <div className="flex justify-between items-center px-1">
-                <h3 className="text-xs uppercase font-extrabold text-[#00adee] tracking-wider flex items-center gap-1.5 font-narrow">
-                  <Target size={13} className="text-[#00adee]" />
-                  <span>{t('quickRequiredTitle')}</span>
-                </h3>
-                <span className="text-[10px] font-mono text-slate-400 font-bold">
-                  {requiredDroids.length}
-                </span>
-              </div>
 
-              {/* Lista simple de nombres en orden alfabético sin fotos ni etiquetas */}
-              <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
-                {[...requiredDroids]
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map(droid => {
-                    const isSelectedInSearch = trackerSearch.toLowerCase() === droid.name.toLowerCase();
-
-                    return (
-                      <button
-                        key={`quick-${droid.name}`}
-                        onClick={() => setTrackerSearch(isSelectedInSearch ? '' : droid.name)}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border select-none ${
-                          isSelectedInSearch
-                            ? 'bg-[#00adee] text-slate-950 border-[#00adee] font-extrabold shadow-md'
-                            : 'bg-[#091120] border-[#1e2d4a] text-slate-200 hover:border-slate-500 hover:text-white'
-                        }`}
-                      >
-                        {droid.name}
-                      </button>
-                    );
-                  })}
-              </div>
-            </div>
-          )}
 
           {/* Sección 1: Requisitos de Rebirth */}
           <div className="space-y-2">
@@ -2121,6 +2085,50 @@ export default function App() {
               })}
             </div>
           </div>
+
+          {/* Sección: Lista de Requeridos Pendientes (Se ocultan al completarse, sin scroll, orden alfabético) */}
+          {(() => {
+            const pendingRequiredList = requiredDroids
+              .filter(d => d.achieved < d.required)
+              .sort((a, b) => a.name.localeCompare(b.name));
+
+            if (pendingRequiredList.length === 0) return null;
+
+            return (
+              <div className="space-y-2 pt-2 border-t border-[#1e2d4a]">
+                <div className="flex justify-between items-center px-1">
+                  <h3 className="text-xs uppercase font-extrabold text-[#00adee] tracking-wider flex items-center gap-1.5 font-narrow">
+                    <Target size={13} className="text-[#00adee]" />
+                    <span>{t('quickRequiredTitle')}</span>
+                  </h3>
+                  <span className="text-[10px] font-mono bg-institutional-primary/30 border border-[#00adee]/30 px-1.5 py-0.2 rounded text-[#00adee] font-bold">
+                    {pendingRequiredList.length}
+                  </span>
+                </div>
+
+                {/* Lista simple de nombres en orden alfabético sin scroll, sin fotos ni etiquetas */}
+                <div className="flex flex-wrap gap-1.5">
+                  {pendingRequiredList.map(droid => {
+                    const isSelectedInSearch = trackerSearch.toLowerCase() === droid.name.toLowerCase();
+
+                    return (
+                      <button
+                        key={`quick-pending-${droid.name}`}
+                        onClick={() => setTrackerSearch(isSelectedInSearch ? '' : droid.name)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border select-none ${
+                          isSelectedInSearch
+                            ? 'bg-[#00adee] text-slate-950 border-[#00adee] font-extrabold shadow-md'
+                            : 'bg-[#091120] border-[#1e2d4a] text-slate-200 hover:border-slate-500 hover:text-white'
+                        }`}
+                      >
+                        {droid.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Sección 2: Droides No Requeridos */}
           {discardedDroids.length > 0 && (
