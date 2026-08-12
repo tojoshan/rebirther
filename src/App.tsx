@@ -1965,73 +1965,36 @@ export default function App() {
           {requiredDroids.length > 0 && (
             <div className="bg-[#0c1628] border border-[#1e2d4a] p-3 rounded-xl shadow-lg space-y-2">
               <div className="flex justify-between items-center px-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xs uppercase font-extrabold text-[#00adee] tracking-wider flex items-center gap-1.5 font-narrow">
-                    <Target size={13} className="text-[#00adee]" />
-                    <span>{t('quickRequiredTitle')}</span>
-                  </h3>
-                  <span className="text-[10px] font-mono bg-institutional-primary/30 border border-[#00adee]/30 px-1.5 py-0.2 rounded text-[#00adee] font-bold">
-                    {requiredDroids.filter(d => d.achieved < d.required).length} / {requiredDroids.length}
-                  </span>
-                </div>
-                <span className="text-[10px] text-slate-400 font-medium hidden sm:inline">
-                  {t('quickRequiredSubtitle')}
+                <h3 className="text-xs uppercase font-extrabold text-[#00adee] tracking-wider flex items-center gap-1.5 font-narrow">
+                  <Target size={13} className="text-[#00adee]" />
+                  <span>{t('quickRequiredTitle')}</span>
+                </h3>
+                <span className="text-[10px] font-mono text-slate-400 font-bold">
+                  {requiredDroids.length}
                 </span>
               </div>
 
-              {/* Chips horizontales de nombres requeridos */}
+              {/* Lista simple de nombres en orden alfabético sin fotos ni etiquetas */}
               <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
-                {requiredDroids.map(droid => {
-                  const isCompleted = droid.achieved >= droid.required;
-                  const isImmediate = droid.status === 'immediate';
-                  const isSelectedInSearch = trackerSearch.toLowerCase() === droid.name.toLowerCase();
+                {[...requiredDroids]
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map(droid => {
+                    const isSelectedInSearch = trackerSearch.toLowerCase() === droid.name.toLowerCase();
 
-                  let chipClasses = "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border select-none ";
-
-                  if (isSelectedInSearch) {
-                    chipClasses += "bg-[#00adee] text-slate-950 border-[#00adee] ring-2 ring-[#00adee]/50 font-extrabold shadow-lg";
-                  } else if (isImmediate) {
-                    chipClasses += "bg-[#112544] border-[#00adee] text-white hover:bg-[#17335c] shadow-[0_0_8px_rgba(0,173,238,0.25)] font-extrabold";
-                  } else if (isCompleted) {
-                    chipClasses += "bg-emerald-950/40 border-emerald-800/40 text-emerald-300 hover:bg-emerald-900/50 opacity-80 font-medium";
-                  } else {
-                    chipClasses += "bg-[#091120] border-[#1e2d4a] text-slate-200 hover:border-slate-500 hover:text-white font-semibold";
-                  }
-
-                  const reqTierInfo = localizedTiersConfig.find(tc => tc.level === droid.required);
-
-                  return (
-                    <button
-                      key={`quick-${droid.name}`}
-                      onClick={() => setTrackerSearch(isSelectedInSearch ? '' : droid.name)}
-                      className={chipClasses}
-                      title={`${droid.name} - ${isCompleted ? 'Completado' : `Meta: ${reqTierInfo?.label || ''}`}`}
-                    >
-                      {getDroidImageUrl(droid.name, droid.required || 1) && (
-                        <img 
-                          src={getDroidImageUrl(droid.name, droid.required || 1)!} 
-                          alt={droid.name} 
-                          loading="lazy" 
-                          className="w-4 h-4 object-contain inline-block filter drop-shadow" 
-                          onError={(e) => { (e.currentTarget as HTMLElement).style.display = 'none'; }}
-                        />
-                      )}
-                      <span>{droid.name}</span>
-                      {reqTierInfo && (
-                        <span className={`text-[9px] px-1 py-0.2 rounded font-extrabold leading-none ${
-                          isCompleted 
-                            ? 'bg-emerald-900/60 text-emerald-300' 
-                            : isSelectedInSearch
-                            ? 'bg-slate-900 text-[#00adee]'
-                            : getTierColor(droid.required)
-                        }`}>
-                          {reqTierInfo.short}
-                        </span>
-                      )}
-                      {isCompleted && <span className="text-[10px] text-emerald-400 font-extrabold">✓</span>}
-                    </button>
-                  );
-                })}
+                    return (
+                      <button
+                        key={`quick-${droid.name}`}
+                        onClick={() => setTrackerSearch(isSelectedInSearch ? '' : droid.name)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border select-none ${
+                          isSelectedInSearch
+                            ? 'bg-[#00adee] text-slate-950 border-[#00adee] font-extrabold shadow-md'
+                            : 'bg-[#091120] border-[#1e2d4a] text-slate-200 hover:border-slate-500 hover:text-white'
+                        }`}
+                      >
+                        {droid.name}
+                      </button>
+                    );
+                  })}
               </div>
             </div>
           )}
