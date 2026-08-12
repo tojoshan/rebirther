@@ -2005,7 +2005,7 @@ export default function App() {
                       key={`quick-${droid.name}`}
                       onClick={() => setTrackerSearch(isSelectedInSearch ? '' : droid.name)}
                       className={chipClasses}
-                      title={`${droid.name} - ${isCompleted ? 'Completado' : `Meta: ${reqTierInfo?.name || ''}`}`}
+                      title={`${droid.name} - ${isCompleted ? 'Completado' : `Meta: ${reqTierInfo?.label || ''}`}`}
                     >
                       {getDroidImageUrl(droid.name, droid.required || 1) && (
                         <img 
