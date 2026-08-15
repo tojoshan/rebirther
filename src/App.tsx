@@ -51,7 +51,7 @@ interface RebirthRequirement {
   credits: string;
   droids: {
     name: string;
-    tier: number; // 1: Base, 2: Gold, 3: Diamond, 4: Rainbow, 5: Beskar, 6: Galactic
+    tier: number; // 1: Base, 2: Gold, 3: Diamond, 4: Rainbow, 5: Beskar, 6: Galactic, 7: Stellar
   }[];
 }
 
@@ -643,7 +643,8 @@ const getDroidImageUrl = (droidName: string, tier: number): string | null => {
     3: 'Diamond',
     4: 'Rainbow',
     5: 'Beskar',
-    6: 'Galactic'
+    6: 'Galactic',
+    7: 'Stellar'
   };
   const tierName = tierNameMap[tier] || 'Default';
 
@@ -802,7 +803,8 @@ const tiersConfig = [
   { level: 3, label: 'Diamante', short: 'DIA' },
   { level: 4, label: 'Arcoíris', short: 'ARC' },
   { level: 5, label: 'Beskar', short: 'BES' },
-  { level: 6, label: 'Galáctico', short: 'GAL' }
+  { level: 6, label: 'Galáctico', short: 'GAL' },
+  { level: 7, label: 'Estelar', short: 'EST' }
 ];
 
 const getTierName = (tier: number) => {
@@ -813,6 +815,7 @@ const getTierName = (tier: number) => {
     case 4: return 'Arcoíris';
     case 5: return 'Beskar';
     case 6: return 'Galáctico';
+    case 7: return 'Estelar';
     default: return 'Ninguno';
   }
 };
@@ -825,6 +828,7 @@ const getTierColor = (tier: number) => {
     case 4: return 'text-pink-400 border-pink-500/30 bg-pink-500/5';
     case 5: return 'text-purple-300 border-purple-500/40 bg-purple-950/20';
     case 6: return 'text-indigo-400 border-indigo-500/40 bg-indigo-950/20';
+    case 7: return 'text-yellow-100 border-yellow-200/40 bg-yellow-200/10';
     default: return 'text-gray-500 border-transparent';
   }
 };
@@ -991,6 +995,7 @@ export default function App() {
       case 4: return t('tierName_4');
       case 5: return t('tierName_5');
       case 6: return t('tierName_6');
+      case 7: return t('tierName_7');
       default: return t('tierName_Ninguno');
     }
   };
@@ -1001,7 +1006,8 @@ export default function App() {
     { level: 3, label: t('tierName_3'), short: t('tierShort_3') },
     { level: 4, label: t('tierName_4'), short: t('tierShort_4') },
     { level: 5, label: t('tierName_5'), short: t('tierShort_5') },
-    { level: 6, label: t('tierName_6'), short: t('tierShort_6') }
+    { level: 6, label: t('tierName_6'), short: t('tierShort_6') },
+    { level: 7, label: t('tierName_7'), short: t('tierShort_7') }
   ];
 
   const formatCredits = (creditsStr: string) => {
@@ -1405,12 +1411,13 @@ export default function App() {
   const discardedDroids = sortedDroids.filter(d => d.status === 'discarded');
 
   const tierMilestonesConfig: Record<number, { count: number; bonus: number }> = {
-    1: { count: 25, bonus: 25 }, // Base: 25 droids -> +25%
-    2: { count: 25, bonus: 30 }, // Oro: 25 droids -> +30%
-    3: { count: 25, bonus: 35 }, // Diamante: 25 droids -> +35%
-    4: { count: 25, bonus: 40 }, // Arcoiris: 25 droids -> +40%
-    5: { count: 25, bonus: 60 }, // Beskar: 25 droids -> +60%
-    6: { count: 25, bonus: 80 }  // Galactico: 25 droids -> +80%
+    1: { count: 25, bonus: 25 },  // Base: 25 droids -> +25%
+    2: { count: 25, bonus: 30 },  // Oro: 25 droids -> +30%
+    3: { count: 25, bonus: 35 },  // Diamante: 25 droids -> +35%
+    4: { count: 25, bonus: 40 },  // Arcoiris: 25 droids -> +40%
+    5: { count: 25, bonus: 60 },  // Beskar: 25 droids -> +60%
+    6: { count: 25, bonus: 80 },  // Galactico: 25 droids -> +80%
+    7: { count: 25, bonus: 100 }  // Estelar: 25 droids -> +100%
   };
 
   const getTierObtainedCount = (tier: number): number => {
@@ -1447,7 +1454,7 @@ export default function App() {
 
   const getTotalMilestoneMultiplier = (): number => {
     let total = 0;
-    for (let t = 1; t <= 6; t++) {
+    for (let t = 1; t <= 7; t++) {
       const info = getTierMilestoneInfo(t);
       if (info.isCompleted) {
         total += info.bonus;
@@ -1461,7 +1468,7 @@ export default function App() {
     let obtainedCount = 0;
     droidsData.forEach(droid => {
       if (droid.rarity !== 'ICONICO') {
-        for (let t = 1; t <= 6; t++) {
+        for (let t = 1; t <= 7; t++) {
           if (isDroidexObtained(droid.name, t)) {
             obtainedCount++;
           }
@@ -1479,7 +1486,7 @@ export default function App() {
 
     return {
       obtainedCount,
-      totalCount: 380,
+      totalCount: 442,
       flawlessCount,
       totalFlawless: 62,
       tierMultiplier,
@@ -1546,6 +1553,8 @@ export default function App() {
       case 3: tierBase = 70; break;
       case 4: tierBase = 150; break;
       case 5: tierBase = 300; break;
+      case 6: tierBase = 500; break;
+      case 7: tierBase = 800; break;
     }
 
     const value = Math.round(tierBase * rarityMult);
@@ -1615,6 +1624,7 @@ export default function App() {
       case 4: glowColor = 'text-pink-400'; break;
       case 5: glowColor = 'text-purple-400'; break;
       case 6: glowColor = 'text-indigo-400'; break;
+      case 7: glowColor = 'text-yellow-200'; break;
       default: glowColor = 'text-slate-400';
     }
 
@@ -2056,6 +2066,7 @@ export default function App() {
                                 case 4: baseClasses += "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold"; break;
                                 case 5: baseClasses += "bg-purple-800 text-purple-100 font-extrabold border-t border-purple-400"; break;
                                 case 6: baseClasses += "bg-indigo-900 text-indigo-100 font-extrabold border-t border-indigo-400"; break;
+                                case 7: baseClasses += "bg-yellow-200 text-slate-950 font-extrabold border-t border-yellow-300"; break;
                               }
                             }
 
