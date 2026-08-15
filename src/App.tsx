@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  CheckCircle2, 
-  RotateCcw, 
-  Target, 
-  Wrench, 
-  Cpu, 
-  Swords, 
-  Coins, 
-  Lock, 
-  AlertCircle, 
-  Award, 
+import {
+  CheckCircle2,
+  RotateCcw,
+  Target,
+  Wrench,
+  Cpu,
+  Swords,
+  Coins,
+  Lock,
+  AlertCircle,
+  Award,
   ArrowRight,
   Sparkles,
   ChevronDown,
@@ -646,7 +646,7 @@ const getDroidImageUrl = (droidName: string, tier: number): string | null => {
     6: 'Galactic'
   };
   const tierName = tierNameMap[tier] || 'Default';
-  
+
   const isIconic = droidsData.find(d => d.name === droidName)?.rarity === 'ICONICO';
   let lookupKey = `${normName}:${tierName}`;
   if (isIconic) {
@@ -742,14 +742,14 @@ const rebirthRequirementsCycle3: RebirthRequirement[] = [
   { level: 9, credits: "89 M", droids: [{ name: "R5", tier: 4 }, { name: "R4", tier: 4 }, { name: "BDX Explorer", tier: 4 }] },
   { level: 10, credits: "220 M", droids: [{ name: "Senate Hovercam", tier: 4 }, { name: "Groundmech", tier: 1 }, { name: "Trak-R", tier: 1 }] },
   { level: 11, credits: "550 M", droids: [{ name: "B2 Heavy", tier: 1 }, { name: "B2 Super", tier: 1 }, { name: "Util-Tec", tier: 1 }] },
-  { level: 12, credits: "1.36 B", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 1 }, { name: "Trak-R", tier: 1 }] },
+  { level: 12, credits: "1.36 B", droids: [{ name: "Bal-Core", tier: 4 }, { name: "Groundmech", tier: 2 }, { name: "Trak-R", tier: 2 }] },
   { level: 13, credits: "3.4 B", droids: [{ name: "B2 Super", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
   { level: 14, credits: "8.45 B", droids: [{ name: "B2 Heavy", tier: 4 }, { name: "B2-RP", tier: 1 }, { name: "R7", tier: 1 }] },
-  { level: 15, credits: "21 B", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB-9", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
+  { level: 15, credits: "21 B", droids: [{ name: "Strike-Orb", tier: 4 }, { name: "BB-9", tier: 2 }, { name: "Proto-Roller", tier: 2 }] },
   { level: 16, credits: "52 B", droids: [{ name: "AMP Walker", tier: 4 }, { name: "Mecha-Droid", tier: 1 }, { name: "B2-RP", tier: 1 }] },
   { level: 17, credits: "130 B", droids: [{ name: "Opti-Pod", tier: 4 }, { name: "MONO-WLKR", tier: 1 }, { name: "R7", tier: 1 }] },
-  { level: 18, credits: "325 B", droids: [{ name: "Util-Tec", tier: 4 }, { name: "BB-9", tier: 1 }, { name: "Proto-Roller", tier: 1 }] },
-  { level: 19, credits: "810 B", droids: [{ name: "Mecha-Droid", tier: 1 }, { name: "R7", tier: 4 }, { name: "B2-RP", tier: 4 }] },
+  { level: 18, credits: "325 B", droids: [{ name: "Util-Tec", tier: 4 }, { name: "BB-9", tier: 3 }, { name: "Proto-Roller", tier: 3 }] },
+  { level: 19, credits: "810 B", droids: [{ name: "Mecha-Droid", tier: 3 }, { name: "R7", tier: 4 }, { name: "B2-RP", tier: 4 }] },
   { level: 20, credits: "2 T", droids: [{ name: "MONO-WLKR", tier: 4 }, { name: "Opti-STRK", tier: 4 }, { name: "Cyclo-Grav", tier: 4 }] },
   { level: 21, credits: "3 T", droids: [{ name: "B2 Super", tier: 5 }, { name: "Opti-Pod", tier: 5 }, { name: "R2", tier: 5 }] },
   { level: 22, credits: "4.5 T", droids: [{ name: "Gunrunner", tier: 5 }, { name: "LNG-Shot", tier: 5 }, { name: "B2-RP", tier: 5 }] },
@@ -1234,10 +1234,12 @@ export default function App() {
         ? rebirthRequirementsCycle4
         : rebirthRequirementsCycle3;
 
+  const targetLevel = currentRebirth === 0 ? 1 : Math.min(30, currentRebirth);
+
   const getRequiredTier = (droidName: string): number => {
     let maxRequiredTier = 0;
     rebirthRequirements.forEach(req => {
-      if (req.level > currentRebirth) {
+      if (req.level >= targetLevel) {
         const d = req.droids.find(dr => dr.name.toLowerCase() === droidName.toLowerCase());
         if (d && d.tier > maxRequiredTier) {
           maxRequiredTier = d.tier;
@@ -1265,17 +1267,16 @@ export default function App() {
   };
 
   const isImmediateTarget = (droidName: string): boolean => {
-    const nextLevel = currentRebirth + 1;
-    const nextReq = rebirthRequirements.find(req => req.level === nextLevel);
-    if (!nextReq) return false;
-    const d = nextReq.droids.find(dr => dr.name.toLowerCase() === droidName.toLowerCase());
+    const currentReq = rebirthRequirements.find(req => req.level === targetLevel);
+    if (!currentReq) return false;
+    const d = currentReq.droids.find(dr => dr.name.toLowerCase() === droidName.toLowerCase());
     if (!d) return false;
     const achieved = progress[droidName] || 0;
     return achieved < d.tier;
   };
 
   const getRebirthStatus = (req: RebirthRequirement) => {
-    if (req.level <= currentRebirth) {
+    if (req.level < targetLevel) {
       return 'completed';
     }
     const allMet = req.droids.every(d => {
@@ -1299,13 +1300,12 @@ export default function App() {
   const getDroidRecommendation = (droidName: string, achieved: number, required: number) => {
     const guideMax = getGuideMaxTier(droidName);
     const reqList = getDroidRequirements(droidName);
-    const nextUnmet = reqList.find(r => r.level > currentRebirth && achieved < r.tier);
+    const nextUnmet = reqList.find(r => r.level >= targetLevel && achieved < r.tier);
 
     if (nextUnmet) {
-      const nextLevel = currentRebirth + 1;
-      const isNeededForNext = reqList.some(r => r.level === nextLevel && achieved < r.tier);
-      
-      if (isNeededForNext) {
+      const isNeededForCurrent = reqList.some(r => r.level === targetLevel && achieved < r.tier);
+
+      if (isNeededForCurrent) {
         return {
           type: 'upgrade',
           text: t('recUpgrade', { level: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) })
@@ -1313,7 +1313,7 @@ export default function App() {
       } else {
         return {
           type: 'keep_upgrade',
-          text: t('recKeepUpgrade', { level: nextLevel.toString(), futureLevel: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) })
+          text: t('recKeepUpgrade', { level: targetLevel.toString(), futureLevel: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) })
         };
       }
     } else {
@@ -1338,7 +1338,7 @@ export default function App() {
     }
   };
 
-  const activeRequirements = rebirthRequirements.filter(req => req.level > currentRebirth);
+  const activeRequirements = rebirthRequirements.filter(req => req.level >= targetLevel);
   const totalActiveDroidRequirements = activeRequirements.length * 3;
   const metActiveDroidRequirements = activeRequirements.reduce((acc, req) => {
     const metCount = req.droids.filter(d => {
@@ -1355,7 +1355,7 @@ export default function App() {
     const achieved = progress[droid.name] || 0;
     const required = getRequiredTier(droid.name);
     const immediate = isImmediateTarget(droid.name);
-    
+
     let status: 'immediate' | 'needed' | 'completed' | 'discarded' = 'discarded';
     if (required === 0) {
       status = 'discarded';
@@ -1376,10 +1376,9 @@ export default function App() {
   });
 
   const isNeededForCurrentRebirth = (droidName: string): boolean => {
-    const nextLevel = currentRebirth + 1;
-    const nextReq = rebirthRequirements.find(req => req.level === nextLevel);
-    if (!nextReq) return false;
-    return nextReq.droids.some(dr => dr.name.toLowerCase() === droidName.toLowerCase());
+    const currentReq = rebirthRequirements.find(req => req.level === targetLevel);
+    if (!currentReq) return false;
+    return currentReq.droids.some(dr => dr.name.toLowerCase() === droidName.toLowerCase());
   };
 
   const sortedDroids = [...classifiedDroids]
@@ -1608,7 +1607,7 @@ export default function App() {
 
     let glowColor = 'text-slate-400';
     let pulseClass = 'animate-pulse';
-    
+
     switch (tier) {
       case 1: glowColor = 'text-slate-400'; break;
       case 2: glowColor = 'text-yellow-400'; break;
@@ -1623,16 +1622,16 @@ export default function App() {
       glowColor = 'text-fuchsia-400';
     }
 
-    const imgClass = isObtained 
-      ? "max-w-full max-h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] transition-all duration-200" 
+    const imgClass = isObtained
+      ? "max-w-full max-h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] transition-all duration-200"
       : "max-w-full max-h-full object-contain filter grayscale contrast-125 opacity-30 transition-all duration-200";
 
     return (
       <div className="relative w-full h-full flex items-center justify-center p-0.5">
         {imageUrl ? (
-          <img 
-            src={imageUrl} 
-            alt={droid.name} 
+          <img
+            src={imageUrl}
+            alt={droid.name}
             loading="lazy"
             className={imgClass}
             onError={(e) => {
@@ -1642,12 +1641,12 @@ export default function App() {
             }}
           />
         ) : null}
-        <svg 
-          className={`w-full h-full ${glowColor} ${pulseClass} ${isObtained ? 'opacity-90' : 'opacity-30'}`} 
+        <svg
+          className={`w-full h-full ${glowColor} ${pulseClass} ${isObtained ? 'opacity-90' : 'opacity-30'}`}
           style={{ display: imageUrl ? 'none' : 'block' }}
-          viewBox="0 0 100 100" 
-          fill="none" 
-          stroke="currentColor" 
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
           strokeWidth="2"
         >
           <circle cx="50" cy="35" r="18" className="opacity-80" strokeDasharray="3,3" />
@@ -1687,7 +1686,7 @@ export default function App() {
 
   const stats = getDroidexStats();
   const activeTierMilestone = getTierMilestoneInfo(activeDroidexTier);
-  
+
   const filteredDroidexList = droidsData
     .filter(droid => {
       if (activeDroidexTier === 1) {
@@ -1730,45 +1729,41 @@ export default function App() {
     }
   };
 
-  const nextLevel = currentRebirth + 1;
-  const nextReq = rebirthRequirements.find(r => r.level === nextLevel);
-  const isNextReqMet = nextReq ? getRebirthStatus(nextReq) === 'ready' : false;
+  const targetReq = rebirthRequirements.find(r => r.level === targetLevel);
+  const isTargetReqMet = targetReq ? getRebirthStatus(targetReq) === 'ready' : false;
 
   return (
     <div className="min-h-screen bg-[#050810] text-[#e2e8f0] font-sans antialiased p-3 pb-8 space-y-4">
       <div className="max-w-6xl mx-auto space-y-3">
-        
+
         {/* Navigation Tabs */}
         <div className="flex bg-[#0c1628] border border-[#1e2d4a] p-1.5 rounded-xl shadow-lg gap-1.5">
           <button
             onClick={() => saveActiveTab('tracker')}
-            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'tracker'
+            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'tracker'
                 ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
                 : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
-            }`}
+              }`}
           >
             <Target size={15} />
             <span>{t('navTracker')}</span>
           </button>
           <button
             onClick={() => saveActiveTab('droidex')}
-            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'droidex'
+            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'droidex'
                 ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
                 : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
-            }`}
+              }`}
           >
             <Award size={15} />
             <span>{t('navDroidex')}</span>
           </button>
           <button
             onClick={() => saveActiveTab('novashop')}
-            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
-              activeTab === 'novashop'
+            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'novashop'
                 ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
                 : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
-            }`}
+              }`}
           >
             <Sparkles size={15} />
             <span>{t('navNovaShop')}</span>
@@ -1779,1197 +1774,1182 @@ export default function App() {
           <>
             {/* Cabecera y Controles Principales */}
             <header className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3.5">
-          
-          {/* Fila 1: Título y Controles */}
-          <div className="flex justify-between items-center gap-2">
-            <h1 className="text-lg font-bold text-white font-narrow flex items-center gap-2 flex-wrap">
-              <span className="text-[#00adee]">{t('title')}</span>
-              <div className="relative inline-flex items-center">
-                <select
-                  value={currentCycle}
-                  onChange={(e) => saveCycle(parseInt(e.target.value, 10))}
-                  className="bg-[#0f172a] text-[#00adee] border border-[#1e2d4a] px-2 py-0.5 rounded text-xs uppercase font-bold tracking-wider cursor-pointer outline-none hover:bg-[#13223d] transition-colors"
-                >
-                  <option value={1} className="bg-[#0c1628] text-white">{t('cycle')} 1</option>
-                  <option value={2} className="bg-[#0c1628] text-white">{t('cycle')} 2</option>
-                  <option value={3} className="bg-[#0c1628] text-white">{t('cycle')} 3</option>
-                  <option value={4} className="bg-[#0c1628] text-white">{t('cycle')} 4</option>
-                </select>
-              </div>
-            </h1>
-            <div className="flex items-center gap-1.5">
-              {/* Selector de Idioma */}
-              <div className="relative inline-flex items-center">
-                <select
-                  value={language}
-                  onChange={(e) => saveLanguage(e.target.value)}
-                  className="bg-[#0f172a] text-[#00adee] border border-[#1e2d4a] px-2 py-0.5 rounded text-xs font-bold cursor-pointer outline-none hover:bg-[#13223d] transition-colors uppercase"
-                >
-                  <option value="es" className="bg-[#0c1628] text-white">ES</option>
-                  <option value="en" className="bg-[#0c1628] text-white">EN</option>
-                  <option value="pt" className="bg-[#0c1628] text-white">PT</option>
-                </select>
-              </div>
 
-              {/* Botón Super Rebirth */}
-              {currentRebirth >= 12 ? (
-                <button
-                  onClick={() => setShowSuperRebirthModal(true)}
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-800 hover:bg-purple-700 text-white rounded-lg border border-purple-500/40 shadow-[0_0_10px_rgba(147,51,234,0.3)] transition-all cursor-pointer font-bold"
-                >
-                  <Sparkles size={12} /> <span>{t('superRebirth')} (+{getNovaCrystals(currentRebirth)})</span>
-                </button>
-              ) : (
-                <button
-                  disabled
-                  className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-950/40 border border-purple-900/50 text-purple-300/50 rounded-lg cursor-not-allowed font-bold"
-                  title={t('superRebirthTooltip')}
-                >
-                  <Lock size={12} /> <span>{t('superRebirth')} (R-12)</span>
-                </button>
-              )}
+              {/* Fila 1: Título y Controles */}
+              <div className="flex justify-between items-center gap-2">
+                <h1 className="text-lg font-bold text-white font-narrow flex items-center gap-2 flex-wrap">
+                  <span className="text-[#00adee]">{t('title')}</span>
+                  <div className="relative inline-flex items-center">
+                    <select
+                      value={currentCycle}
+                      onChange={(e) => saveCycle(parseInt(e.target.value, 10))}
+                      className="bg-[#0f172a] text-[#00adee] border border-[#1e2d4a] px-2 py-0.5 rounded text-xs uppercase font-bold tracking-wider cursor-pointer outline-none hover:bg-[#13223d] transition-colors"
+                    >
+                      <option value={1} className="bg-[#0c1628] text-white">{t('cycle')} 1</option>
+                      <option value={2} className="bg-[#0c1628] text-white">{t('cycle')} 2</option>
+                      <option value={3} className="bg-[#0c1628] text-white">{t('cycle')} 3</option>
+                      <option value={4} className="bg-[#0c1628] text-white">{t('cycle')} 4</option>
+                    </select>
+                  </div>
+                </h1>
+                <div className="flex items-center gap-1.5">
+                  {/* Selector de Idioma */}
+                  <div className="relative inline-flex items-center">
+                    <select
+                      value={language}
+                      onChange={(e) => saveLanguage(e.target.value)}
+                      className="bg-[#0f172a] text-[#00adee] border border-[#1e2d4a] px-2 py-0.5 rounded text-xs font-bold cursor-pointer outline-none hover:bg-[#13223d] transition-colors uppercase"
+                    >
+                      <option value="es" className="bg-[#0c1628] text-white">ES</option>
+                      <option value="en" className="bg-[#0c1628] text-white">EN</option>
+                      <option value="pt" className="bg-[#0c1628] text-white">PT</option>
+                    </select>
+                  </div>
 
-              {/* Botón Reiniciar */}
-              <button 
-                onClick={() => setShowResetModal(true)}
-                className="flex items-center gap-1 px-2.5 py-1 text-xs text-red-400 hover:text-red-300 hover:bg-red-950/40 rounded-lg border border-red-800/40 transition-colors cursor-pointer font-bold"
-              >
-                <RotateCcw size={12} /> <span>{t('reiniciar')}</span>
-              </button>
-            </div>
-          </div>
+                  {/* Botón Super Rebirth */}
+                  {currentRebirth >= 12 ? (
+                    <button
+                      onClick={() => setShowSuperRebirthModal(true)}
+                      className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-800 hover:bg-purple-700 text-white rounded-lg border border-purple-500/40 shadow-[0_0_10px_rgba(147,51,234,0.3)] transition-all cursor-pointer font-bold"
+                    >
+                      <Sparkles size={12} /> <span>{t('superRebirth')} (+{getNovaCrystals(currentRebirth)})</span>
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className="flex items-center gap-1 px-2.5 py-1 text-xs bg-purple-950/40 border border-purple-900/50 text-purple-300/50 rounded-lg cursor-not-allowed font-bold"
+                      title={t('superRebirthTooltip')}
+                    >
+                      <Lock size={12} /> <span>{t('superRebirth')} (R-12)</span>
+                    </button>
+                  )}
 
-          {/* Fila 2: Selector Rebirth Horizontal Deslizable */}
-          <div className="bg-[#091120] py-2.5 px-3 rounded-xl border border-[#1e2d4a] flex flex-col gap-1.5">
-            <div className="flex justify-between items-center text-xs text-slate-300">
-              <span className="font-bold flex items-center gap-1.5">
-                <Target size={14} className="text-[#00adee]" />
-                {t('slideRebirth')}
-              </span>
-              <span>{t('rebirthLabel')} <strong className="text-[#00adee] font-extrabold">R-{currentRebirth}</strong></span>
-            </div>
-            <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
-              {Array.from({ length: 31 }, (_, i) => {
-                const lvl = i;
-                const isActive = lvl === currentRebirth;
-                
-                let btnClass = "h-8 w-8 text-xs font-bold rounded-full flex items-center justify-center transition-all duration-100 select-none cursor-pointer flex-shrink-0 ";
-                if (isActive) {
-                  btnClass += "bg-[#17479d] text-white border-2 border-[#00adee] font-extrabold shadow-[0_0_10px_rgba(0,173,238,0.4)]";
-                } else {
-                  btnClass += "bg-[#050810] border border-[#1e2d4a] text-slate-300 hover:border-slate-500 hover:text-white";
-                }
-
-                return (
+                  {/* Botón Reiniciar */}
                   <button
-                    key={lvl}
-                    onClick={() => saveRebirth(lvl)}
-                    className={btnClass}
+                    onClick={() => setShowResetModal(true)}
+                    className="flex items-center gap-1 px-2.5 py-1 text-xs text-red-400 hover:text-red-300 hover:bg-red-950/40 rounded-lg border border-red-800/40 transition-colors cursor-pointer font-bold"
                   >
-                    {lvl}
+                    <RotateCcw size={12} /> <span>{t('reiniciar')}</span>
                   </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Fila 3: Siguiente Rebirth Requisitos */}
-          <div className="bg-[#091120] border border-[#1e2d4a] rounded-xl p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs shadow-md">
-            {nextReq ? (
-              <>
-                <div className="space-y-2 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="bg-[#00adee]/20 text-[#00adee] border border-[#00adee]/40 px-2 py-0.5 rounded text-[10px] font-bold">
-                      {t('nextMeta')}
-                    </span>
-                    <span className="text-sm font-extrabold text-white font-narrow">
-                      {t('requirementsForRebirth', { level: nextLevel.toString() })}
-                    </span>
-                    <span className="text-amber-300 font-bold bg-amber-950/40 border border-amber-500/30 px-2 py-0.5 rounded flex items-center gap-1 font-mono">
-                      <Coins size={12} />
-                      {formatCredits(nextReq.credits)}
-                    </span>
-                  </div>
-                  
-                  {/* Requisitos droids */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {nextReq.droids.map((reqDroid, index) => {
-                      const achieved = progress[reqDroid.name] || 0;
-                      const isMet = achieved >= reqDroid.tier;
-
-                      return (
-                        <span 
-                          key={index}
-                          className={`px-2 py-1 rounded text-xs border flex items-center gap-1.5 ${
-                            isMet 
-                              ? 'bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 font-bold' 
-                              : 'bg-[#0f172a] border border-[#1e2d4a] text-slate-200'
-                          }`}
-                        >
-                          <span>{reqDroid.name}:</span>
-                          <strong className={`${getTierColor(reqDroid.tier)}`}>
-                            {getLocalizedTierName(reqDroid.tier)}
-                          </strong>
-                          {isMet ? ' ✓' : ` (${getLocalizedTierName(achieved)})`}
-                        </span>
-                      );
-                    })}
-                  </div>
                 </div>
+              </div>
 
-                {isNextReqMet && (
-                  <button
-                    onClick={() => saveRebirth(nextLevel)}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
-                  >
-                    <span>{t('rebirthReady')}</span>
-                    <ArrowRight size={12} />
-                  </button>
-                )}
-              </>
-            ) : (
-              <span className="text-emerald-400 font-bold flex items-center gap-2 py-1 text-sm">
-                <Sparkles size={16} /> {t('congratulationsFinished')}
-              </span>
-            )}
-          </div>
+              {/* Fila 2: Selector Rebirth Horizontal Deslizable */}
+              <div className="bg-[#091120] py-2.5 px-3 rounded-xl border border-[#1e2d4a] flex flex-col gap-1.5">
+                <div className="flex justify-between items-center text-xs text-slate-300">
+                  <span className="font-bold flex items-center gap-1.5">
+                    <Target size={14} className="text-[#00adee]" />
+                    {t('slideRebirth')}
+                  </span>
+                  <span>{t('rebirthLabel')} <strong className="text-[#00adee] font-extrabold">R-{targetLevel}</strong></span>
+                </div>
+                <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+                  {Array.from({ length: 31 }, (_, i) => {
+                    const lvl = i;
+                    const isActive = lvl === currentRebirth;
 
-        </header>
+                    let btnClass = "h-8 w-8 text-xs font-bold rounded-full flex items-center justify-center transition-all duration-100 select-none cursor-pointer flex-shrink-0 ";
+                    if (isActive) {
+                      btnClass += "bg-[#17479d] text-white border-2 border-[#00adee] font-extrabold shadow-[0_0_10px_rgba(0,173,238,0.4)]";
+                    } else {
+                      btnClass += "bg-[#050810] border border-[#1e2d4a] text-slate-300 hover:border-slate-500 hover:text-white";
+                    }
 
-        {/* Grilla Principal de Droides: 2 columnas en mobile, hasta 5 en pantallas grandes */}
-        <main className="space-y-4">
-          
-          {/* Buscador */}
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-              <Search size={15} />
-            </span>
-            <input
-              type="text"
-              value={trackerSearch}
-              onChange={(e) => setTrackerSearch(e.target.value)}
-              placeholder={t('searchPlaceholder')}
-              className="w-full bg-[#0c1628] border border-[#1e2d4a] focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-400 outline-none transition-colors shadow-inner"
-            />
-            {trackerSearch && (
-              <button
-                onClick={() => setTrackerSearch('')}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
-              >
-                <X size={15} />
-              </button>
-            )}
-          </div>
+                    return (
+                      <button
+                        key={lvl}
+                        onClick={() => saveRebirth(lvl)}
+                        className={btnClass}
+                      >
+                        {lvl}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-
-
-          {/* Sección 1: Requisitos de Rebirth */}
-          <div className="space-y-2">
-            <div className="flex justify-between items-center px-1">
-              <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider">
-                {t('rebirthRequirementsSection')}
-              </h3>
-              {requiredDroids.length !== droidsData.filter(d => getRequiredTier(d.name) > 0).length && (
-                <span className="text-[10px] font-mono text-slate-400 font-bold">
-                  {requiredDroids.length} / {droidsData.filter(d => getRequiredTier(d.name) > 0).length}
-                </span>
-              )}
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
-              {requiredDroids.map(droid => {
-                const isCompleted = droid.status === 'completed';
-                const isImmediate = droid.status === 'immediate';
-
-                const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
-                const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
-                const TypeIcon = typeInfo.icon;
-
-                const reqList = getDroidRequirements(droid.name);
-                const rec = getDroidRecommendation(droid.name, droid.achieved, droid.required);
-
-                return (
-                  <div 
-                    key={droid.name} 
-                    className={`p-3 rounded-xl border flex flex-col justify-between transition-all duration-150 ${
-                      isImmediate
-                        ? 'bg-gradient-to-b from-[#112544] to-[#0c1628] border-2 border-[#00adee] ring-1 ring-[#00adee]/30 shadow-[0_0_15px_rgba(0,173,238,0.2)]'
-                        : isCompleted 
-                        ? 'bg-[#0c1628]/60 border border-emerald-900/40 opacity-90' 
-                        : 'bg-[#0c1628] border border-[#1e2d4a] hover:border-slate-600 shadow-md'
-                    }`}
-                  >
-                    {/* Fila 1: Nombre, Rarity y Trash/Clear */}
-                    <div className="flex justify-between items-center gap-1.5 mb-2">
-                      <h4 className={`text-sm sm:text-base truncate flex-1 leading-tight ${
-                        isImmediate 
-                          ? 'text-[#00adee] font-extrabold' 
-                          : isCompleted ? 'text-slate-100 font-bold' : 'text-white font-bold'
-                      }`} title={droid.name}>
-                        {droid.name}
-                      </h4>
-                      <div className="flex gap-1.5 flex-shrink-0 items-center">
-                        {droid.achieved > 0 && (
-                          <button
-                            onClick={() => handleClearDroid(droid.name)}
-                            className="p-0.5 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded transition-colors cursor-pointer"
-                            title={t('notRequiredTooltip')}
-                          >
-                            <Trash2 size={12} />
-                          </button>
-                        )}
-                        {isImmediate && (
-                          <span className="px-1.5 py-0.5 bg-[#00adee] text-slate-950 text-[9px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: nextLevel.toString() })}>
-                            R-{nextLevel}
-                          </span>
-                        )}
-                        <span className={`text-[9px] font-extrabold uppercase px-1 py-0.2 rounded border border-current leading-none ${rarityInfo.color}`} title={t('rarityTooltip') + ': ' + t(`rarity_${droid.rarity}`)}>
-                          {t(`rarity_${droid.rarity}`)[0]}
+              {/* Fila 3: Requisitos de Rebirth Seleccionado */}
+              <div className="bg-[#091120] border border-[#1e2d4a] rounded-xl p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs shadow-md">
+                {targetReq ? (
+                  <>
+                    <div className="space-y-2 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="bg-[#00adee]/20 text-[#00adee] border border-[#00adee]/40 px-2 py-0.5 rounded text-[10px] font-bold">
+                          {t('nextMeta')}
                         </span>
-                        <span className={`text-[9px] font-semibold flex items-center px-1 py-0.2 rounded leading-none ${typeInfo.color} ${typeInfo.bg}`} title={t('typeTooltip') + ': ' + t(`type_${droid.type}`)}>
-                          <TypeIcon size={9} />
+                        <span className="text-sm font-extrabold text-white font-narrow">
+                          {t('requirementsForRebirth', { level: targetLevel.toString() })}
                         </span>
+                        <span className="text-amber-300 font-bold bg-amber-950/40 border border-amber-500/30 px-2 py-0.5 rounded flex items-center gap-1 font-mono">
+                          <Coins size={12} />
+                          {formatCredits(targetReq.credits)}
+                        </span>
+                      </div>
+
+                      {/* Requisitos droids */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {targetReq.droids.map((reqDroid, index) => {
+                          const achieved = progress[reqDroid.name] || 0;
+                          const isMet = achieved >= reqDroid.tier;
+
+                          return (
+                            <span
+                              key={index}
+                              className={`px-2 py-1 rounded text-xs border flex items-center gap-1.5 ${isMet
+                                  ? 'bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 font-bold'
+                                  : 'bg-[#0f172a] border border-[#1e2d4a] text-slate-200'
+                                }`}
+                            >
+                              <span>{reqDroid.name}:</span>
+                              <strong className={`${getTierColor(reqDroid.tier)}`}>
+                                {getLocalizedTierName(reqDroid.tier)}
+                              </strong>
+                              {isMet ? ' ✓' : ` (${getLocalizedTierName(achieved)})`}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
 
-                    {/* Fila 2: Requisitos y Meta (Descriptivo) */}
-                    <div className="bg-[#050810]/70 px-2 py-1 rounded text-xs flex justify-between items-center mb-2.5 border border-[#1e2d4a]/50" title={rec.text}>
-                      <span className={`truncate text-[10px] font-bold ${
-                        rec.type === 'upgrade' ? 'text-amber-300' :
-                        rec.type === 'keep_upgrade' ? 'text-cyan-300' :
-                        rec.type === 'keep' ? 'text-emerald-300 font-bold' :
-                        rec.type === 'sell' ? 'text-rose-400 font-bold' :
-                        'text-slate-400 font-medium'
-                      }`}>
-                        {rec.text}
-                      </span>
-                      <span className="text-slate-300 text-[9px] font-mono truncate ml-1 flex-shrink-0 font-bold" title={t('futureRebirthsTooltip')}>
-                        {reqList.filter(r => r.level > currentRebirth).map(r => `R${r.level}`).join(', ')}
+                    {isTargetReqMet && (
+                      <button
+                        onClick={() => saveRebirth(Math.min(30, targetLevel + 1))}
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
+                      >
+                        <span>{t('rebirthReady')}</span>
+                        <ArrowRight size={12} />
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-emerald-400 font-bold flex items-center gap-2 py-1 text-sm">
+                    <Sparkles size={16} /> {t('congratulationsFinished')}
+                  </span>
+                )}
+              </div>
+
+            </header>
+
+            {/* Grilla Principal de Droides: 2 columnas en mobile, hasta 5 en pantallas grandes */}
+            <main className="space-y-4">
+
+              {/* Buscador */}
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                  <Search size={15} />
+                </span>
+                <input
+                  type="text"
+                  value={trackerSearch}
+                  onChange={(e) => setTrackerSearch(e.target.value)}
+                  placeholder={t('searchPlaceholder')}
+                  className="w-full bg-[#0c1628] border border-[#1e2d4a] focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-400 outline-none transition-colors shadow-inner"
+                />
+                {trackerSearch && (
+                  <button
+                    onClick={() => setTrackerSearch('')}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
+                  >
+                    <X size={15} />
+                  </button>
+                )}
+              </div>
+
+
+
+              {/* Sección 1: Requisitos de Rebirth */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center px-1">
+                  <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider">
+                    {t('rebirthRequirementsSection')}
+                  </h3>
+                  {requiredDroids.length !== droidsData.filter(d => getRequiredTier(d.name) > 0).length && (
+                    <span className="text-[10px] font-mono text-slate-400 font-bold">
+                      {requiredDroids.length} / {droidsData.filter(d => getRequiredTier(d.name) > 0).length}
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
+                  {requiredDroids.map(droid => {
+                    const isCompleted = droid.status === 'completed';
+                    const isImmediate = droid.status === 'immediate';
+
+                    const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
+                    const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
+                    const TypeIcon = typeInfo.icon;
+
+                    const reqList = getDroidRequirements(droid.name);
+                    const rec = getDroidRecommendation(droid.name, droid.achieved, droid.required);
+
+                    return (
+                      <div
+                        key={droid.name}
+                        className={`p-3 rounded-xl border flex flex-col justify-between transition-all duration-150 ${isImmediate
+                            ? 'bg-gradient-to-b from-[#112544] to-[#0c1628] border-2 border-[#00adee] ring-1 ring-[#00adee]/30 shadow-[0_0_15px_rgba(0,173,238,0.2)]'
+                            : isCompleted
+                              ? 'bg-[#0c1628]/60 border border-emerald-900/40 opacity-90'
+                              : 'bg-[#0c1628] border border-[#1e2d4a] hover:border-slate-600 shadow-md'
+                          }`}
+                      >
+                        {/* Fila 1: Nombre, Rarity y Trash/Clear */}
+                        <div className="flex justify-between items-center gap-1.5 mb-2">
+                          <h4 className={`text-sm sm:text-base truncate flex-1 leading-tight ${isImmediate
+                              ? 'text-[#00adee] font-extrabold'
+                              : isCompleted ? 'text-slate-100 font-bold' : 'text-white font-bold'
+                            }`} title={droid.name}>
+                            {droid.name}
+                          </h4>
+                          <div className="flex gap-1.5 flex-shrink-0 items-center">
+                            {droid.achieved > 0 && (
+                              <button
+                                onClick={() => handleClearDroid(droid.name)}
+                                className="p-0.5 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded transition-colors cursor-pointer"
+                                title={t('notRequiredTooltip')}
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            )}
+                            {isImmediate && (
+                              <span className="px-1.5 py-0.5 bg-[#00adee] text-slate-950 text-[9px] font-extrabold rounded leading-none" title={t('requiredForRebirthTooltip', { level: targetLevel.toString() })}>
+                                R-{targetLevel}
+                              </span>
+                            )}
+                            <span className={`text-[9px] font-extrabold uppercase px-1 py-0.2 rounded border border-current leading-none ${rarityInfo.color}`} title={t('rarityTooltip') + ': ' + t(`rarity_${droid.rarity}`)}>
+                              {t(`rarity_${droid.rarity}`)[0]}
+                            </span>
+                            <span className={`text-[9px] font-semibold flex items-center px-1 py-0.2 rounded leading-none ${typeInfo.color} ${typeInfo.bg}`} title={t('typeTooltip') + ': ' + t(`type_${droid.type}`)}>
+                              <TypeIcon size={9} />
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Fila 2: Requisitos y Meta (Descriptivo) */}
+                        <div className="bg-[#050810]/70 px-2 py-1 rounded text-xs flex justify-between items-center mb-2.5 border border-[#1e2d4a]/50" title={rec.text}>
+                          <span className={`truncate text-[10px] font-bold ${rec.type === 'upgrade' ? 'text-amber-300' :
+                              rec.type === 'keep_upgrade' ? 'text-cyan-300' :
+                                rec.type === 'keep' ? 'text-emerald-300 font-bold' :
+                                  rec.type === 'sell' ? 'text-rose-400 font-bold' :
+                                    'text-slate-400 font-medium'
+                            }`}>
+                            {rec.text}
+                          </span>
+                          <span className="text-slate-300 text-[9px] font-mono truncate ml-1 flex-shrink-0 font-bold" title={t('futureRebirthsTooltip')}>
+                            {reqList.filter(r => r.level >= targetLevel).map(r => `R${r.level}`).join(', ')}
+                          </span>
+                        </div>
+
+                        {/* Fila 3: Selector de los 6 Niveles (Cómodo para dedos) */}
+                        <div className="flex w-full h-8 shadow-sm">
+                          {localizedTiersConfig.map(tier => {
+                            const isActive = tier.level <= droid.achieved;
+                            let baseClasses = "flex-1 flex items-center justify-center text-[10px] font-bold border-y border-r last:border-r-0 first:border-l first:rounded-l-lg last:rounded-r-lg transition-all duration-100 select-none ";
+
+                            if (!isActive) {
+                              baseClasses += "bg-[#050810] border-[#1e2d4a]/70 text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer";
+                            } else {
+                              baseClasses += "cursor-pointer border-transparent z-10 ";
+                              switch (tier.level) {
+                                case 1: baseClasses += "bg-slate-300 text-slate-950 font-bold"; break;
+                                case 2: baseClasses += "bg-amber-400 text-slate-950 font-extrabold"; break;
+                                case 3: baseClasses += "bg-cyan-400 text-slate-950 font-extrabold"; break;
+                                case 4: baseClasses += "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold"; break;
+                                case 5: baseClasses += "bg-purple-800 text-purple-100 font-extrabold border-t border-purple-400"; break;
+                                case 6: baseClasses += "bg-indigo-900 text-indigo-100 font-extrabold border-t border-indigo-400"; break;
+                              }
+                            }
+
+                            return (
+                              <button
+                                key={tier.level}
+                                onClick={() => handleTierClick(droid.name, tier.level)}
+                                className={baseClasses}
+                                title={t('markTierTooltip', { tier: tier.label })}
+                              >
+                                <span>{tier.short}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Sección: Lista de Requeridos Pendientes (Se ocultan al completarse, sin scroll, orden alfabético) */}
+              {(() => {
+                const pendingRequiredList = requiredDroids
+                  .filter(d => d.achieved < d.required)
+                  .sort((a, b) => a.name.localeCompare(b.name));
+
+                if (pendingRequiredList.length === 0) return null;
+
+                return (
+                  <div className="space-y-2 pt-2 border-t border-[#1e2d4a]">
+                    <div className="flex justify-between items-center px-1">
+                      <h3 className="text-xs uppercase font-extrabold text-[#00adee] tracking-wider flex items-center gap-1.5 font-narrow">
+                        <Target size={13} className="text-[#00adee]" />
+                        <span>{t('quickRequiredTitle')}</span>
+                      </h3>
+                      <span className="text-[10px] font-mono bg-institutional-primary/30 border border-[#00adee]/30 px-1.5 py-0.2 rounded text-[#00adee] font-bold">
+                        {pendingRequiredList.length}
                       </span>
                     </div>
 
-                    {/* Fila 3: Selector de los 6 Niveles (Cómodo para dedos) */}
-                    <div className="flex w-full h-8 shadow-sm">
-                      {localizedTiersConfig.map(tier => {
-                        const isActive = tier.level <= droid.achieved;
-                        let baseClasses = "flex-1 flex items-center justify-center text-[10px] font-bold border-y border-r last:border-r-0 first:border-l first:rounded-l-lg last:rounded-r-lg transition-all duration-100 select-none ";
-
-                        if (!isActive) {
-                          baseClasses += "bg-[#050810] border-[#1e2d4a]/70 text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer";
-                        } else {
-                          baseClasses += "cursor-pointer border-transparent z-10 ";
-                          switch(tier.level) {
-                            case 1: baseClasses += "bg-slate-300 text-slate-950 font-bold"; break;
-                            case 2: baseClasses += "bg-amber-400 text-slate-950 font-extrabold"; break;
-                            case 3: baseClasses += "bg-cyan-400 text-slate-950 font-extrabold"; break;
-                            case 4: baseClasses += "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-extrabold"; break;
-                            case 5: baseClasses += "bg-purple-800 text-purple-100 font-extrabold border-t border-purple-400"; break;
-                            case 6: baseClasses += "bg-indigo-900 text-indigo-100 font-extrabold border-t border-indigo-400"; break;
-                          }
-                        }
+                    {/* Lista simple de nombres en orden alfabético sin scroll, sin fotos ni etiquetas */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {pendingRequiredList.map(droid => {
+                        const isSelectedInSearch = trackerSearch.toLowerCase() === droid.name.toLowerCase();
 
                         return (
                           <button
-                            key={tier.level}
-                            onClick={() => handleTierClick(droid.name, tier.level)}
-                            className={baseClasses}
-                            title={t('markTierTooltip', { tier: tier.label })}
+                            key={`quick-pending-${droid.name}`}
+                            onClick={() => setTrackerSearch(isSelectedInSearch ? '' : droid.name)}
+                            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border select-none ${isSelectedInSearch
+                                ? 'bg-[#00adee] text-slate-950 border-[#00adee] font-extrabold shadow-md'
+                                : 'bg-[#091120] border-[#1e2d4a] text-slate-200 hover:border-slate-500 hover:text-white'
+                              }`}
                           >
-                            <span>{tier.short}</span>
+                            {droid.name}
                           </button>
                         );
                       })}
                     </div>
                   </div>
                 );
-              })}
-            </div>
-          </div>
+              })()}
 
-          {/* Sección: Lista de Requeridos Pendientes (Se ocultan al completarse, sin scroll, orden alfabético) */}
-          {(() => {
-            const pendingRequiredList = requiredDroids
-              .filter(d => d.achieved < d.required)
-              .sort((a, b) => a.name.localeCompare(b.name));
+              {/* Sección 2: Droides No Requeridos */}
+              {discardedDroids.length > 0 && (
+                <div className="space-y-2 pt-2 border-t border-[#1e2d4a]">
+                  <div className="flex justify-between items-center px-1">
+                    <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider">
+                      {t('notRequiredSection')}
+                    </h3>
+                    <span className="text-[10px] font-mono bg-red-950/40 border border-red-500/30 px-1.5 py-0.2 rounded text-red-300 font-bold">
+                      {discardedDroids.length}
+                    </span>
+                  </div>
 
-            if (pendingRequiredList.length === 0) return null;
+                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
+                    {discardedDroids.map(droid => {
+                      const hasProgress = droid.achieved > 0;
+                      const inCycle = isDroidInCycle(droid.name);
 
-            return (
-              <div className="space-y-2 pt-2 border-t border-[#1e2d4a]">
-                <div className="flex justify-between items-center px-1">
-                  <h3 className="text-xs uppercase font-extrabold text-[#00adee] tracking-wider flex items-center gap-1.5 font-narrow">
-                    <Target size={13} className="text-[#00adee]" />
-                    <span>{t('quickRequiredTitle')}</span>
-                  </h3>
-                  <span className="text-[10px] font-mono bg-institutional-primary/30 border border-[#00adee]/30 px-1.5 py-0.2 rounded text-[#00adee] font-bold">
-                    {pendingRequiredList.length}
-                  </span>
+                      // Definir estilos dinámicos de contenedor e h4
+                      let cardClass = "p-2.5 rounded-xl border flex items-center justify-between transition-all duration-150 select-none ";
+                      let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 flex items-center ";
+
+                      if (inCycle) {
+                        cardClass += "bg-red-950/30 border-red-800/40 hover:border-red-600/50";
+                        titleClass += hasProgress ? "text-red-300 font-extrabold" : "text-red-300/90 font-semibold";
+                      } else {
+                        cardClass += "bg-[#0c1628]/60 border border-[#1e2d4a] hover:border-slate-600";
+                        titleClass += hasProgress ? "text-slate-200 font-bold" : "text-slate-300 font-medium";
+                      }
+
+                      return (
+                        <div
+                          key={droid.name}
+                          className={cardClass}
+                        >
+                          <h4 className={titleClass}>
+                            {getDroidImageUrl(droid.name, droid.required || 1) && (
+                              <img
+                                src={getDroidImageUrl(droid.name, droid.required || 1)!}
+                                alt={droid.name}
+                                loading="lazy"
+                                className="w-5 h-5 object-contain inline-block mr-1.5 filter drop-shadow"
+                                onError={(e) => { (e.currentTarget as HTMLElement).style.display = 'none'; }}
+                              />
+                            )}
+                            <span>{droid.name}</span>
+                            {hasProgress && (
+                              <span className={`ml-1.5 px-1.5 py-0.5 text-[8px] font-extrabold rounded leading-none ${getTierColor(droid.achieved)}`}>
+                                {localizedTiersConfig.find(tc => tc.level === droid.achieved)?.short || ''}
+                              </span>
+                            )}
+                          </h4>
+                          {hasProgress && (
+                            <button
+                              onClick={() => handleClearDroid(droid.name)}
+                              className="p-1 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded transition-colors cursor-pointer"
+                              title={t('notRequiredTooltip')}
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+            </main>
+
+            {/* Footer simple de la aplicación */}
+            <footer className="text-center py-2 text-xs text-slate-400 shrink-0">
+              {t('droidsOrderFooter')}
+            </footer>
+          </>
+        )}
+
+        {activeTab === 'droidex' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+            {/* Columna Izquierda: Grid de Droides y Selector de Tiers */}
+            <div className="lg:col-span-7 flex flex-col gap-3">
+              <div className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3">
+                <div className="flex justify-between items-center flex-wrap gap-2">
+                  <h2 className="text-xl font-bold text-white font-narrow flex items-center gap-2">
+                    <Award className="text-[#00adee]" size={20} />
+                    <span>{t('droidexTitle')}</span>
+                    <span className="text-xs bg-institutional-primary/20 border border-institutional-primary/40 px-2.5 py-0.5 rounded text-[#00adee] font-mono font-bold">
+                      {stats.obtainedCount}/{stats.totalCount}
+                    </span>
+                  </h2>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-amber-950/40 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-lg font-bold font-mono flex items-center gap-1">
+                      <Coins size={12} className="text-amber-400" />
+                      <span>+{stats.tierMultiplier}% Multiplicador Hitos</span>
+                    </span>
+                  </div>
                 </div>
 
-                {/* Lista simple de nombres en orden alfabético sin scroll, sin fotos ni etiquetas */}
-                <div className="flex flex-wrap gap-1.5">
-                  {pendingRequiredList.map(droid => {
-                    const isSelectedInSearch = trackerSearch.toLowerCase() === droid.name.toLowerCase();
+                {/* Grid de 6 Hitos de Tiers */}
+                <div className="bg-[#091120] p-3 rounded-xl border border-[#1e2d4a] flex flex-col gap-2">
+                  <div className="text-xs font-bold text-slate-300 flex justify-between items-center">
+                    <span>{t('tierMilestonesTitle')}</span>
+                    <span className="text-amber-400 font-mono font-extrabold text-[11px]">Total Hitos: +{stats.tierMultiplier}%</span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5">
+                    {localizedTiersConfig.map(tConfig => {
+                      const mInfo = getTierMilestoneInfo(tConfig.level);
+                      const isSelected = activeDroidexTier === tConfig.level;
 
+                      return (
+                        <button
+                          key={tConfig.level}
+                          onClick={() => setActiveDroidexTier(tConfig.level)}
+                          className={`p-2 rounded-lg border text-left flex flex-col justify-between transition-all cursor-pointer select-none ${mInfo.isCompleted
+                              ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-300'
+                              : isSelected
+                                ? 'bg-[#13223d] border-[#00adee] text-white shadow-[0_0_8px_rgba(0,173,238,0.2)]'
+                                : 'bg-[#050810] border-[#1e2d4a] text-slate-400 hover:border-slate-500 hover:text-slate-200'
+                            }`}
+                        >
+                          <div className="flex justify-between items-center w-full">
+                            <span className="font-bold text-xs">{tConfig.short}</span>
+                            <span className="text-[10px] font-extrabold font-mono text-amber-300">+{mInfo.bonus}%</span>
+                          </div>
+                          <div className="mt-1 flex items-center justify-between text-[11px]">
+                            {mInfo.isCompleted ? (
+                              <span className="flex items-center gap-1 font-bold text-emerald-400">
+                                <CheckCircle2 size={12} /> 25/25
+                              </span>
+                            ) : (
+                              <span className="font-mono text-slate-300 font-medium">
+                                {mInfo.obtained}/25
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Barra de progreso del Hito de Tier Seleccionado */}
+                {!activeTierMilestone.isCompleted ? (
+                  <div className="bg-[#091120] p-3 rounded-xl border border-[#1e2d4a] text-xs space-y-1.5">
+                    <div className="flex justify-between text-slate-200 font-bold">
+                      <span>
+                        {t('milestoneGoal', {
+                          tier: getLocalizedTierName(activeDroidexTier),
+                          needed: activeTierMilestone.needed.toString(),
+                          multiplier: activeTierMilestone.bonus.toString()
+                        })}
+                      </span>
+                      <span className="font-mono text-[#00adee] font-extrabold">{activeTierMilestone.obtained}/{activeTierMilestone.needed}</span>
+                    </div>
+                    <div className="w-full bg-[#050810] rounded-full h-2.5 overflow-hidden border border-[#1e2d4a]">
+                      <div
+                        className="bg-gradient-to-r from-[#17479d] to-[#00adee] h-full rounded-full transition-all duration-300"
+                        style={{ width: `${activeTierMilestone.percent}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-emerald-950/50 border border-emerald-500/40 p-2.5 rounded-xl text-center text-xs text-emerald-300 font-bold flex items-center justify-center gap-1.5">
+                    <CheckCircle2 size={14} />
+                    <span>
+                      {t('milestoneMax', {
+                        tier: getLocalizedTierName(activeDroidexTier),
+                        multiplier: activeTierMilestone.bonus.toString()
+                      })}
+                    </span>
+                  </div>
+                )}
+
+                {/* Buscador de Droidex */}
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                    <Search size={15} />
+                  </span>
+                  <input
+                    type="text"
+                    value={droidexSearch}
+                    onChange={(e) => setDroidexSearch(e.target.value)}
+                    placeholder={t('searchPlaceholder')}
+                    className="w-full bg-[#050810] border border-[#1e2d4a] focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-400 outline-none transition-colors shadow-inner"
+                  />
+                  {droidexSearch && (
+                    <button
+                      onClick={() => setDroidexSearch('')}
+                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
+                    >
+                      <X size={15} />
+                    </button>
+                  )}
+                </div>
+
+                {/* Tabs de Selección de Tier */}
+                <div className="flex bg-[#091120] p-1 rounded-lg border border-[#1e2d4a] gap-1 overflow-x-auto">
+                  {localizedTiersConfig.map(tier => {
+                    const isActive = tier.level === activeDroidexTier;
                     return (
                       <button
-                        key={`quick-pending-${droid.name}`}
-                        onClick={() => setTrackerSearch(isSelectedInSearch ? '' : droid.name)}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer border select-none ${
-                          isSelectedInSearch
-                            ? 'bg-[#00adee] text-slate-950 border-[#00adee] font-extrabold shadow-md'
-                            : 'bg-[#091120] border-[#1e2d4a] text-slate-200 hover:border-slate-500 hover:text-white'
-                        }`}
+                        key={tier.level}
+                        onClick={() => setActiveDroidexTier(tier.level)}
+                        className={`flex-1 min-w-[70px] py-1.5 text-xs font-bold uppercase rounded-md transition-all text-center cursor-pointer select-none ${isActive
+                            ? 'bg-[#17479d] text-white shadow-sm font-extrabold border border-[#00adee]/40'
+                            : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
+                          }`}
                       >
-                        {droid.name}
+                        {tier.label}
                       </button>
                     );
                   })}
                 </div>
-              </div>
-            );
-          })()}
 
-          {/* Sección 2: Droides No Requeridos */}
-          {discardedDroids.length > 0 && (
-            <div className="space-y-2 pt-2 border-t border-[#1e2d4a]">
-              <div className="flex justify-between items-center px-1">
-                <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider">
-                  {t('notRequiredSection')}
-                </h3>
-                <span className="text-[10px] font-mono bg-red-950/40 border border-red-500/30 px-1.5 py-0.2 rounded text-red-300 font-bold">
-                  {discardedDroids.length}
-                </span>
-              </div>
-              
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
-                {discardedDroids.map(droid => {
-                  const hasProgress = droid.achieved > 0;
-                  const inCycle = isDroidInCycle(droid.name);
+                {/* Grid de Droides */}
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+                  {(() => {
+                    if (droidexSearch === '') {
+                      return filteredDroidexList.map((droid: Droid) => {
+                        const isObtained = isDroidexObtained(droid.name, activeDroidexTier);
+                        const isSelected = selectedDroidexName === droid.name;
+                        const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
+                        const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-                  // Definir estilos dinámicos de contenedor e h4
-                  let cardClass = "p-2.5 rounded-xl border flex items-center justify-between transition-all duration-150 select-none ";
-                  let titleClass = "text-xs sm:text-sm font-bold truncate flex-1 pr-1.5 flex items-center ";
+                        let borderClass = 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
+                        if (isObtained) {
+                          switch (activeDroidexTier) {
+                            case 1: borderClass = 'border-slate-500 bg-slate-900/80'; break;
+                            case 2: borderClass = 'border-amber-500/50 bg-amber-950/30'; break;
+                            case 3: borderClass = 'border-cyan-500/50 bg-cyan-950/30'; break;
+                            case 4: borderClass = 'border-pink-500/50 bg-pink-950/30'; break;
+                            case 5: borderClass = 'border-purple-500/50 bg-purple-950/30'; break;
+                          }
+                        }
 
-                  if (inCycle) {
-                    cardClass += "bg-red-950/30 border-red-800/40 hover:border-red-600/50";
-                    titleClass += hasProgress ? "text-red-300 font-extrabold" : "text-red-300/90 font-semibold";
-                  } else {
-                    cardClass += "bg-[#0c1628]/60 border border-[#1e2d4a] hover:border-slate-600";
-                    titleClass += hasProgress ? "text-slate-200 font-bold" : "text-slate-300 font-medium";
-                  }
+                        if (isSelected) {
+                          borderClass = 'border-[#00adee] bg-[#112544] ring-2 ring-[#00adee]/60 shadow-[0_0_12px_rgba(0,173,238,0.3)]';
+                        }
 
-                  return (
-                    <div 
-                      key={droid.name} 
-                      className={cardClass}
-                    >
-                      <h4 className={titleClass}>
-                        {getDroidImageUrl(droid.name, droid.required || 1) && (
-                          <img 
-                            src={getDroidImageUrl(droid.name, droid.required || 1)!} 
-                            alt={droid.name} 
-                            loading="lazy" 
-                            className="w-5 h-5 object-contain inline-block mr-1.5 filter drop-shadow" 
-                            onError={(e) => { (e.currentTarget as HTMLElement).style.display = 'none'; }}
-                          />
-                        )}
-                        <span>{droid.name}</span>
-                        {hasProgress && (
-                          <span className={`ml-1.5 px-1.5 py-0.5 text-[8px] font-extrabold rounded leading-none ${getTierColor(droid.achieved)}`}>
-                            {localizedTiersConfig.find(tc => tc.level === droid.achieved)?.short || ''}
-                          </span>
-                        )}
-                      </h4>
-                      {hasProgress && (
-                        <button
-                          onClick={() => handleClearDroid(droid.name)}
-                          className="p-1 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded transition-colors cursor-pointer"
-                          title={t('notRequiredTooltip')}
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+                        return (
+                          <div
+                            key={droid.name}
+                            onClick={() => setSelectedDroidexName(droid.name)}
+                            className={`p-2 rounded-lg border flex flex-col items-center justify-center relative cursor-pointer select-none transition-all ${borderClass}`}
+                          >
+                            {/* Image / Silhouette Container */}
+                            <div className="w-12 h-12 flex items-center justify-center mb-1 relative">
+                              {renderDroidModel(droid, activeDroidexTier, isObtained)}
+                            </div>
 
-        </main>
+                            {/* Name & Rarity Label */}
+                            <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-white' : 'text-slate-300'}`}>
+                              {droid.name}
+                            </div>
+                            <div className="text-[9px] text-slate-400 mt-0.5 truncate w-full text-center font-medium">
+                              {t(`rarity_${droid.rarity}`)}
+                            </div>
+                          </div>
+                        );
+                      });
+                    } else {
+                      const items: { droid: Droid; tier: number; isObtained: boolean }[] = [];
 
-        {/* Footer simple de la aplicación */}
-        <footer className="text-center py-2 text-xs text-slate-400 shrink-0">
-          {t('droidsOrderFooter')}
-        </footer>
-      </>
-    )}
+                      filteredDroidexList.forEach(droid => {
+                        const maxTiers = isIconicDroid(droid) ? 1 : 6;
+                        for (let t = 1; t <= maxTiers; t++) {
+                          items.push({
+                            droid,
+                            tier: t,
+                            isObtained: isDroidexObtained(droid.name, t)
+                          });
+                        }
+                      });
 
-    {activeTab === 'droidex' && (
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        
-        {/* Columna Izquierda: Grid de Droides y Selector de Tiers */}
-        <div className="lg:col-span-7 flex flex-col gap-3">
-          <div className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3">
-            <div className="flex justify-between items-center flex-wrap gap-2">
-              <h2 className="text-xl font-bold text-white font-narrow flex items-center gap-2">
-                <Award className="text-[#00adee]" size={20} />
-                <span>{t('droidexTitle')}</span>
-                <span className="text-xs bg-institutional-primary/20 border border-institutional-primary/40 px-2.5 py-0.5 rounded text-[#00adee] font-mono font-bold">
-                  {stats.obtainedCount}/{stats.totalCount}
-                </span>
-              </h2>
+                      items.sort((a, b) => {
+                        if (a.isObtained !== b.isObtained) {
+                          return a.isObtained ? 1 : -1;
+                        }
+                        const nameComp = a.droid.name.localeCompare(b.droid.name);
+                        if (nameComp !== 0) return nameComp;
+                        return a.tier - b.tier;
+                      });
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs bg-amber-950/40 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-lg font-bold font-mono flex items-center gap-1">
-                  <Coins size={12} className="text-amber-400" />
-                  <span>+{stats.tierMultiplier}% Multiplicador Hitos</span>
-                </span>
-              </div>
-            </div>
+                      return items.map((item, idx) => {
+                        const { droid, tier, isObtained } = item;
+                        const isSelected = selectedDroidexName === droid.name && activeDroidexTier === tier;
+                        const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
+                        const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
 
-            {/* Grid de 6 Hitos de Tiers */}
-            <div className="bg-[#091120] p-3 rounded-xl border border-[#1e2d4a] flex flex-col gap-2">
-              <div className="text-xs font-bold text-slate-300 flex justify-between items-center">
-                <span>{t('tierMilestonesTitle')}</span>
-                <span className="text-amber-400 font-mono font-extrabold text-[11px]">Total Hitos: +{stats.tierMultiplier}%</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5">
-                {localizedTiersConfig.map(tConfig => {
-                  const mInfo = getTierMilestoneInfo(tConfig.level);
-                  const isSelected = activeDroidexTier === tConfig.level;
-                  
-                  return (
-                    <button
-                      key={tConfig.level}
-                      onClick={() => setActiveDroidexTier(tConfig.level)}
-                      className={`p-2 rounded-lg border text-left flex flex-col justify-between transition-all cursor-pointer select-none ${
-                        mInfo.isCompleted
-                          ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-300'
-                          : isSelected
-                            ? 'bg-[#13223d] border-[#00adee] text-white shadow-[0_0_8px_rgba(0,173,238,0.2)]'
-                            : 'bg-[#050810] border-[#1e2d4a] text-slate-400 hover:border-slate-500 hover:text-slate-200'
-                      }`}
-                    >
-                      <div className="flex justify-between items-center w-full">
-                        <span className="font-bold text-xs">{tConfig.short}</span>
-                        <span className="text-[10px] font-extrabold font-mono text-amber-300">+{mInfo.bonus}%</span>
-                      </div>
-                      <div className="mt-1 flex items-center justify-between text-[11px]">
-                        {mInfo.isCompleted ? (
-                          <span className="flex items-center gap-1 font-bold text-emerald-400">
-                            <CheckCircle2 size={12} /> 25/25
-                          </span>
-                        ) : (
-                          <span className="font-mono text-slate-300 font-medium">
-                            {mInfo.obtained}/25
-                          </span>
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+                        let borderClass = 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
+                        if (isObtained) {
+                          switch (tier) {
+                            case 1: borderClass = 'border-slate-500 bg-slate-900/80'; break;
+                            case 2: borderClass = 'border-amber-500/50 bg-amber-950/30'; break;
+                            case 3: borderClass = 'border-cyan-500/50 bg-cyan-950/30'; break;
+                            case 4: borderClass = 'border-pink-500/50 bg-pink-950/30'; break;
+                            case 5: borderClass = 'border-purple-500/50 bg-purple-950/30'; break;
+                          }
+                        }
 
-            {/* Barra de progreso del Hito de Tier Seleccionado */}
-            {!activeTierMilestone.isCompleted ? (
-              <div className="bg-[#091120] p-3 rounded-xl border border-[#1e2d4a] text-xs space-y-1.5">
-                <div className="flex justify-between text-slate-200 font-bold">
-                  <span>
-                    {t('milestoneGoal', { 
-                      tier: getLocalizedTierName(activeDroidexTier), 
-                      needed: activeTierMilestone.needed.toString(), 
-                      multiplier: activeTierMilestone.bonus.toString() 
-                    })}
-                  </span>
-                  <span className="font-mono text-[#00adee] font-extrabold">{activeTierMilestone.obtained}/{activeTierMilestone.needed}</span>
-                </div>
-                <div className="w-full bg-[#050810] rounded-full h-2.5 overflow-hidden border border-[#1e2d4a]">
-                  <div 
-                    className="bg-gradient-to-r from-[#17479d] to-[#00adee] h-full rounded-full transition-all duration-300"
-                    style={{ width: `${activeTierMilestone.percent}%` }}
-                  ></div>
-                </div>
-              </div>
-            ) : (
-              <div className="bg-emerald-950/50 border border-emerald-500/40 p-2.5 rounded-xl text-center text-xs text-emerald-300 font-bold flex items-center justify-center gap-1.5">
-                <CheckCircle2 size={14} />
-                <span>
-                  {t('milestoneMax', { 
-                    tier: getLocalizedTierName(activeDroidexTier), 
-                    multiplier: activeTierMilestone.bonus.toString() 
-                  })}
-                </span>
-              </div>
-            )}
+                        if (isSelected) {
+                          borderClass = 'border-[#00adee] bg-[#112544] ring-2 ring-[#00adee]/60 shadow-[0_0_12px_rgba(0,173,238,0.3)]';
+                        }
 
-            {/* Buscador de Droidex */}
-            <div className="relative">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-                <Search size={15} />
-              </span>
-              <input
-                type="text"
-                value={droidexSearch}
-                onChange={(e) => setDroidexSearch(e.target.value)}
-                placeholder={t('searchPlaceholder')}
-                className="w-full bg-[#050810] border border-[#1e2d4a] focus:border-[#00adee] pl-9 pr-9 py-2 rounded-xl text-xs text-white placeholder-slate-400 outline-none transition-colors shadow-inner"
-              />
-              {droidexSearch && (
-                <button
-                  onClick={() => setDroidexSearch('')}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white cursor-pointer"
-                >
-                  <X size={15} />
-                </button>
-              )}
-            </div>
+                        return (
+                          <div
+                            key={`${droid.name}-${tier}-${idx}`}
+                            onClick={() => {
+                              setSelectedDroidexName(droid.name);
+                              setActiveDroidexTier(tier);
+                            }}
+                            className={`p-2 rounded-lg border flex flex-col items-center justify-center relative cursor-pointer select-none transition-all ${borderClass}`}
+                          >
+                            {/* Image / Silhouette Container */}
+                            <div className="w-12 h-12 flex items-center justify-center mb-1 relative">
+                              {renderDroidModel(droid, tier, isObtained)}
+                            </div>
 
-            {/* Tabs de Selección de Tier */}
-            <div className="flex bg-[#091120] p-1 rounded-lg border border-[#1e2d4a] gap-1 overflow-x-auto">
-              {localizedTiersConfig.map(tier => {
-                const isActive = tier.level === activeDroidexTier;
-                return (
-                  <button
-                    key={tier.level}
-                    onClick={() => setActiveDroidexTier(tier.level)}
-                    className={`flex-1 min-w-[70px] py-1.5 text-xs font-bold uppercase rounded-md transition-all text-center cursor-pointer select-none ${
-                      isActive
-                        ? 'bg-[#17479d] text-white shadow-sm font-extrabold border border-[#00adee]/40'
-                        : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
-                    }`}
-                  >
-                    {tier.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Grid de Droides */}
-            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
-              {(() => {
-                if (droidexSearch === '') {
-                  return filteredDroidexList.map((droid: Droid) => {
-                    const isObtained = isDroidexObtained(droid.name, activeDroidexTier);
-                    const isSelected = selectedDroidexName === droid.name;
-                    const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
-                    const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
-
-                    let borderClass = 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
-                    if (isObtained) {
-                      switch (activeDroidexTier) {
-                        case 1: borderClass = 'border-slate-500 bg-slate-900/80'; break;
-                        case 2: borderClass = 'border-amber-500/50 bg-amber-950/30'; break;
-                        case 3: borderClass = 'border-cyan-500/50 bg-cyan-950/30'; break;
-                        case 4: borderClass = 'border-pink-500/50 bg-pink-950/30'; break;
-                        case 5: borderClass = 'border-purple-500/50 bg-purple-950/30'; break;
-                      }
-                    }
-
-                    if (isSelected) {
-                      borderClass = 'border-[#00adee] bg-[#112544] ring-2 ring-[#00adee]/60 shadow-[0_0_12px_rgba(0,173,238,0.3)]';
-                    }
-
-                    return (
-                      <div
-                        key={droid.name}
-                        onClick={() => setSelectedDroidexName(droid.name)}
-                        className={`p-2 rounded-lg border flex flex-col items-center justify-center relative cursor-pointer select-none transition-all ${borderClass}`}
-                      >
-                        {/* Image / Silhouette Container */}
-                        <div className="w-12 h-12 flex items-center justify-center mb-1 relative">
-                          {renderDroidModel(droid, activeDroidexTier, isObtained)}
-                        </div>
-
-                        {/* Name & Rarity Label */}
-                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-white' : 'text-slate-300'}`}>
-                          {droid.name}
-                        </div>
-                        <div className="text-[9px] text-slate-400 mt-0.5 truncate w-full text-center font-medium">
-                          {t(`rarity_${droid.rarity}`)}
-                        </div>
-                      </div>
-                    );
-                  });
-                } else {
-                  const items: { droid: Droid; tier: number; isObtained: boolean }[] = [];
-                  
-                  filteredDroidexList.forEach(droid => {
-                    const maxTiers = isIconicDroid(droid) ? 1 : 6;
-                    for (let t = 1; t <= maxTiers; t++) {
-                      items.push({ 
-                        droid, 
-                        tier: t, 
-                        isObtained: isDroidexObtained(droid.name, t) 
+                            {/* Name & Tier Label */}
+                            <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-white' : 'text-slate-300'}`}>
+                              {droid.name}
+                            </div>
+                            <div className="text-[9px] text-slate-400 mt-0.5 truncate w-full text-center font-medium">
+                              {isIconicDroid(droid) ? t('type_Iconic') : getLocalizedTierName(tier)}
+                            </div>
+                          </div>
+                        );
                       });
                     }
-                  });
-
-                  items.sort((a, b) => {
-                    if (a.isObtained !== b.isObtained) {
-                      return a.isObtained ? 1 : -1;
-                    }
-                    const nameComp = a.droid.name.localeCompare(b.droid.name);
-                    if (nameComp !== 0) return nameComp;
-                    return a.tier - b.tier;
-                  });
-
-                  return items.map((item, idx) => {
-                    const { droid, tier, isObtained } = item;
-                    const isSelected = selectedDroidexName === droid.name && activeDroidexTier === tier;
-                    const typeInfo = droidTypes[droid.type] || droidTypes.ASTRO;
-                    const rarityInfo = droidRarities[droid.rarity] || droidRarities.COMUN;
-
-                    let borderClass = 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
-                    if (isObtained) {
-                      switch (tier) {
-                        case 1: borderClass = 'border-slate-500 bg-slate-900/80'; break;
-                        case 2: borderClass = 'border-amber-500/50 bg-amber-950/30'; break;
-                        case 3: borderClass = 'border-cyan-500/50 bg-cyan-950/30'; break;
-                        case 4: borderClass = 'border-pink-500/50 bg-pink-950/30'; break;
-                        case 5: borderClass = 'border-purple-500/50 bg-purple-950/30'; break;
-                      }
-                    }
-
-                    if (isSelected) {
-                      borderClass = 'border-[#00adee] bg-[#112544] ring-2 ring-[#00adee]/60 shadow-[0_0_12px_rgba(0,173,238,0.3)]';
-                    }
-
-                    return (
-                      <div
-                        key={`${droid.name}-${tier}-${idx}`}
-                        onClick={() => {
-                          setSelectedDroidexName(droid.name);
-                          setActiveDroidexTier(tier);
-                        }}
-                        className={`p-2 rounded-lg border flex flex-col items-center justify-center relative cursor-pointer select-none transition-all ${borderClass}`}
-                      >
-                        {/* Image / Silhouette Container */}
-                        <div className="w-12 h-12 flex items-center justify-center mb-1 relative">
-                          {renderDroidModel(droid, tier, isObtained)}
-                        </div>
-
-                        {/* Name & Tier Label */}
-                        <div className={`text-xs font-bold tracking-tight text-center truncate w-full ${isObtained ? 'text-white' : 'text-slate-300'}`}>
-                          {droid.name}
-                        </div>
-                        <div className="text-[9px] text-slate-400 mt-0.5 truncate w-full text-center font-medium">
-                          {isIconicDroid(droid) ? t('type_Iconic') : getLocalizedTierName(tier)}
-                        </div>
-                      </div>
-                    );
-                  });
-                }
-              })()}
-            </div>
-          </div>
-        </div>
-
-        {/* Columna Derecha: Detalle de Droide */}
-        <div className="lg:col-span-5 flex flex-col gap-3">
-          <div className="bg-[#0c1628] border border-[#1e2d4a] rounded-xl p-4 shadow-lg flex flex-col gap-3 h-full justify-between">
-            
-            <div className="space-y-3">
-              <div className="flex justify-between items-start gap-1">
-                <div>
-                  <span className="text-xs uppercase tracking-wider text-[#00adee] font-bold">
-                    {selectedDroid.rarity === 'ICONICO' ? t('type_Iconic') : getLocalizedTierName(activeDroidexTier)}
-                  </span>
-                  <h3 className="text-2xl font-bold text-white font-narrow leading-tight">
-                    {selectedDroid.name}
-                  </h3>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border border-current leading-none ${droidRarities[selectedDroid.rarity]?.color || 'text-fuchsia-400'}`}>
-                    {t(`rarity_${selectedDroid.rarity}`)}
-                  </span>
+                  })()}
                 </div>
               </div>
-
-              {/* Wireframe render block */}
-              <div className="bg-[#050810] rounded-xl border border-[#1e2d4a] flex items-center justify-center p-6 h-56 relative overflow-hidden shadow-inner">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e2d4a_1px,transparent_1px),linear-gradient(to_bottom,#1e2d4a_1px,transparent_1px)] bg-[size:14px_24px] opacity-25"></div>
-                
-                <div className="z-10 w-44 h-44 flex items-center justify-center">
-                  {renderDroidModel(selectedDroid, activeDroidexTier, isSelectedObtained)}
-                </div>
-
-                <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 text-xs font-bold text-slate-200 bg-[#0c1628]/90 px-2.5 py-1 rounded border border-[#1e2d4a]">
-                  {React.createElement(droidTypes[selectedDroid.type]?.icon || Cpu, { size: 12, className: droidTypes[selectedDroid.type]?.color })}
-                  <span>{t(`type_${selectedDroid.type}`)}</span>
-                </div>
-              </div>
-
-              {/* Perk / Stat Box */}
-              <div className="bg-[#091120] border border-[#00adee]/30 p-3 rounded-lg flex flex-col gap-1">
-                <span className="text-[10px] uppercase tracking-wider text-[#00adee] font-bold">Bono del Droidex:</span>
-                <span className="text-sm font-extrabold text-white">
-                  {getDroidexStatsPerk(selectedDroid, activeDroidexTier)}
-                </span>
-              </div>
-
-              {/* Economic Info Box (droids-cost.png) */}
-              {!isIconicDroid(selectedDroid) && (
-                <div className="bg-[#091120] border border-[#1e2d4a] p-3 rounded-lg flex flex-col gap-1.5 text-xs">
-                  <div className="flex justify-between items-center text-slate-300">
-                    <span>{t('droidUpgradeCost')}</span>
-                    <span className="font-mono font-bold text-white">
-                      {droidUpgradeCosts[selectedDroid.rarity]?.[activeDroidexTier] ? `${droidUpgradeCosts[selectedDroid.rarity][activeDroidexTier]} Chips` : '-'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center text-slate-300">
-                    <span>{t('droidSellValue')}</span>
-                    <span className="font-mono font-bold text-amber-400">
-                      {droidSellValues[selectedDroid.rarity]?.[activeDroidexTier] ? `${droidSellValues[selectedDroid.rarity][activeDroidexTier]} Créditos` : '-'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center text-slate-300">
-                    <span>{t('flawlessChance')}</span>
-                    <span className="font-mono font-bold text-emerald-400">
-                      {flawlessRates[activeDroidexTier] || '1/1000'}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Status Toggle Area */}
-              <div className="space-y-2 pt-1">
-                <button
-                  onMouseEnter={() => setIsToggleHovered(true)}
-                  onMouseLeave={() => setIsToggleHovered(false)}
-                  onClick={() => {
-                    setDroidexObtainedState(selectedDroid.name, activeDroidexTier, !isSelectedObtained);
-                    setIsToggleHovered(false);
-                  }}
-                  className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${
-                    isSelectedObtained
-                      ? 'bg-emerald-600 hover:bg-rose-600 text-white font-extrabold'
-                      : 'bg-[#17479d] hover:bg-[#12387d] text-white font-bold'
-                  }`}
-                >
-                  <CheckCircle2 size={16} />
-                  <span>
-                    {isSelectedObtained
-                      ? (isToggleHovered ? t('markPendiente') : t('statusFabricado'))
-                      : t('markFabricado')}
-                  </span>
-                </button>                
-              </div>
             </div>
 
-            {/* Back / Next Navigators */}
-            <div className="flex gap-2 pt-3 border-t border-[#1e2d4a]">
-              <button
-                onClick={handlePrevDroid}
-                className="flex-1 py-2 px-3 bg-[#17479d] hover:bg-[#12387d] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none shadow-sm"
-              >
-                <span>{t('prevDroid')}</span>
-              </button>
-              <button
-                onClick={handleNextDroid}
-                className="flex-1 py-2 px-3 bg-[#17479d] hover:bg-[#12387d] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none shadow-sm"
-              >
-                <span>{t('nextDroid')}</span>
-              </button>
-            </div>
+            {/* Columna Derecha: Detalle de Droide */}
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="bg-[#0c1628] border border-[#1e2d4a] rounded-xl p-4 shadow-lg flex flex-col gap-3 h-full justify-between">
 
-          </div>
-        </div>
-
-      </div>
-    )}
-
-    {activeTab === 'novashop' && (
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        
-        {/* Columna Izquierda: Categorías de la Tienda */}
-        <div className="lg:col-span-3 flex flex-col gap-2">
-          <div className="bg-[#0c1628] border border-[#1e2d4a] p-3.5 rounded-xl shadow-lg flex flex-col gap-2">
-            <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider px-1 mb-1">
-              Categorías
-            </h3>
-            
-            <button
-              onClick={() => {
-                setActiveShopCategory('featured');
-                const first = novaUpgradesList.find(up => up.category === 'featured');
-                if (first) setSelectedShopUpgradeId(first.id);
-              }}
-              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
-                activeShopCategory === 'featured'
-                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
-                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
-              }`}
-            >
-              <Sparkles size={15} />
-              <span>{t('upgradeCategory_featured')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveShopCategory('core');
-                const first = novaUpgradesList.find(up => up.category === 'core');
-                if (first) setSelectedShopUpgradeId(first.id);
-              }}
-              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
-                activeShopCategory === 'core'
-                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
-                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
-              }`}
-            >
-              <Heart size={15} />
-              <span>{t('upgradeCategory_core')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveShopCategory('workshop');
-                const first = novaUpgradesList.find(up => up.category === 'workshop');
-                if (first) setSelectedShopUpgradeId(first.id);
-              }}
-              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
-                activeShopCategory === 'workshop'
-                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
-                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
-              }`}
-            >
-              <Cpu size={15} />
-              <span>{t('upgradeCategory_workshop')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveShopCategory('cosmetic');
-                const first = novaUpgradesList.find(up => up.category === 'cosmetic');
-                if (first) setSelectedShopUpgradeId(first.id);
-              }}
-              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
-                activeShopCategory === 'cosmetic'
-                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
-                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
-              }`}
-            >
-              <Palette size={15} />
-              <span>{t('upgradeCategory_cosmetic')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveShopCategory('lobby_boosts');
-                const first = novaUpgradesList.find(up => up.category === 'lobby_boosts');
-                if (first) setSelectedShopUpgradeId(first.id);
-              }}
-              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
-                activeShopCategory === 'lobby_boosts'
-                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
-                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
-              }`}
-            >
-              <Zap size={15} />
-              <span>{t('upgradeCategory_lobby_boosts')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveShopCategory('iconic');
-                const first = novaUpgradesList.find(up => up.category === 'iconic');
-                if (first) setSelectedShopUpgradeId(first.id);
-              }}
-              className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
-                activeShopCategory === 'iconic'
-                  ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
-                  : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
-              }`}
-            >
-              <Award size={15} />
-              <span>{t('upgradeCategory_iconic')}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Columna Central: Lista de Upgrades */}
-        <div className="lg:col-span-5 flex flex-col gap-3">
-          <div className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3">
-            <div className="flex justify-between items-center flex-wrap gap-2">
-              <h2 className="text-lg font-bold text-white font-narrow flex items-center gap-1.5">
-                {t('novaShopTitle')}
-              </h2>
-              
-              <button
-                onClick={() => {
-                  setCrystalsInputValue(novaCrystals.toString());
-                  setShowCrystalsEdit(true);
-                }}
-                className="flex items-center gap-1.5 px-3 py-1 bg-purple-950/60 border border-purple-500/40 text-purple-200 rounded-lg hover:bg-purple-900/80 cursor-pointer transition-all font-mono font-bold text-xs shadow-md"
-                title="Hacer clic para ajustar cristales"
-              >
-                <span>💎</span>
-                <span>{novaCrystals}</span>
-                <span className="text-[10px] text-slate-300 font-sans font-normal uppercase">{t('crystalsCount')}</span>
-              </button>
-            </div>
-
-            {/* Grid de Upgrades */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
-              {novaUpgradesList
-                .filter(up => up.category === activeShopCategory)
-                .map((upgrade: NovaUpgrade) => {
-                  const currentLevel = getUpgradeLevel(upgrade.id);
-                  const isSelected = selectedShopUpgradeId === upgrade.id;
-                  
-                  let cardBorder = isSelected ? 'border-[#00adee] bg-[#112544] ring-1 ring-[#00adee]/40 shadow-md' : 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
-
-                  return (
-                    <div
-                      key={upgrade.id}
-                      onClick={() => setSelectedShopUpgradeId(upgrade.id)}
-                      className={`p-3 rounded-xl border flex flex-col justify-between cursor-pointer select-none transition-all ${cardBorder}`}
-                    >
-                      <div className="flex gap-2 items-start mb-2">
-                        <span className="p-1.5 rounded bg-[#17479d]/30 border border-[#00adee]/30 flex-shrink-0 text-[#00adee]">
-                          {React.createElement(upgrade.icon, { size: 15 })}
-                        </span>
-                        <div className="min-w-0">
-                          <h4 className="text-xs font-bold text-white leading-tight truncate">
-                            {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
-                          </h4>
-                          <span className="text-[10px] font-mono text-slate-300 font-bold block mt-0.5">
-                            {upgrade.category === 'iconic' ? (currentLevel > 0 ? 'Adquirido' : 'Pendiente') : `Lvl ${currentLevel}/${upgrade.maxLevel}`}
-                          </span>
-                        </div>
-                      </div>
-
-                      {upgrade.category !== 'iconic' && (
-                        <div className="w-full bg-[#050810] rounded-full h-1.5 overflow-hidden border border-[#1e2d4a]">
-                          <div
-                            className="bg-[#00adee] h-full rounded-full transition-all duration-300"
-                            style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
-                          ></div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        </div>
-
-        {/* Columna Derecha: Detalle de Upgrade */}
-        <div className="lg:col-span-4 flex flex-col gap-3">
-          {(() => {
-            const upgrade = novaUpgradesList.find(up => up.id === selectedShopUpgradeId);
-            if (!upgrade) return null;
-
-            const currentLevel = getUpgradeLevel(upgrade.id);
-            const isMax = currentLevel >= upgrade.maxLevel;
-            const nextCost = isMax ? 0 : upgrade.costs[currentLevel];
-            const canAfford = novaCrystals >= nextCost;
-
-            return (
-              <div className="bg-[#0c1628] border border-[#1e2d4a] rounded-xl p-4 shadow-lg flex flex-col gap-4 justify-between h-full">
-                
-                <div className="space-y-4">
-                  <div className="flex gap-3 items-center">
-                    <span className="p-2 rounded bg-[#091120] border border-[#00adee]/30 text-[#00adee]">
-                      {React.createElement(upgrade.icon, { size: 22 })}
-                    </span>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-start gap-1">
                     <div>
-                      <span className="text-[10px] uppercase tracking-wider text-[#00adee] font-bold">
-                        {t(`upgradeCategory_${upgrade.category}`)}
+                      <span className="text-xs uppercase tracking-wider text-[#00adee] font-bold">
+                        {selectedDroid.rarity === 'ICONICO' ? t('type_Iconic') : getLocalizedTierName(activeDroidexTier)}
                       </span>
-                      <h3 className="text-xl font-bold text-white font-narrow leading-tight">
-                        {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
+                      <h3 className="text-2xl font-bold text-white font-narrow leading-tight">
+                        {selectedDroid.name}
                       </h3>
                     </div>
+                    <div className="flex items-center gap-1">
+                      <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border border-current leading-none ${droidRarities[selectedDroid.rarity]?.color || 'text-fuchsia-400'}`}>
+                        {t(`rarity_${selectedDroid.rarity}`)}
+                      </span>
+                    </div>
                   </div>
 
-                  <p className="text-xs text-slate-200 leading-relaxed">
-                    {upgrade.category === 'iconic' ? getIconicDroidDesc(upgrade.nameKey) : t(upgrade.descKey)}
-                  </p>
+                  {/* Wireframe render block */}
+                  <div className="bg-[#050810] rounded-xl border border-[#1e2d4a] flex items-center justify-center p-6 h-56 relative overflow-hidden shadow-inner">
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e2d4a_1px,transparent_1px),linear-gradient(to_bottom,#1e2d4a_1px,transparent_1px)] bg-[size:14px_24px] opacity-25"></div>
 
-                  {upgrade.category !== 'iconic' ? (
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs font-bold">
-                        <span className="text-slate-300">Progreso de Nivel</span>
-                        <span className="text-white font-mono">{currentLevel} / {upgrade.maxLevel}</span>
-                      </div>
-                      <div className="w-full bg-[#050810] border border-[#1e2d4a] h-2.5 rounded-full overflow-hidden">
-                        <div
-                          className="bg-[#00adee] h-full rounded-full transition-all duration-300"
-                          style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
-                        ></div>
-                      </div>
+                    <div className="z-10 w-44 h-44 flex items-center justify-center">
+                      {renderDroidModel(selectedDroid, activeDroidexTier, isSelectedObtained)}
                     </div>
-                  ) : (
-                    <div className="flex items-center justify-between text-xs py-2 border-y border-[#1e2d4a]">
-                      <span className="text-slate-300 font-bold">Estado en Colección</span>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${currentLevel > 0 ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300' : 'bg-[#091120] border border-[#1e2d4a] text-slate-400'}`}>
-                        {currentLevel > 0 ? 'Adquirido' : 'Pendiente'}
-                      </span>
+
+                    <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 text-xs font-bold text-slate-200 bg-[#0c1628]/90 px-2.5 py-1 rounded border border-[#1e2d4a]">
+                      {React.createElement(droidTypes[selectedDroid.type]?.icon || Cpu, { size: 12, className: droidTypes[selectedDroid.type]?.color })}
+                      <span>{t(`type_${selectedDroid.type}`)}</span>
+                    </div>
+                  </div>
+
+                  {/* Perk / Stat Box */}
+                  <div className="bg-[#091120] border border-[#00adee]/30 p-3 rounded-lg flex flex-col gap-1">
+                    <span className="text-[10px] uppercase tracking-wider text-[#00adee] font-bold">Bono del Droidex:</span>
+                    <span className="text-sm font-extrabold text-white">
+                      {getDroidexStatsPerk(selectedDroid, activeDroidexTier)}
+                    </span>
+                  </div>
+
+                  {/* Economic Info Box (droids-cost.png) */}
+                  {!isIconicDroid(selectedDroid) && (
+                    <div className="bg-[#091120] border border-[#1e2d4a] p-3 rounded-lg flex flex-col gap-1.5 text-xs">
+                      <div className="flex justify-between items-center text-slate-300">
+                        <span>{t('droidUpgradeCost')}</span>
+                        <span className="font-mono font-bold text-white">
+                          {droidUpgradeCosts[selectedDroid.rarity]?.[activeDroidexTier] ? `${droidUpgradeCosts[selectedDroid.rarity][activeDroidexTier]} Chips` : '-'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-300">
+                        <span>{t('droidSellValue')}</span>
+                        <span className="font-mono font-bold text-amber-400">
+                          {droidSellValues[selectedDroid.rarity]?.[activeDroidexTier] ? `${droidSellValues[selectedDroid.rarity][activeDroidexTier]} Créditos` : '-'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-300">
+                        <span>{t('flawlessChance')}</span>
+                        <span className="font-mono font-bold text-emerald-400">
+                          {flawlessRates[activeDroidexTier] || '1/1000'}
+                        </span>
+                      </div>
                     </div>
                   )}
 
-                  <div className="pt-2">
-                    {isMax ? (
-                      <div className="bg-emerald-950/50 border border-emerald-500/40 p-3 rounded-lg text-center font-bold text-xs text-emerald-300">
-                        {t('maxLevelReached')}
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => buyUpgradeLevel(upgrade.id)}
-                        disabled={!canAfford}
-                        className={`w-full py-3 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md select-none cursor-pointer ${
-                          canAfford
-                            ? 'bg-[#17479d] hover:bg-[#12387d] text-white font-extrabold'
-                            : 'bg-slate-900 border border-slate-800 text-slate-500 cursor-not-allowed'
+                  {/* Status Toggle Area */}
+                  <div className="space-y-2 pt-1">
+                    <button
+                      onMouseEnter={() => setIsToggleHovered(true)}
+                      onMouseLeave={() => setIsToggleHovered(false)}
+                      onClick={() => {
+                        setDroidexObtainedState(selectedDroid.name, activeDroidexTier, !isSelectedObtained);
+                        setIsToggleHovered(false);
+                      }}
+                      className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md ${isSelectedObtained
+                          ? 'bg-emerald-600 hover:bg-rose-600 text-white font-extrabold'
+                          : 'bg-[#17479d] hover:bg-[#12387d] text-white font-bold'
                         }`}
-                      >
-                        <span>💎</span>
-                        <span>{t('buyUpgrade', { cost: nextCost.toString() })}</span>
-                      </button>
-                    )}
+                    >
+                      <CheckCircle2 size={16} />
+                      <span>
+                        {isSelectedObtained
+                          ? (isToggleHovered ? t('markPendiente') : t('statusFabricado'))
+                          : t('markFabricado')}
+                      </span>
+                    </button>
                   </div>
                 </div>
 
-                <div className="bg-[#091120] p-2.5 rounded-lg border border-[#1e2d4a] text-xs mt-2">
-                  <div className="flex items-center justify-between gap-1.5">
-                    <span className="text-[10px] text-slate-300 font-bold uppercase tracking-wide">Ajustar Nivel Manual:</span>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel - 1)}
-                        className="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
-                        disabled={currentLevel <= 0}
-                      >
-                        <Minus size={12} />
-                      </button>
-                      <span className="px-2 font-mono font-bold text-white text-xs">{currentLevel}</span>
-                      <button
-                        onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel + 1)}
-                        className="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
-                        disabled={currentLevel >= upgrade.maxLevel}
-                      >
-                        <Plus size={12} />
-                      </button>
-                    </div>
-                  </div>
+                {/* Back / Next Navigators */}
+                <div className="flex gap-2 pt-3 border-t border-[#1e2d4a]">
+                  <button
+                    onClick={handlePrevDroid}
+                    className="flex-1 py-2 px-3 bg-[#17479d] hover:bg-[#12387d] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none shadow-sm"
+                  >
+                    <span>{t('prevDroid')}</span>
+                  </button>
+                  <button
+                    onClick={handleNextDroid}
+                    className="flex-1 py-2 px-3 bg-[#17479d] hover:bg-[#12387d] text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer select-none shadow-sm"
+                  >
+                    <span>{t('nextDroid')}</span>
+                  </button>
                 </div>
 
               </div>
-            );
-          })()}
-        </div>
+            </div>
+
+          </div>
+        )}
+
+        {activeTab === 'novashop' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+            {/* Columna Izquierda: Categorías de la Tienda */}
+            <div className="lg:col-span-3 flex flex-col gap-2">
+              <div className="bg-[#0c1628] border border-[#1e2d4a] p-3.5 rounded-xl shadow-lg flex flex-col gap-2">
+                <h3 className="text-xs uppercase font-extrabold text-slate-300 tracking-wider px-1 mb-1">
+                  Categorías
+                </h3>
+
+                <button
+                  onClick={() => {
+                    setActiveShopCategory('featured');
+                    const first = novaUpgradesList.find(up => up.category === 'featured');
+                    if (first) setSelectedShopUpgradeId(first.id);
+                  }}
+                  className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${activeShopCategory === 'featured'
+                      ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                      : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
+                    }`}
+                >
+                  <Sparkles size={15} />
+                  <span>{t('upgradeCategory_featured')}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveShopCategory('core');
+                    const first = novaUpgradesList.find(up => up.category === 'core');
+                    if (first) setSelectedShopUpgradeId(first.id);
+                  }}
+                  className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${activeShopCategory === 'core'
+                      ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                      : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
+                    }`}
+                >
+                  <Heart size={15} />
+                  <span>{t('upgradeCategory_core')}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveShopCategory('workshop');
+                    const first = novaUpgradesList.find(up => up.category === 'workshop');
+                    if (first) setSelectedShopUpgradeId(first.id);
+                  }}
+                  className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${activeShopCategory === 'workshop'
+                      ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                      : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
+                    }`}
+                >
+                  <Cpu size={15} />
+                  <span>{t('upgradeCategory_workshop')}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveShopCategory('cosmetic');
+                    const first = novaUpgradesList.find(up => up.category === 'cosmetic');
+                    if (first) setSelectedShopUpgradeId(first.id);
+                  }}
+                  className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${activeShopCategory === 'cosmetic'
+                      ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                      : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
+                    }`}
+                >
+                  <Palette size={15} />
+                  <span>{t('upgradeCategory_cosmetic')}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveShopCategory('lobby_boosts');
+                    const first = novaUpgradesList.find(up => up.category === 'lobby_boosts');
+                    if (first) setSelectedShopUpgradeId(first.id);
+                  }}
+                  className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${activeShopCategory === 'lobby_boosts'
+                      ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                      : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
+                    }`}
+                >
+                  <Zap size={15} />
+                  <span>{t('upgradeCategory_lobby_boosts')}</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setActiveShopCategory('iconic');
+                    const first = novaUpgradesList.find(up => up.category === 'iconic');
+                    if (first) setSelectedShopUpgradeId(first.id);
+                  }}
+                  className={`w-full py-2.5 px-3 text-xs font-bold text-left rounded-lg transition-all flex items-center gap-2 cursor-pointer ${activeShopCategory === 'iconic'
+                      ? 'bg-institutional-primary text-white border border-[#00adee]/50 shadow-sm'
+                      : 'bg-[#091120] text-slate-300 hover:text-white hover:bg-[#13223d] border border-[#1e2d4a]'
+                    }`}
+                >
+                  <Award size={15} />
+                  <span>{t('upgradeCategory_iconic')}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Columna Central: Lista de Upgrades */}
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3">
+                <div className="flex justify-between items-center flex-wrap gap-2">
+                  <h2 className="text-lg font-bold text-white font-narrow flex items-center gap-1.5">
+                    {t('novaShopTitle')}
+                  </h2>
+
+                  <button
+                    onClick={() => {
+                      setCrystalsInputValue(novaCrystals.toString());
+                      setShowCrystalsEdit(true);
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1 bg-purple-950/60 border border-purple-500/40 text-purple-200 rounded-lg hover:bg-purple-900/80 cursor-pointer transition-all font-mono font-bold text-xs shadow-md"
+                    title="Hacer clic para ajustar cristales"
+                  >
+                    <span>💎</span>
+                    <span>{novaCrystals}</span>
+                    <span className="text-[10px] text-slate-300 font-sans font-normal uppercase">{t('crystalsCount')}</span>
+                  </button>
+                </div>
+
+                {/* Grid de Upgrades */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
+                  {novaUpgradesList
+                    .filter(up => up.category === activeShopCategory)
+                    .map((upgrade: NovaUpgrade) => {
+                      const currentLevel = getUpgradeLevel(upgrade.id);
+                      const isSelected = selectedShopUpgradeId === upgrade.id;
+
+                      let cardBorder = isSelected ? 'border-[#00adee] bg-[#112544] ring-1 ring-[#00adee]/40 shadow-md' : 'border-[#1e2d4a] bg-[#091120] hover:bg-[#111c30]';
+
+                      return (
+                        <div
+                          key={upgrade.id}
+                          onClick={() => setSelectedShopUpgradeId(upgrade.id)}
+                          className={`p-3 rounded-xl border flex flex-col justify-between cursor-pointer select-none transition-all ${cardBorder}`}
+                        >
+                          <div className="flex gap-2 items-start mb-2">
+                            <span className="p-1.5 rounded bg-[#17479d]/30 border border-[#00adee]/30 flex-shrink-0 text-[#00adee]">
+                              {React.createElement(upgrade.icon, { size: 15 })}
+                            </span>
+                            <div className="min-w-0">
+                              <h4 className="text-xs font-bold text-white leading-tight truncate">
+                                {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
+                              </h4>
+                              <span className="text-[10px] font-mono text-slate-300 font-bold block mt-0.5">
+                                {upgrade.category === 'iconic' ? (currentLevel > 0 ? 'Adquirido' : 'Pendiente') : `Lvl ${currentLevel}/${upgrade.maxLevel}`}
+                              </span>
+                            </div>
+                          </div>
+
+                          {upgrade.category !== 'iconic' && (
+                            <div className="w-full bg-[#050810] rounded-full h-1.5 overflow-hidden border border-[#1e2d4a]">
+                              <div
+                                className="bg-[#00adee] h-full rounded-full transition-all duration-300"
+                                style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
+                              ></div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            </div>
+
+            {/* Columna Derecha: Detalle de Upgrade */}
+            <div className="lg:col-span-4 flex flex-col gap-3">
+              {(() => {
+                const upgrade = novaUpgradesList.find(up => up.id === selectedShopUpgradeId);
+                if (!upgrade) return null;
+
+                const currentLevel = getUpgradeLevel(upgrade.id);
+                const isMax = currentLevel >= upgrade.maxLevel;
+                const nextCost = isMax ? 0 : upgrade.costs[currentLevel];
+                const canAfford = novaCrystals >= nextCost;
+
+                return (
+                  <div className="bg-[#0c1628] border border-[#1e2d4a] rounded-xl p-4 shadow-lg flex flex-col gap-4 justify-between h-full">
+
+                    <div className="space-y-4">
+                      <div className="flex gap-3 items-center">
+                        <span className="p-2 rounded bg-[#091120] border border-[#00adee]/30 text-[#00adee]">
+                          {React.createElement(upgrade.icon, { size: 22 })}
+                        </span>
+                        <div>
+                          <span className="text-[10px] uppercase tracking-wider text-[#00adee] font-bold">
+                            {t(`upgradeCategory_${upgrade.category}`)}
+                          </span>
+                          <h3 className="text-xl font-bold text-white font-narrow leading-tight">
+                            {upgrade.category === 'iconic' ? upgrade.nameKey : t(upgrade.nameKey)}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <p className="text-xs text-slate-200 leading-relaxed">
+                        {upgrade.category === 'iconic' ? getIconicDroidDesc(upgrade.nameKey) : t(upgrade.descKey)}
+                      </p>
+
+                      {upgrade.category !== 'iconic' ? (
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-xs font-bold">
+                            <span className="text-slate-300">Progreso de Nivel</span>
+                            <span className="text-white font-mono">{currentLevel} / {upgrade.maxLevel}</span>
+                          </div>
+                          <div className="w-full bg-[#050810] border border-[#1e2d4a] h-2.5 rounded-full overflow-hidden">
+                            <div
+                              className="bg-[#00adee] h-full rounded-full transition-all duration-300"
+                              style={{ width: `${(currentLevel / upgrade.maxLevel) * 100}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between text-xs py-2 border-y border-[#1e2d4a]">
+                          <span className="text-slate-300 font-bold">Estado en Colección</span>
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${currentLevel > 0 ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300' : 'bg-[#091120] border border-[#1e2d4a] text-slate-400'}`}>
+                            {currentLevel > 0 ? 'Adquirido' : 'Pendiente'}
+                          </span>
+                        </div>
+                      )}
+
+                      <div className="pt-2">
+                        {isMax ? (
+                          <div className="bg-emerald-950/50 border border-emerald-500/40 p-3 rounded-lg text-center font-bold text-xs text-emerald-300">
+                            {t('maxLevelReached')}
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => buyUpgradeLevel(upgrade.id)}
+                            disabled={!canAfford}
+                            className={`w-full py-3 px-4 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md select-none cursor-pointer ${canAfford
+                                ? 'bg-[#17479d] hover:bg-[#12387d] text-white font-extrabold'
+                                : 'bg-slate-900 border border-slate-800 text-slate-500 cursor-not-allowed'
+                              }`}
+                          >
+                            <span>💎</span>
+                            <span>{t('buyUpgrade', { cost: nextCost.toString() })}</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="bg-[#091120] p-2.5 rounded-lg border border-[#1e2d4a] text-xs mt-2">
+                      <div className="flex items-center justify-between gap-1.5">
+                        <span className="text-[10px] text-slate-300 font-bold uppercase tracking-wide">Ajustar Nivel Manual:</span>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel - 1)}
+                            className="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            disabled={currentLevel <= 0}
+                          >
+                            <Minus size={12} />
+                          </button>
+                          <span className="px-2 font-mono font-bold text-white text-xs">{currentLevel}</span>
+                          <button
+                            onClick={() => setUpgradeLevelManual(upgrade.id, currentLevel + 1)}
+                            className="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            disabled={currentLevel >= upgrade.maxLevel}
+                          >
+                            <Plus size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                );
+              })()}
+            </div>
+
+          </div>
+        )}
 
       </div>
-    )}
 
-  </div>
-
-  {/* Modal de Reinicio */}
-  {showResetModal && (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
-      <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
-        <h3 className="text-base font-bold mb-1 text-white font-narrow">¿Reiniciar progreso?</h3>
-        <p className="text-slate-300 mb-4 leading-relaxed">
-          Restablecerá tu Rebirth al nivel 0 (inicio) y borrará tus droides. No se puede deshacer.
-        </p>
-        <div className="flex justify-end gap-2">
-          <button 
-            onClick={() => setShowResetModal(false)} 
-            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
-          >
-            Cancelar
-          </button>
-          <button 
-            onClick={handleReset} 
-            className="px-3 py-1.5 rounded bg-rose-600 hover:bg-rose-500 text-white transition-all font-bold shadow-md cursor-pointer"
-          >
-            Sí, reiniciar
-          </button>
-        </div>
-      </div>
-    </div>
-  )}
-
-  {/* Modal de Super Rebirth */}
-  {showSuperRebirthModal && (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
-      <div className="bg-[#0c1628] border border-purple-900/50 p-5 rounded-xl max-w-xs w-full shadow-[0_0_25px_rgba(147,51,234,0.3)] relative font-sans text-xs">
-        <h3 className="text-base font-bold mb-1 text-purple-300 font-narrow flex items-center gap-1.5">
-          <Sparkles size={16} /> ¿Realizar Super Rebirth?
-        </h3>
-        <p className="text-slate-300 mb-3 leading-relaxed">
-          Estás en Rebirth <strong className="text-white">R-{currentRebirth}</strong>. Al volver a comenzar obtendrás:
-        </p>
-        
-        <div className="bg-purple-950/50 border border-purple-800/50 p-3 rounded-xl text-center mb-4">
-          <div className="text-[10px] uppercase font-bold text-purple-300 tracking-wider mb-0.5">Recompensa</div>
-          <div className="text-base font-black text-purple-100 flex items-center justify-center gap-1">
-            <span>💎 {getNovaCrystals(currentRebirth)} Cristales Nova</span>
+      {/* Modal de Reinicio */}
+      {showResetModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+          <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
+            <h3 className="text-base font-bold mb-1 text-white font-narrow">¿Reiniciar progreso?</h3>
+            <p className="text-slate-300 mb-4 leading-relaxed">
+              Restablecerá tu Rebirth al nivel 0 (inicio) y borrará tus droides. No se puede deshacer.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowResetModal(false)}
+                className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleReset}
+                className="px-3 py-1.5 rounded bg-rose-600 hover:bg-rose-500 text-white transition-all font-bold shadow-md cursor-pointer"
+              >
+                Sí, reiniciar
+              </button>
+            </div>
           </div>
         </div>
+      )}
 
-        <p className="text-rose-400 mb-4 leading-relaxed text-xs font-semibold">
-          ⚠️ Esto restablecerá tu Rebirth al nivel 0 y borrará todos tus droides del tracker.
-        </p>
+      {/* Modal de Super Rebirth */}
+      {showSuperRebirthModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+          <div className="bg-[#0c1628] border border-purple-900/50 p-5 rounded-xl max-w-xs w-full shadow-[0_0_25px_rgba(147,51,234,0.3)] relative font-sans text-xs">
+            <h3 className="text-base font-bold mb-1 text-purple-300 font-narrow flex items-center gap-1.5">
+              <Sparkles size={16} /> ¿Realizar Super Rebirth?
+            </h3>
+            <p className="text-slate-300 mb-3 leading-relaxed">
+              Estás en Rebirth <strong className="text-white">R-{currentRebirth}</strong>. Al volver a comenzar obtendrás:
+            </p>
 
-        <div className="flex justify-end gap-2">
-          <button 
-            onClick={() => setShowSuperRebirthModal(false)} 
-            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
-          >
-            Cancelar
-          </button>
-          <button 
-            onClick={handleSuperRebirth} 
-            className="px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-white transition-all font-bold shadow-md cursor-pointer"
-          >
-            Confirmar Super Rebirth
-          </button>
+            <div className="bg-purple-950/50 border border-purple-800/50 p-3 rounded-xl text-center mb-4">
+              <div className="text-[10px] uppercase font-bold text-purple-300 tracking-wider mb-0.5">Recompensa</div>
+              <div className="text-base font-black text-purple-100 flex items-center justify-center gap-1">
+                <span>💎 {getNovaCrystals(currentRebirth)} Cristales Nova</span>
+              </div>
+            </div>
+
+            <p className="text-rose-400 mb-4 leading-relaxed text-xs font-semibold">
+              ⚠️ Esto restablecerá tu Rebirth al nivel 0 y borrará todos tus droides del tracker.
+            </p>
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowSuperRebirthModal(false)}
+                className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSuperRebirth}
+                className="px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-white transition-all font-bold shadow-md cursor-pointer"
+              >
+                Confirmar Super Rebirth
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  )}
+      )}
 
-  {/* Modal de Ajuste de Cristales */}
-  {showCrystalsEdit && (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
-      <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
-        <h3 className="text-base font-bold mb-2 text-white font-narrow flex items-center gap-1.5">
-          <span>💎</span> {t('customCrystalsLabel')}
-        </h3>
-        
-        <input
-          type="number"
-          min="0"
-          value={crystalsInputValue}
-          onChange={(e) => setCrystalsInputValue(e.target.value)}
-          className="w-full bg-[#050810] border border-[#1e2d4a] p-2.5 rounded-lg text-white font-mono font-bold text-sm text-center outline-none focus:border-[#00adee] mb-4"
-        />
+      {/* Modal de Ajuste de Cristales */}
+      {showCrystalsEdit && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-xs">
+          <div className="bg-[#0c1628] border border-[#1e2d4a] p-5 rounded-xl max-w-xs w-full shadow-2xl relative font-sans text-xs">
+            <h3 className="text-base font-bold mb-2 text-white font-narrow flex items-center gap-1.5">
+              <span>💎</span> {t('customCrystalsLabel')}
+            </h3>
 
-        <div className="flex justify-end gap-2">
-          <button 
-            onClick={() => setShowCrystalsEdit(false)} 
-            className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
-          >
-            {t('cancel')}
-          </button>
-          <button 
-            onClick={() => {
-              const val = parseInt(crystalsInputValue, 10);
-              saveNovaCrystals(isNaN(val) ? 0 : Math.max(0, val));
-              setShowCrystalsEdit(false);
-            }} 
-            className="px-3 py-1.5 rounded bg-institutional-primary hover:bg-[#12387d] text-white transition-all font-bold shadow-md cursor-pointer"
-          >
-            {t('save')}
-          </button>
+            <input
+              type="number"
+              min="0"
+              value={crystalsInputValue}
+              onChange={(e) => setCrystalsInputValue(e.target.value)}
+              className="w-full bg-[#050810] border border-[#1e2d4a] p-2.5 rounded-lg text-white font-mono font-bold text-sm text-center outline-none focus:border-[#00adee] mb-4"
+            />
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowCrystalsEdit(false)}
+                className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-all font-bold cursor-pointer"
+              >
+                {t('cancel')}
+              </button>
+              <button
+                onClick={() => {
+                  const val = parseInt(crystalsInputValue, 10);
+                  saveNovaCrystals(isNaN(val) ? 0 : Math.max(0, val));
+                  setShowCrystalsEdit(false);
+                }}
+                className="px-3 py-1.5 rounded bg-institutional-primary hover:bg-[#12387d] text-white transition-all font-bold shadow-md cursor-pointer"
+              >
+                {t('save')}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  )}
+      )}
 
-</div>
-);
+    </div>
+  );
 }
