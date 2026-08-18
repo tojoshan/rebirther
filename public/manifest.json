@@ -1,0 +1,18 @@
+{
+  "name": "Droid Tycoon Tracker",
+  "short_name": "Droidex",
+  "description": "Rebirth & Droidex Tracker for Star Wars Droid Tycoon",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050810",
+  "theme_color": "#0c1628",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
