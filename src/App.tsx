@@ -2009,29 +2009,8 @@ export default function App() {
         {activeTab === 'tracker' && (
           <>
             {/* Sandcrawler Blueprint Timers Banner */}
-            <div className="bg-[#0c1628] border border-[#1e2d4a] p-3.5 rounded-xl shadow-lg flex flex-col gap-2.5">
-              <div className="flex justify-between items-center flex-wrap gap-2">
-                <div className="flex items-center gap-2">
-                  <Sparkles size={14} className="text-[#00adee]" />
-                  <span className="text-[11px] font-extrabold uppercase text-slate-300 tracking-wider font-narrow">
-                    {t('sandcrawlerTitle')}
-                  </span>
-                </div>
-                <button
-                  onClick={toggleAudioEnabled}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
-                    audioEnabled
-                      ? 'bg-[#123a3f] text-[#00adee] border-[#00adee]/40 shadow-[0_0_8px_rgba(0,173,238,0.3)]'
-                      : 'bg-[#0f172a] text-slate-400 border-[#1e2d4a] hover:text-slate-200'
-                  }`}
-                >
-                  <Bell size={12} className={audioEnabled ? 'animate-bounce text-[#00adee]' : ''} />
-                  <span>{t('sandcrawlerAlerts')}: <strong>{audioEnabled ? 'ON' : 'OFF'}</strong></span>
-                </button>
-              </div>
-
-              {/* Timers Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div className="bg-[#0c1628] border border-[#1e2d4a] p-2 rounded-xl shadow-lg flex items-center gap-2">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2 flex-1">
                 {BLUEPRINT_SPECS.map(spec => {
                   const timerInfo = blueprintTimers[spec.id] || { formatted: '--:--', status: 'normal', remainingSec: 999 };
                   const isSpawn = timerInfo.status === 'spawn';
@@ -2045,14 +2024,14 @@ export default function App() {
                     <div
                       key={spec.id}
                       style={glowStyle}
-                      className={`p-2.5 rounded-xl border ${spec.borderColor} ${cardBg} flex items-center justify-between gap-2 relative overflow-hidden transition-all duration-300 ${
+                      className={`px-2 py-1.5 rounded-lg border ${spec.borderColor} ${cardBg} flex items-center justify-between gap-1 relative overflow-hidden transition-all duration-300 ${
                         isSpawn || isReady ? 'animate-pulse ring-2 ring-white/60' : ''
                       }`}
                     >
-                      <span className={`text-xs font-bold font-narrow uppercase tracking-wider ${spec.textColor}`}>
+                      <span className={`text-[11px] font-bold font-narrow uppercase tracking-wider truncate ${spec.textColor}`}>
                         {t(spec.nameKey)}
                       </span>
-                      <span className="font-mono text-sm font-extrabold text-white tracking-wider">
+                      <span className="font-mono text-xs sm:text-sm font-extrabold text-white tracking-wider flex-shrink-0">
                         {isSpawn
                           ? t('onSandcrawlerNow')
                           : isReady
@@ -2063,6 +2042,17 @@ export default function App() {
                   );
                 })}
               </div>
+              <button
+                onClick={toggleAudioEnabled}
+                title={`${t('sandcrawlerAlerts')}: ${audioEnabled ? 'ON' : 'OFF'}`}
+                className={`p-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center cursor-pointer border flex-shrink-0 ${
+                  audioEnabled
+                    ? 'bg-[#123a3f] text-[#00adee] border-[#00adee]/40 shadow-[0_0_8px_rgba(0,173,238,0.3)]'
+                    : 'bg-[#0f172a] text-slate-400 border-[#1e2d4a] hover:text-slate-200'
+                }`}
+              >
+                <Bell size={14} className={audioEnabled ? 'animate-bounce text-[#00adee]' : ''} />
+              </button>
             </div>
 
             {/* Cabecera y Controles Principales */}
