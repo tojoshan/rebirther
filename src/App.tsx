@@ -1466,7 +1466,7 @@ export default function App() {
           ? rebirthRequirementsCycle4
           : rebirthRequirementsCycle5;
 
-  const targetLevel = currentRebirth === 0 ? 1 : Math.min(35, currentRebirth);
+  const targetLevel = Math.min(36, currentRebirth + 1);
 
   const getRequiredTier = (droidName: string): number => {
     let maxRequiredTier = 0;
@@ -2135,7 +2135,7 @@ export default function App() {
                     <Target size={14} className="text-[#00adee]" />
                     {t('slideRebirth')}
                   </span>
-                  <span>{t('rebirthLabel')} <strong className="text-[#00adee] font-extrabold">R-{targetLevel}</strong></span>
+                  <span>{t('rebirthLabel')} <strong className="text-[#00adee] font-extrabold">R-{currentRebirth}</strong></span>
                 </div>
                 <div ref={sliderRef} className="flex gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
                   {Array.from({ length: 36 }, (_, i) => {
