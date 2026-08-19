@@ -89,3 +89,21 @@ He añadido soporte completo para el nuevo nivel de mejora de droides: **Galáct
    * El total de fabricados posibles pasó de `317` a `379` (`62 droids * 6 tiers + 7 droids icónicos`).
    * Se ajustó el loop de estadísticas, el listado general filtrado y los hitos del multiplicador de créditos para soportar la meta de `379`.
 
+---
+
+## Nuevos Cambios: Cálculo y Visualización de Chips Necesarios para la Siguiente Meta
+
+He implementado el cálculo dinámico y la visualización de los chips de mejora necesarios para alcanzar los requisitos de la siguiente meta de Rebirth:
+
+1. **Desglose de Chips en el Panel de la Meta:**
+   * Directamente debajo de la lista de droides requeridos en la cabecera ("Requisitos para Rebirth {X}"), aparece una fila dedicada con los chips necesarios para cada droide que requiera subir de nivel.
+   * Muestra la progresión exacta desde el nivel actual que posees hasta el tier objetivo (por ejemplo: `Mecha-Droid: 180 chips (Oro → Diamante)` o `300 chips (Base → Diamante)`).
+   * Si más de un droide requiere chips, se calcula y muestra automáticamente el `Total: X chips`.
+
+2. **Chips en las Tarjetas de Droides:**
+   * En las etiquetas de recomendación de cada tarjeta de droide (`⚡ META {level}: {tier}` y `🔒 {level} OK (Futuro {futureLevel}: {tier})`), se incluye el sufijo con los chips necesarios (por ejemplo: `• 180 Chips`).
+
+3. **Soporte Multilenguaje Completo:**
+   * Se añadieron las traducciones en Español, Inglés y Portugués en [translations.json](file:///c:/laragon/www/droidex/src/translations.json).
+
+

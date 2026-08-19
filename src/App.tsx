@@ -1529,6 +1529,43 @@ export default function App() {
     return maxTier;
   };
 
+  const getDroidChipUpgradeDetails = (droidName: string, currentTier: number, targetTier: number) => {
+    if (targetTier <= 1 || currentTier >= targetTier) {
+      return null;
+    }
+    const droid = droidsData.find(d => d.name.toLowerCase() === droidName.toLowerCase());
+    if (!droid || droid.rarity === 'ICONICO') {
+      return null;
+    }
+    const rarityCosts = droidUpgradeCosts[droid.rarity];
+    if (!rarityCosts) {
+      return null;
+    }
+
+    const fromTier = Math.max(1, currentTier);
+    let totalCost = 0;
+    for (let t = fromTier + 1; t <= targetTier; t++) {
+      const costStr = rarityCosts[t];
+      if (costStr && costStr !== '-') {
+        const num = parseInt(costStr.replace(/,/g, ''), 10) || 0;
+        totalCost += num;
+      }
+    }
+
+    if (totalCost === 0) return null;
+
+    return {
+      droidName: droid.name,
+      rarity: droid.rarity,
+      fromTier,
+      currentTier,
+      targetTier,
+      totalCost,
+      formattedCost: totalCost.toLocaleString(),
+      isFromBase: currentTier === 0
+    };
+  };
+
   const getDroidRecommendation = (droidName: string, achieved: number, required: number) => {
     const guideMax = getGuideMaxTier(droidName);
     const reqList = getDroidRequirements(droidName);
@@ -1536,16 +1573,18 @@ export default function App() {
 
     if (nextUnmet) {
       const isNeededForCurrent = reqList.some(r => r.level === targetLevel && achieved < r.tier);
+      const chipDetails = getDroidChipUpgradeDetails(droidName, achieved, nextUnmet.tier);
+      const chipSuffix = chipDetails ? ` • ${chipDetails.formattedCost} Chips` : '';
 
       if (isNeededForCurrent) {
         return {
           type: 'upgrade',
-          text: t('recUpgrade', { level: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) })
+          text: t('recUpgrade', { level: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) }) + chipSuffix
         };
       } else {
         return {
           type: 'keep_upgrade',
-          text: t('recKeepUpgrade', { level: targetLevel.toString(), futureLevel: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) })
+          text: t('recKeepUpgrade', { level: targetLevel.toString(), futureLevel: nextUnmet.level.toString(), tier: getLocalizedTierName(nextUnmet.tier) }) + chipSuffix
         };
       }
     } else {
@@ -2193,6 +2232,52 @@ export default function App() {
                           );
                         })}
                       </div>
+
+                      {/* Chips necesarios para mejorar a la meta */}
+                      {(() => {
+                        const targetDroidsChipDetails = targetReq.droids
+                          .map(reqDroid => {
+                            const achieved = progress[reqDroid.name] || 0;
+                            return getDroidChipUpgradeDetails(reqDroid.name, achieved, reqDroid.tier);
+                          })
+                          .filter((item): item is NonNullable<typeof item> => item !== null);
+
+                        if (targetDroidsChipDetails.length === 0) return null;
+
+                        const totalChips = targetDroidsChipDetails.reduce((acc, curr) => acc + curr.totalCost, 0);
+
+                        return (
+                          <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                            <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1">
+                              <Cpu size={12} className="text-amber-400" />
+                              <span>{t('chipsNeededForMeta')}:</span>
+                            </span>
+                            {targetDroidsChipDetails.map(detail => {
+                              const fromLabel = getLocalizedTierName(detail.isFromBase ? 1 : detail.currentTier);
+                              const toLabel = getLocalizedTierName(detail.targetTier);
+
+                              return (
+                                <span
+                                  key={detail.droidName}
+                                  className="bg-amber-950/30 border border-amber-500/30 px-2 py-0.5 rounded text-[11px] font-mono text-amber-200 flex items-center gap-1 shadow-sm"
+                                  title={`${detail.droidName}: ${detail.formattedCost} chips (${fromLabel} → ${toLabel})`}
+                                >
+                                  <span className="text-amber-300/90 font-sans font-medium">{detail.droidName}:</span>
+                                  <strong className="font-extrabold text-amber-300">{detail.formattedCost} chips</strong>
+                                  <span className="text-[10px] text-amber-400/70 font-sans">
+                                    ({fromLabel} → {toLabel})
+                                  </span>
+                                </span>
+                              );
+                            })}
+                            {targetDroidsChipDetails.length > 1 && (
+                              <span className="bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 rounded text-[11px] font-mono text-amber-300 font-extrabold">
+                                {t('total')}: {totalChips.toLocaleString()} chips
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     {isTargetReqMet && (
