@@ -994,16 +994,48 @@ interface BlueprintSpec {
   id: 'stellar' | 'mythic' | 'galactic';
   nameKey: string;
   minutes: number[];
+  periodMinutes: number;
   bgColor: string;
   borderColor: string;
   textColor: string;
   glowColor: string;
+  barColor: string;
 }
 
 const BLUEPRINT_SPECS: BlueprintSpec[] = [
-  { id: 'stellar', nameKey: 'blueprintStellar', minutes: [0], bgColor: 'from-[#8b5a1a] via-[#d99a2b] to-[#0a0b0d]', borderColor: 'border-[#d99a2b]/40', textColor: 'text-[#ffe9a8]', glowColor: 'rgba(217,154,43,' },
-  { id: 'mythic', nameKey: 'blueprintMythic', minutes: [55], bgColor: 'from-[#881337] via-[#e11d48] to-[#0a0b0d]', borderColor: 'border-[#e11d48]/40', textColor: 'text-[#fecdd3]', glowColor: 'rgba(225,29,72,' },
-  { id: 'galactic', nameKey: 'blueprintGalactic', minutes: [15, 45], bgColor: 'from-[#581c87] via-[#7b2ff7] to-[#0a0b0d]', borderColor: 'border-[#7b2ff7]/40', textColor: 'text-[#f0d9ff]', glowColor: 'rgba(123,47,247,' },
+  {
+    id: 'stellar',
+    nameKey: 'blueprintStellar',
+    minutes: [0],
+    periodMinutes: 60,
+    bgColor: 'from-[#8b5a1a]/25 via-[#d99a2b]/15 to-[#0a0b0d]/70',
+    borderColor: 'border-[#d99a2b]/40',
+    textColor: 'text-[#ffe9a8]',
+    glowColor: 'rgba(217,154,43,',
+    barColor: 'from-[#b45309] to-[#fbbf24]'
+  },
+  {
+    id: 'mythic',
+    nameKey: 'blueprintMythic',
+    minutes: [55],
+    periodMinutes: 60,
+    bgColor: 'from-[#881337]/25 via-[#e11d48]/15 to-[#0a0b0d]/70',
+    borderColor: 'border-[#e11d48]/40',
+    textColor: 'text-[#fecdd3]',
+    glowColor: 'rgba(225,29,72,',
+    barColor: 'from-[#be123c] to-[#fb7185]'
+  },
+  {
+    id: 'galactic',
+    nameKey: 'blueprintGalactic',
+    minutes: [15, 45],
+    periodMinutes: 30,
+    bgColor: 'from-[#581c87]/25 via-[#7b2ff7]/15 to-[#0a0b0d]/70',
+    borderColor: 'border-[#7b2ff7]/40',
+    textColor: 'text-[#f0d9ff]',
+    glowColor: 'rgba(123,47,247,',
+    barColor: 'from-[#6b21a8] to-[#c084fc]'
+  },
 ];
 
 function nextBlueprintOccurrence(minutesList: number[], now: Date): number {
@@ -2008,69 +2040,79 @@ export default function App() {
   const isTargetReqMet = targetReq ? getRebirthStatus(targetReq) === 'ready' : false;
 
   return (
-    <div className="min-h-screen bg-[#050810] text-[#e2e8f0] font-sans antialiased p-3 pb-8 space-y-4">
+    <div className="min-h-screen bg-[#050810] text-[#e2e8f0] font-sans antialiased p-3 pb-8 space-y-3">
       <div className="max-w-6xl mx-auto space-y-3">
 
-        {/* Navigation Tabs */}
-        <div className="flex bg-[#0c1628] border border-[#1e2d4a] p-1.5 rounded-xl shadow-lg gap-1.5">
-          <button
-            onClick={() => saveActiveTab('tracker')}
-            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'tracker'
-                ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
-                : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
-              }`}
-          >
-            <Target size={15} />
-            <span>{t('navTracker')}</span>
-          </button>
-          <button
-            onClick={() => saveActiveTab('droidex')}
-            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'droidex'
-                ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
-                : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
-              }`}
-          >
-            <Award size={15} />
-            <span>{t('navDroidex')}</span>
-          </button>
-          <button
-            onClick={() => saveActiveTab('novashop')}
-            className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'novashop'
-                ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
-                : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
-              }`}
-          >
-            <Sparkles size={15} />
-            <span>{t('navNovaShop')}</span>
-          </button>
-        </div>
+        {/* Sticky Global Header (Tabs + Blueprint Timers) */}
+        <div className="sticky top-0 z-30 bg-[#050810]/95 backdrop-blur-md pt-1 pb-2 space-y-2">
+          {/* Navigation Tabs */}
+          <div className="flex bg-[#0c1628] border border-[#1e2d4a] p-1.5 rounded-xl shadow-lg gap-1.5">
+            <button
+              onClick={() => saveActiveTab('tracker')}
+              className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'tracker'
+                  ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
+                  : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
+                }`}
+            >
+              <Target size={15} />
+              <span>{t('navTracker')}</span>
+            </button>
+            <button
+              onClick={() => saveActiveTab('droidex')}
+              className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'droidex'
+                  ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
+                  : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
+                }`}
+            >
+              <Award size={15} />
+              <span>{t('navDroidex')}</span>
+            </button>
+            <button
+              onClick={() => saveActiveTab('novashop')}
+              className={`flex-1 py-2.5 text-xs font-bold font-narrow rounded-lg transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${activeTab === 'novashop'
+                  ? 'bg-institutional-primary text-white shadow-[0_0_12px_rgba(23,71,157,0.4)] border border-[#00adee]/40 font-extrabold'
+                  : 'text-slate-300 hover:text-white hover:bg-[#13223d]'
+                }`}
+            >
+              <Sparkles size={15} />
+              <span>{t('navNovaShop')}</span>
+            </button>
+          </div>
 
-        {activeTab === 'tracker' && (
-          <>
-            {/* Sandcrawler Blueprint Timers Banner */}
-            <div className="bg-[#0c1628] border border-[#1e2d4a] p-2 rounded-xl shadow-lg flex items-center gap-2">
-              <div className="grid grid-cols-3 gap-1.5 sm:gap-2 flex-1">
-                {BLUEPRINT_SPECS.map(spec => {
-                  const timerInfo = blueprintTimers[spec.id] || { formatted: '--:--', status: 'normal', remainingSec: 999 };
-                  const isSpawn = timerInfo.status === 'spawn';
-                  const isReady = timerInfo.status === 'ready';
-                  const isUrgent = timerInfo.remainingSec <= 10 && timerInfo.remainingSec >= 1;
+          {/* Sandcrawler Blueprint Timers Banner with Progress Bars */}
+          <div className="bg-[#0c1628] border border-[#1e2d4a] p-2 rounded-xl shadow-lg flex items-center gap-2">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2 flex-1">
+              {BLUEPRINT_SPECS.map(spec => {
+                const timerInfo = blueprintTimers[spec.id] || { formatted: '--:--', status: 'normal', remainingSec: 999, remaining: 0 };
+                const isSpawn = timerInfo.status === 'spawn';
+                const isReady = timerInfo.status === 'ready';
+                const isUrgent = timerInfo.remainingSec <= 10 && timerInfo.remainingSec >= 1;
 
-                  let cardBg = `bg-gradient-to-r ${spec.bgColor}`;
-                  let glowStyle = isUrgent ? { filter: 'brightness(1.3) saturate(1.4)', boxShadow: `0 0 15px ${spec.glowColor}0.4)` } : {};
+                const periodMs = spec.periodMinutes * 60 * 1000;
+                const elapsedMs = Math.max(0, periodMs - (timerInfo.remaining || 0));
+                const progressPercent = Math.min(100, Math.max(0, (elapsedMs / periodMs) * 100));
 
-                  return (
-                    <div
-                      key={spec.id}
-                      style={glowStyle}
-                      className={`px-2 py-1.5 rounded-lg border ${spec.borderColor} ${cardBg} flex items-center justify-between gap-1 relative overflow-hidden transition-all duration-300 ${
-                        isSpawn || isReady ? 'animate-pulse ring-2 ring-white/60' : ''
-                      }`}
-                    >
-                      <span className={`text-[11px] font-bold font-narrow uppercase tracking-wider truncate ${spec.textColor}`}>
+                let glowStyle = isUrgent ? { filter: 'brightness(1.3) saturate(1.4)', boxShadow: `0 0 15px ${spec.glowColor}0.4)` } : {};
+
+                return (
+                  <div
+                    key={spec.id}
+                    style={glowStyle}
+                    className={`px-2 py-1.5 sm:px-2.5 rounded-lg border ${spec.borderColor} bg-[#080e1a] flex flex-col justify-between gap-1 relative overflow-hidden transition-all duration-300 ${
+                      isSpawn || isReady ? 'animate-pulse ring-2 ring-white/60 shadow-lg' : ''
+                    }`}
+                  >
+                    {/* Subtle color fill */}
+                    <div className={`absolute inset-0 bg-gradient-to-r ${spec.bgColor} pointer-events-none`}></div>
+
+                    {/* Top Row: Name and Countdown */}
+                    <div className="flex items-center justify-between gap-1 z-10">
+                      <span className={`text-[10px] sm:text-xs font-bold font-narrow uppercase tracking-wider truncate ${spec.textColor}`}>
                         {t(spec.nameKey)}
                       </span>
-                      <span className="font-mono text-xs sm:text-sm font-extrabold text-white tracking-wider flex-shrink-0">
+                      <span className={`font-mono text-[11px] sm:text-xs font-extrabold tracking-wider flex-shrink-0 ${
+                        isSpawn ? 'text-emerald-300 font-black animate-bounce' : isReady ? 'text-amber-300 font-black' : 'text-white'
+                      }`}>
                         {isSpawn
                           ? t('onSandcrawlerNow')
                           : isReady
@@ -2078,22 +2120,34 @@ export default function App() {
                           : timerInfo.formatted}
                       </span>
                     </div>
-                  );
-                })}
-              </div>
-              <button
-                onClick={toggleAudioEnabled}
-                title={`${t('sandcrawlerAlerts')}: ${audioEnabled ? 'ON' : 'OFF'}`}
-                className={`p-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center cursor-pointer border flex-shrink-0 ${
-                  audioEnabled
-                    ? 'bg-[#123a3f] text-[#00adee] border-[#00adee]/40 shadow-[0_0_8px_rgba(0,173,238,0.3)]'
-                    : 'bg-[#0f172a] text-slate-400 border-[#1e2d4a] hover:text-slate-200'
-                }`}
-              >
-                <Bell size={14} className={audioEnabled ? 'animate-bounce text-[#00adee]' : ''} />
-              </button>
-            </div>
 
+                    {/* Progress Bar */}
+                    <div className="w-full bg-[#050810]/90 border border-[#1e2d4a]/50 rounded-full h-1.5 overflow-hidden z-10 relative">
+                      <div
+                        className={`h-full rounded-full bg-gradient-to-r ${spec.barColor} transition-all duration-1000 ease-linear shadow-[0_0_6px_currentColor]`}
+                        style={{ width: `${isSpawn ? 100 : progressPercent}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              onClick={toggleAudioEnabled}
+              title={`${t('sandcrawlerAlerts')}: ${audioEnabled ? 'ON' : 'OFF'}`}
+              className={`p-2 sm:px-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center cursor-pointer border flex-shrink-0 self-stretch ${
+                audioEnabled
+                  ? 'bg-[#123a3f] text-[#00adee] border-[#00adee]/40 shadow-[0_0_8px_rgba(0,173,238,0.3)]'
+                  : 'bg-[#0f172a] text-slate-400 border-[#1e2d4a] hover:text-slate-200'
+              }`}
+            >
+              <Bell size={15} className={audioEnabled ? 'animate-bounce text-[#00adee]' : ''} />
+            </button>
+          </div>
+        </div>
+
+        {activeTab === 'tracker' && (
+          <>
             {/* Cabecera y Controles Principales */}
             <header className="bg-[#0c1628] border border-[#1e2d4a] p-4 rounded-xl shadow-lg flex flex-col gap-3.5">
 

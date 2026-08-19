@@ -106,4 +106,21 @@ He implementado el cálculo dinámico y la visualización de los chips de mejora
 3. **Soporte Multilenguaje Completo:**
    * Se añadieron las traducciones en Español, Inglés y Portugués en [translations.json](file:///c:/laragon/www/droidex/src/translations.json).
 
+---
+
+## Nuevos Cambios: Timers Sandcrawler Sticky Globales con Barras de Progreso
+
+He transformado la barra de contadores de Blueprints de Sandcrawler en un componente global persistente con estilo de barra de progreso:
+
+1. **Visibilidad en Todas las Pantallas (`Rebirth Tracker`, `Droidex` y `Tienda Nova`):**
+   * El banner de timers y la navegación ahora forman parte del header principal que permanece disponible en las 3 secciones.
+
+2. **Posición Sticky Siempre Visible:**
+   * El contenedor superior (`sticky top-0 z-30`) cuenta con un fondo translúcido con efecto de desenfoque (`bg-[#050810]/95 backdrop-blur-md`), asegurando que al desplazarse por listas extensas nunca se pierda de vista la cuenta regresiva de los blueprints.
+
+3. **Diseño con Barras de Progreso:**
+   * Cada tarjeta de blueprint (*Estelar*, *Mítico* y *Galáctico*) incluye una barra de progreso fluida con gradientes temáticos (`amber`, `rose`, `purple`) que se va llenando gradualmente hasta alcanzar el 100% en el momento del spawn.
+   * Cuenta con efectos de pulso, resplandor y avisos visuales automáticos para los estados `¡Prepárate!` (últimos 30s) y `¡Ahora!` (spawn activo).
+
+
 
