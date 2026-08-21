@@ -122,5 +122,15 @@ He transformado la barra de contadores de Blueprints de Sandcrawler en un compon
    * Cada tarjeta de blueprint (*Estelar*, *Mítico* y *Galáctico*) incluye una barra de progreso fluida con gradientes temáticos (`amber`, `rose`, `purple`) que se va llenando gradualmente hasta alcanzar el 100% en el momento del spawn.
    * Cuenta con efectos de pulso, resplandor y avisos visuales automáticos para los estados `¡Prepárate!` (últimos 30s) y `¡Ahora!` (spawn activo).
 
+---
+
+## Corrección: Avance de Nivel al Presionar "¡Rebirth Listo!"
+
+Se corrigió el error por el cual al hacer clic en el botón de **"¡Rebirth Listo!"** se saltaban 2 niveles de Rebirth en lugar de avanzar al siguiente nivel inmediato:
+
+* **Causa del problema:** El botón ejecutaba `saveRebirth(targetLevel + 1)`. Dado que `targetLevel` ya corresponde al siguiente nivel a alcanzar (`currentRebirth + 1`), sumarle `+ 1` provocaba que el estado pasara a `currentRebirth + 2`.
+* **Solución aplicada:** Se ajustó la llamada en [src/App.tsx](file:///c:/laragon/www/droidex/src/App.tsx) a `saveRebirth(Math.min(35, targetLevel))`, avanzando correctamente de a 1 nivel a la vez.
+
+
 
 

@@ -2336,7 +2336,7 @@ export default function App() {
 
                     {isTargetReqMet && (
                       <button
-                        onClick={() => saveRebirth(Math.min(35, targetLevel + 1))}
+                        onClick={() => saveRebirth(Math.min(35, targetLevel))}
                         className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto shrink-0 shadow-md"
                       >
                         <span>{t('rebirthReady')}</span>
